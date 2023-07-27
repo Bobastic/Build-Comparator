@@ -63,6 +63,6 @@ if st.session_state.nBuilds!=0 and len(st.session_state.weapons)!=0:
             st.download_button("Download PNG",data,file_name="buildComparator.png",mime="image/png")
             st.session_state.download=False
         else:
-            st.button("Convert to PNG",on_click=convertPNG)
+            st.button("Convert to PNG",on_click=convertPNG,disabled=True)
 else:
     st.error('Input at least one build, one weapon and fill ennemy stats in the "🛠️ Parameters" tab.',icon="🚨")
