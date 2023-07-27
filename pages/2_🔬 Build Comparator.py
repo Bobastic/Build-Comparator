@@ -1,5 +1,6 @@
 import dataframe_image as dfi
 import streamlit as st
+from io import BytesIO
 
 from utils.utils import fancyTable,DMGtable,setDefaultBuilds,setDefaultWeapons,setDefaultDefStats
 
@@ -38,9 +39,14 @@ with cols[3]:
                             help="Row: tells you what is the best infusion and build for the weapon. Class: tells you what is the best weapon of the class. All: Tells you whats is the best weapon of the table")
 
 def convertPNG():
-    st.session_state.download=True
-    dfi.export(fancy,"tmp.png")
-    st.warning('Now click on "Download PNG" to actually start the download (that\'s janky I know)')
+    if not st.session_state.download:
+        st.session_state.download=True
+        st.warning('Now click on "Download PNG" to actually start the download.')
+    else:
+        st.session_state.download=False
+        buff=BytesIO()
+        dfi.export(fancy,buff)
+        return buff.getvalue()
 
 if st.session_state.nBuilds!=0 and len(st.session_state.weapons)!=0:
     with st.spinner("Computing table..."):
@@ -57,12 +63,9 @@ if st.session_state.nBuilds!=0 and len(st.session_state.weapons)!=0:
         st.write(fancy.to_html(),unsafe_allow_html=True)
     with cols[4]:
         st.download_button("Download CSV",table.to_csv(),file_name="buildComparatorData.csv")
-        if st.session_state.download:
-            with open("tmp.png","rb") as img:
-                data=img.read()
-            st.download_button("Download PNG",data,file_name="buildComparator.png",mime="image/png")
-            st.session_state.download=False
+        if not st.session_state.download:
+            st.button("Convert to PNG",on_click=convertPNG)
         else:
-            st.button("Convert to PNG",on_click=convertPNG,disabled=True)
+            with st.spinner("Converting..."): st.download_button("Download PNG",convertPNG(),file_name="buildComparator.png",mime="image/png")
 else:
     st.error('Input at least one build, one weapon and fill ennemy stats in the "🛠️ Parameters" tab.',icon="🚨")
