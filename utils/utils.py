@@ -39,8 +39,14 @@ idWeaponClass={
     37: "Claws",
     41: "Colossal Weapons",
 }
-
 weaponClasses=idWeaponClass.values()
+def weaponsOfClass(wClass:str)->list[str]:
+    # returns a list of all weappons of the specified class
+    classes={v:k for k,v in idWeaponClass.items()}
+    tmp=EPW[EPW["wepType"]==classes[wClass.replace("2H ","")]]
+    return [f"2H {w}" if "2H" in wClass else w for w in tmp[tmp["reinforceTypeId"].isin([0,2200])]["Name"]]
+
+# Calculations
 
 def ARcalculator(weapon:str,infusion:str,build:list[int],twoH:bool=False,reinforcmentLvl:any="max")->np.ndarray:
     """
@@ -116,34 +122,35 @@ def ARcalculator(weapon:str,infusion:str,build:list[int],twoH:bool=False,reinfor
     res[physType]=tmp[0]
     return(res)
 
-def ARtoDMG(AR:list[int],DEF:list[int]=[140,140,140,140,155,187,127,155],ABS:list[int]=[0.32,0.30,0.35,0.35,0.25,0.28,0.25,0.26])->np.ndarray:
+def ARtoDMG(AR:list[int],defenses:list[int],negations:list[int])->np.ndarray:
     """
     Converts an AR array to a real damage array
     Parameters:
         AR: list of length 8
             AR for each damage type.
-        DEF: list of length 8
-            Defenses for each damage type. Default values found in earlier section.
-        ABS: list of length 8
-            Absorbtions for each damage type. Default values found in earlier section.
+        defenses: list of length 8
+            Defenses for each damage type.
+        negations: list of length 8
+            Negations for each damage type.
     Output:
         numpy array of length 8
     """
     res=[]
-    for x,y,z in zip(AR,DEF,ABS):
-        if y>x*8:
-            res.append((1-z)*0.1*x) 
-        elif y>x:
-            res.append((1-z)*(19.2/49*(x/y-0.125)**2+0.1)*x)
-        elif y>x*0.4:
-            res.append((1-z)*(-0.4/3*(x/y-2.5)**2+0.7)*x)
-        elif y>x/8:
-            res.append((1-z)*(-0.8/121*(x/y-8)**2+0.9)*x)
+    for ar,d,n in zip(AR,defenses,negations):
+        n/=100
+        if d>ar*8:
+            res.append((1-n)*0.1*ar) 
+        elif d>ar:
+            res.append((1-n)*(19.2/49*(ar/d-0.125)**2+0.1)*ar)
+        elif d>ar*0.4:
+            res.append((1-n)*(-0.4/3*(ar/d-2.5)**2+0.7)*ar)
+        elif d>ar/8:
+            res.append((1-n)*(-0.8/121*(ar/d-8)**2+0.9)*ar)
         else:
-            res.append((1-z)*0.9*x)
+            res.append((1-n)*0.9*ar)
     return np.array(res)
 
-def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,list[int]],weaponBuffs:bool=True,counterHits:bool=True)->pd.DataFrame:
+def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,list[int]],defenses:list[int],negations:list[int],weaponBuffs:bool=True,counterHits:bool=True)->pd.DataFrame:
     """
     Computes damage for each weapon/infusion/build combination.
     Parameters:
@@ -153,6 +160,10 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
             Dict of builds with the keys being build name and values being STR DEX INT FTH ARC.
         infusions: dict {string:list of strings}
             Dict to specify what infusions we want for each build. Keys are build names and values are list of infusions.
+        defenses: list of length 8
+            Defenses for each damage type.
+        negations: list of length 8
+            Negations for each damage type.
         weaponBuffs: boolean
             Display weapon buffs like greases or Flaming Strike/Sacred Blade.
         counterHits: boolean
@@ -180,7 +191,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
         for build in builds:
             # somber weapons
             if RD[RD["Name"]==weapon.replace("2H ","")]["Infusable"].values[0]=="No":
-                dmg=ARtoDMG(ARcalculator(weapon,"",builds[build]))
+                dmg=ARtoDMG(ARcalculator(weapon,"",builds[build]),defenses,negations)
                 normal.append(dmg.sum())
                 if counterHits and dmg[3]:
                     prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
@@ -189,7 +200,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
                 # if buffable (bhf, bouquet, ripple*2, treespear, great club, troll's hammer)
                 if weaponBuffs and EPW[EPW["Name"]==weapon.replace("2H ","")]["isEnhance"].values[0]==1:
                     grease=buffs[weapon] if weapon in buffs else np.array([0,0,0,0,0,0,110,0])
-                    dmg=ARtoDMG(ARcalculator(weapon,"",builds[build])+grease)
+                    dmg=ARtoDMG(ARcalculator(weapon,"",builds[build])+grease,defenses,negations)
                     normal.append(dmg.sum())
                     if counterHits and dmg[3]:
                         prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
@@ -198,7 +209,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
             # infusable weapons
             else:
                 for infusion in infusions[build]:
-                    dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build]))
+                    dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build]),defenses,negations)
                     normal.append(dmg.sum())
                     if counterHits and dmg[3]:
                         prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
@@ -207,7 +218,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
                     # compute buffs (grease, flaming strike etc)
                     if weaponBuffs and infusion in buffs:
                         grease=buffs[weapon] if weapon in buffs else buffs[infusion][1]
-                        dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build])+grease)
+                        dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build])+grease,defenses,negations)
                         normal.append(dmg.sum())
                         if counterHits and dmg[3]:
                             prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
@@ -295,11 +306,7 @@ def fancyTable(DMGtable:pd.DataFrame,comparison:str="row",displayPercentage:bool
         res.format_index(lambda x:x.split("•")[0].rstrip(),axis=1)
     return(res)
 
-def weaponsOfClass(wClass:str)->list[str]:
-    # returns a list of all weappons of the specified class
-    classes={v:k for k,v in idWeaponClass.items()}
-    tmp=EPW[EPW["wepType"]==classes[wClass.replace("2H ","")]]
-    return [f"2H {w}" if "2H" in wClass else w for w in tmp[tmp["reinforceTypeId"].isin([0,2200])]["Name"]]
+# Defaults
 
 def setDefaultBuilds():
     st.session_state.nBuilds=3
@@ -327,3 +334,21 @@ def setDefaultBuilds():
 
 def setDefaultWeapons():
     st.session_state.weapons=["Dismounter","Banished Knight's Halberd","2H Cleanrot Knight's Sword","Cleanrot Knight's Sword","Wakizashi","Lance","Longsword","Partisan","Spiked Spear","2H Shamshir","2H Godskin Stitcher"]
+
+def setDefaultDefStats():
+    st.session_state.defstandard=140
+    st.session_state.defstrike=140
+    st.session_state.defslash=140
+    st.session_state.defpierce=140
+    st.session_state.defmagic=155
+    st.session_state.deffire=187
+    st.session_state.deflightning=127
+    st.session_state.defholy=155
+    st.session_state.negstandard=32
+    st.session_state.negstrike=30
+    st.session_state.negslash=35
+    st.session_state.negpierce=35
+    st.session_state.negmagic=25
+    st.session_state.negfire=28
+    st.session_state.neglightning=25
+    st.session_state.negholy=26
