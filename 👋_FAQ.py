@@ -26,7 +26,7 @@ st.markdown("""
 st.subheader("So what does it actually do?")
 
 st.markdown("""
-You input a list of **weapons** of your choice and as many **builds** as you like and you get a table with estimated damage that is widely customizable.
+You input a list of **weapons** of your choice and as many **builds** and **infusions** as you like and you get a table with estimated damage that is widely customizable.
 You can display counter damage, comparisons with the best infusion etc...
 You can also export raw data as a CSV file or download the table as a PNG image to get a cleaner result than screenshots.
 """)
@@ -34,8 +34,8 @@ You can also export raw data as a CSV file or download the table as a PNG image 
 st.subheader("Ok, how do I use it?")
 
 st.markdown("""
-Input your weapons, builds and ennemy stats in **🛠️ Parameters**.
-Then go to **🔬 Build Comparator** to see the table and change what information you want to display.
+Input your weapons, builds, infusions and ennemy stats in **🛠️ Parameters**.
+Then go to **🔬 Build Comparator** to show the table and change what information you want to display.
 There are already some default weapons and builds so you can go straight to **🔬 Build Comparator** to see what the table looks like.
 """)
 
