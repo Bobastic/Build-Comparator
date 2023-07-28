@@ -1,3 +1,7 @@
+# Disable __pycache__
+import sys
+sys.dont_write_bytecode=True
+
 import dataframe_image as dfi
 import streamlit as st
 from io import BytesIO

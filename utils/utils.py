@@ -169,10 +169,17 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
         counterHits: boolean
             Display counter hit damage and spear tali counter hit damage
     """
+    noAshBuff={
+        "Fire":["Whips","Colossal Swords","Colossal Weapons"],
+        "Flame Art":["Whips","Colossal Swords","Colossal Weapons"],
+        "Lightning":["Halberds","Spears","Great Spears","Scythes","Whips","Fists","Claws"],
+        "Sacred":["Whips","Fists","Claws"]
+    }
     buffs={
         "Heavy":["Hvy+Gse",np.array([0,0,0,0,0,0,110,0])],
         "Fire":["Fire+FS",np.array([0,0,0,0,0,90,0,0])],
         "Keen":["Keen+Gse",np.array([0,0,0,0,0,0,110,0])],
+        "Lightning":["Ltng+LS",np.array([0,0,0,0,0,0,90,0])],
         "Sacred":["Sacred+SB",np.array([0,0,0,0,0,0,0,90])],
         "Flame Art":["Flame Art+FS",np.array([0,0,0,0,0,90,0,0])],
         # buffable split dmg weapons
@@ -186,6 +193,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
         if EPW[EPW["Name"]==weapon.replace("2H ","")].empty:
             print(f"Weapon does not exist: {weapon}")
             continue
+        weaponClass=idWeaponClass[EPW[EPW['Name']==weapon.replace('2H ','')]['wepType'].values[0]]
         columns=[]
         normal,prc,spr=[],[],[]
         for build in builds:
@@ -216,7 +224,9 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
                         spr.append((dmg*np.array([1,1,1,1.15*1.15,1,1,1,1])).sum())
                     columns.append((f"{build} • {' '.join(map(str,builds[build]))}",infusion))
                     # compute buffs (grease, flaming strike etc)
-                    if weaponBuffs and infusion in buffs:
+                    if weaponBuffs and (infusion in buffs):
+                        if (infusion in noAshBuff) and (weaponClass in noAshBuff[infusion]):
+                            continue
                         grease=buffs[weapon] if weapon in buffs else buffs[infusion][1]
                         dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build])+grease,defenses,negations)
                         normal.append(dmg.sum())
