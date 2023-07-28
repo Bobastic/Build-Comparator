@@ -49,8 +49,9 @@ def convertPNG():
     else:
         st.session_state.download=False
         buff=BytesIO()
+        dfi.export(fancy,buff,table_conversion="chrome")
         try:
-            dfi.export(fancy,buff,table_conversion="chrome")
+            pass
         except:
             st.toast("You have to use chrome to get a decent table sadly. Trying to solve this issue.")
             dfi.export(fancy,buff,table_conversion="matplotlib")
