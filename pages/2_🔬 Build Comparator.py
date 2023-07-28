@@ -49,17 +49,11 @@ def convertPNG():
     else:
         st.session_state.download=False
         buff=BytesIO()
-        """
         try:
             dfi.export(fancy,buff,table_conversion="chrome")
         except:
-            try:
-                dfi.export(fancy,buff,table_conversion="selenium")
-            except:
-                st.toast("Use Chrome or Firefox for a prettier table.")
-                dfi.export(fancy,buff,table_conversion="matplotlib")
-        """
-        dfi.export(fancy,buff,table_conversion="selenium")
+            st.toast("You have to use chrome to get a decent table sadly. Trying to solve this issue.")
+            dfi.export(fancy,buff,table_conversion="matplotlib")
         return buff.getvalue()
 
 if st.session_state.nBuilds!=0 and len(st.session_state.weapons)!=0:
