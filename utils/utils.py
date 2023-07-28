@@ -12,7 +12,7 @@ RD=pd.read_csv("data/Raw_Data.csv").replace("Great Epee","Great Épée")
 
 dmgTypes=["Standard","Strike","Slash","Pierce","Magic","Fire","Lightning","Holy"]
 baseInfusions=["Heavy","Fire","Keen","Lightning","Magic","Cold","Sacred","Flame Art","Blood","Occult"]
-infusionOrder=["Heavy","Hvy+Gse","Fire","Fire+FS","Keen","Keen+Gse","Lightning","Magic","Cold","Sacred","Sacred+SB","Flame Art","Flame Art+FS","Blood","Poison","Occult","Standard","Std+Gse"]
+infusionOrder=["Heavy","Hvy+Gse","Fire","Fire+FS","Keen","Keen+Gse","Lightning","Ltng+LS","Magic","Cold","Sacred","Sacred+SB","Flame Art","F.Art+FS","Blood","Poison","Occult","Standard","Std+Gse"]
 
 idWeaponClass={
     29: "Halberds",
