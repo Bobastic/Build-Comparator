@@ -47,7 +47,7 @@ def convertPNG():
         st.session_state.download=True
         st.warning('Now click on "Download PNG" to actually start the download.')
         import os
-        st.write(os.walk("/mount/"))
+        st.write([f for f in os.walk("/mount/")])
     else:
         st.session_state.download=False
         buff=BytesIO()
