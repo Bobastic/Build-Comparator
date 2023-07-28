@@ -49,7 +49,7 @@ def convertPNG():
     else:
         st.session_state.download=False
         buff=BytesIO()
-        dfi.export(fancy,buff,table_conversion="chrome")
+        dfi.export(fancy,buff)
         try:
             pass
         except:
