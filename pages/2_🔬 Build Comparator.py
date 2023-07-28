@@ -46,9 +46,9 @@ def convertPNG():
     if not st.session_state.download:
         st.session_state.download=True
         st.warning('Now click on "Download PNG" to actually start the download.')
-    else:
         import os
-        st.write(os.getcwd())
+        st.write(os.walk("/"))
+    else:
         st.session_state.download=False
         buff=BytesIO()
         dfi.export(fancy,buff)
