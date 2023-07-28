@@ -181,7 +181,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
         "Keen":["Keen+Gse",np.array([0,0,0,0,0,0,110,0])],
         "Lightning":["Ltng+LS",np.array([0,0,0,0,0,0,90,0])],
         "Sacred":["Sacred+SB",np.array([0,0,0,0,0,0,0,90])],
-        "Flame Art":["Flame Art+FS",np.array([0,0,0,0,0,90,0,0])],
+        "Flame Art":["F.Art+FS",np.array([0,0,0,0,0,90,0,0])],
         # buffable split dmg weapons
         "Treespear":np.array([0,0,0,0,0,0,0,110]),
         "Great Club":np.array([0,0,0,0,0,110,0,0]),
