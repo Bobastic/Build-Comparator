@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.set_page_config(layout='centered',page_title="FAQ",page_icon="👋")
+st.set_page_config(layout='centered',page_title="Build Comparator",page_icon="👋")
 
 st.header("Hi. This is my Build Comparator.")
 
