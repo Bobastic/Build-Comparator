@@ -3,3 +3,4 @@ pandas
 matplotlib
 dataframe_image
 streamlit
+selenium
