@@ -107,7 +107,7 @@ with cols[1]: rem=st.button("Rem. Build",on_click=removeBuild,disabled=st.sessio
 
 st.divider()
 
-st.header("🛡️ Ennemy stats")
+st.header("🛡️ Enemy stats")
 
 cols=st.columns(8)
 with cols[0]: st.number_input("Standard defense",0,400,st.session_state.defstandard,key="DEFSTANDARD",on_change=updateState,args=("DEFSTANDARD",))
