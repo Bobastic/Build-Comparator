@@ -75,7 +75,7 @@ if st.session_state.nBuilds!=0 and len(st.session_state.weapons)!=0:
     with cols[4]:
         st.download_button("Download CSV",table.to_csv(),file_name="buildComparatorData.csv")
         if not st.session_state.download:
-            st.button("Convert to PNG",on_click=convertPNG)
+            st.button("Convert to PNG",on_click=convertPNG,disabled=True)
         else:
             with st.spinner("Converting..."): st.download_button("Download PNG",convertPNG(),file_name="buildComparator.png",mime="image/png")
 else:
