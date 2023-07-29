@@ -79,4 +79,4 @@ if st.session_state.nBuilds!=0 and len(st.session_state.weapons)!=0:
         else:
             with st.spinner("Converting..."): st.download_button("Download PNG",convertPNG(),file_name="buildComparator.png",mime="image/png")
 else:
-    st.error('Input at least one build, one weapon and fill ennemy stats in the "🛠️ Parameters" tab.',icon="🚨")
+    st.error('Input at least one build, one weapon and fill enemy stats in the "🛠️ Parameters" tab.',icon="🚨")
