@@ -34,7 +34,7 @@ You can also export raw data as a CSV file or download the table as a PNG image 
 st.subheader("Ok, how do I use it?")
 
 st.markdown("""
-Input your weapons, builds, infusions and ennemy stats in **🛠️ Parameters**.
+Input your weapons, builds, infusions and enemy stats in **🛠️ Parameters**.
 Then go to **🔬 Build Comparator** to show the table and change what information you want to display.
 There are already some default weapons and builds so you can go straight to **🔬 Build Comparator** to see what the table looks like.
 """)
