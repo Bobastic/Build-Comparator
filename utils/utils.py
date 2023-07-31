@@ -12,7 +12,7 @@ RD=pd.read_csv("data/Raw_Data.csv").replace("Great Epee","Great Épée")
 
 dmgTypes=["Standard","Strike","Slash","Pierce","Magic","Fire","Lightning","Holy"]
 baseInfusions=["Heavy","Fire","Keen","Lightning","Magic","Cold","Sacred","Flame Art","Blood","Occult"]
-infusionOrder=["Heavy","Hvy+Gse","Fire","Fire+FS","Keen","Keen+Gse","Lightning","Ltng+LS","Magic","Cold","Sacred","Sacred+SB","Flame Art","F.Art+FS","Blood","Poison","Occult","Standard","Std+Gse"]
+infusionOrder=["Heavy","Hvy+Gse","Fire","Fire+FS","Keen","Keen+Gse","Lightning","Ltng+LS","Magic","Cold","Sacred","Scrd+SB","Flame Art","F.Art+FS","Blood","Poison","Occult","Standard","Std+Gse"]
 
 idWeaponClass={
     29: "Halberds",
@@ -180,7 +180,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
         "Fire":["Fire+FS",np.array([0,0,0,0,0,90,0,0])],
         "Keen":["Keen+Gse",np.array([0,0,0,0,0,0,110,0])],
         "Lightning":["Ltng+LS",np.array([0,0,0,0,0,0,90,0])],
-        "Sacred":["Sacred+SB",np.array([0,0,0,0,0,0,0,90])],
+        "Sacred":["Scrd+SB",np.array([0,0,0,0,0,0,0,90])],
         "Flame Art":["F.Art+FS",np.array([0,0,0,0,0,90,0,0])],
         # buffable split dmg weapons
         "Treespear":np.array([0,0,0,0,0,0,0,110]),
