@@ -2,6 +2,9 @@ import streamlit as st
 
 st.set_page_config(layout='centered',page_title="Build Comparator",page_icon="⚖️")
 
+st.sidebar.subheader("Build Comparator")
+st.sidebar.markdown("Hi. Check FAQ for some information about this tool or head straight to **Build Calculator** to see what it can do.")
+
 st.header("Hi. This is my Build Comparator.")
 
 st.subheader("What is the purpose of this tool?")
