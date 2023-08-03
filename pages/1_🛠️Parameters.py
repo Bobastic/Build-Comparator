@@ -4,6 +4,8 @@ from utils.utils import baseInfusions,setDefaultBuilds,setDefaultWeapons,setDefa
 
 st.set_page_config(layout='wide',page_title="Parameters",page_icon="🛠️")
 
+st.sidebar.info("Default enemy defenses are the average of classic STR, DEX, INT, FTH and ARC builds. Default negations are Imp (Wolf)/Beast Champion (altered)/Lionel's/Lionel's.")
+
 st.header("⚔️ Weapons")
 
 if "nBuilds" not in st.session_state:
