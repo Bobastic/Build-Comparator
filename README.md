@@ -1,5 +1,7 @@
 # Build-Comparator
 
+[Example Table](data/exampleTable.png)
+
 ## What is the purpose of this tool?
 
 There are already lots of tools for build optimization, mainly in the form of spreadsheets or slugbot.
