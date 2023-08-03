@@ -6,7 +6,7 @@ from utils.defaults import setDefaultBuilds,setDefaultWeapons,setDefaultDefStats
 st.set_page_config(layout='wide',page_title="Parameters",page_icon="🛠️")
 
 st.sidebar.info("Default enemy defenses are the average of classic STR, DEX, INT, FTH and ARC builds.")
-st.sidebar.info("Default negations are Imp Head/Beast Champion Armor (Altered)/Fire Prelate Gauntlets/Lionel's Greaves.")
+st.sidebar.info("Default enemy negations are Imp Head/Beast Champion Armor (Altered)/Fire Prelate Gauntlets/Lionel's Greaves.")
 
 st.header("⚔️ Weapons")
 
