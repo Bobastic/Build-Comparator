@@ -6,7 +6,8 @@ import dataframe_image as dfi
 import streamlit as st
 from io import BytesIO
 
-from utils.utils import fancyTable,DMGtable,setDefaultBuilds,setDefaultWeapons,setDefaultDefStats
+from utils.utils import fancyTable,DMGtable
+from utils.defaults import setDefaultBuilds,setDefaultWeapons,setDefaultDefStats
 
 st.set_page_config(layout='wide',page_title="Build Comparator",page_icon="🔬")
 
