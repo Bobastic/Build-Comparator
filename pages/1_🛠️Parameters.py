@@ -1,6 +1,7 @@
 import streamlit as st
 
-from utils.utils import baseInfusions,setDefaultBuilds,setDefaultWeapons,setDefaultDefStats,weaponClasses,weaponsOfClass
+from utils.utils import baseInfusions,weaponClasses,weaponsOfClass
+from utils.defaults import setDefaultBuilds,setDefaultWeapons,setDefaultDefStats
 
 st.set_page_config(layout='wide',page_title="Parameters",page_icon="🛠️")
 
