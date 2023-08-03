@@ -11,7 +11,7 @@ from utils.defaults import setDefaultBuilds,setDefaultWeapons,setDefaultDefStats
 
 st.set_page_config(layout='wide',page_title="Build Comparator",page_icon="🔬")
 
-st.sidebar.info("The numbers you see are post enemy defenses and negations damage numbers of an attack with a motion value of 100 (usually R1).")
+st.sidebar.info("The damage you see is post enemy defenses and negations. The attack has a motion value of 100 (usually R1).")
 st.sidebar.info("If you have lots of columns and the table starts to get compressed you can fold this sidebar.")
 
 if "download" not in st.session_state:
