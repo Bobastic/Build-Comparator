@@ -36,11 +36,11 @@ def setDefaultDefStats():
     st.session_state.deffire=187
     st.session_state.deflightning=127
     st.session_state.defholy=155
-    st.session_state.negstandard=33.0
-    st.session_state.negstrike=30.7
-    st.session_state.negslash=35.1
-    st.session_state.negpierce=35.3
-    st.session_state.negmagic=26.1
-    st.session_state.negfire=28.4
+    st.session_state.negstandard=33.3
+    st.session_state.negstrike=30.9
+    st.session_state.negslash=34.9
+    st.session_state.negpierce=35.1
+    st.session_state.negmagic=26.2
+    st.session_state.negfire=29.3
     st.session_state.neglightning=25.5
     st.session_state.negholy=26.6
