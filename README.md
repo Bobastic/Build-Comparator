@@ -1,6 +1,6 @@
 # Build-Comparator
 
-[Example Table](data/exampleTable.png)
+![Example Table](data/exampleTable.png)
 
 ## What is the purpose of this tool?
 
