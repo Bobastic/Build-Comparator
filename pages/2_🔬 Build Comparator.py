@@ -44,8 +44,7 @@ with cols[3]:
     multicolor=st.toggle("Multicolor",value=True,help="One color per build or simple gradient.")
 with cols[4]:
     comparison=st.selectbox("Comparison with best of...",("row","class","all"),index=1,
-                            help=f"How much worse the weapon is compared to the best. For example -20% means the weapon deals 20% less damage than the best.
-                            Row: tells you what is the best infusion and build for the weapon. Class: tells you what is the best weapon of the class. None: no comparison")
+                            help="How much worse the weapon is compared to the best. For example -20% means the weapon deals 20% less damage than the best. Row: tells you what is the best infusion and build for the weapon. Class: tells you what is the best weapon of the class. None: no comparison")
 
 def convertPNG():
     if not st.session_state.download:
