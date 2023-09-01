@@ -7,8 +7,9 @@ EPW=pd.read_csv("data/EquipParamWeapon.csv").dropna(subset="Name").replace("Grea
 RPW=pd.read_csv("data/ReinforceParamWeapon.csv")
 CCG=pd.read_csv("data/CalcCorrectGraph.csv")
 AECP=pd.read_csv("data/AttackElementCorrectParam.csv")
-PAA=pd.read_csv("data/Physical AtkAttribute.csv").dropna(subset="Weapon").replace("Miséricorde","Misericorde").replace("Varré's Bouquet","Varre's Bouquet")
 RD=pd.read_csv("data/Raw_Data.csv").replace("Great Epee","Great Épée")
+PAA=pd.read_csv("data/Physical AtkAttribute.csv").dropna(subset="Weapon").replace("Miséricorde","Misericorde").replace("Varré's Bouquet","Varre's Bouquet").iloc[:,:60].drop(
+    columns=["1h Charged R2 1","1h Charged R2 2","2h Charged R2 1","2h Charged R2 2","1h Guard Counter","2h Guard Counter"])
 
 dmgTypes=["Standard","Strike","Slash","Pierce","Magic","Fire","Lightning","Holy"]
 baseInfusions=["Heavy","Fire","Keen","Lightning","Magic","Cold","Sacred","Flame Art","Blood","Occult"]
@@ -117,7 +118,14 @@ def ARcalculator(weapon:str,infusion:str,build:list[int],twoH:bool=False,reinfor
                     stat=build[j] if (j!=0 or not twoH) else int(build[j]*1.5)
                     tmp[i]+=dmg[i]*scaling[j]*CalcCorrectFormula(stat,CCG[CCG["ID"]==ccgID[i]])
     # convert 5-array into 8-array
-    physType={"Standard":0,"Strike":1,"Slash":2,"Pierce":3}[PAA[PAA["Weapon"]==weapon]["1h R1 1"].values[0]]
+    physType={}
+    for attack in PAA[PAA["Weapon"]==weapon].iloc[:,2:].values[0]:
+        if pd.isna(attack) or "(" in attack: continue
+        attack=attack.split(" + ")[0]
+        if attack not in physType: physType[attack]=1
+        else: physType[attack]+=1
+    physType=max(tmp,key=tmp.get) #we get Standard, Strike, Slash or Pierce
+    physType={"Standard":0,"Strike":1,"Slash":2,"Pierce":3}[physType]
     res=np.concatenate([[0,0,0,0],tmp[1:]])
     res[physType]=tmp[0]
     return(res)
