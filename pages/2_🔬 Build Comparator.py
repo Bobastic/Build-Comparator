@@ -1,7 +1,3 @@
-# Disable __pycache__
-import sys
-sys.dont_write_bytecode=True
-
 import dataframe_image as dfi
 import streamlit as st
 from io import BytesIO
@@ -34,7 +30,7 @@ st.markdown("""
 
 cols=st.columns(5)
 with cols[0]:
-    weaponBuffs=st.checkbox("Weapon buffs",value=True,help="Grease (Lightning except for split damage weapons like Treespear), Flaming Strike, Lightning Slash, Sacred Blade.")
+    weaponBuffs=st.toggle("Weapon buffs",value=True,help="Grease (Lightning except for split damage weapons like Treespear), Flaming Strike, Lightning Slash, Sacred Blade.")
     counterHits=st.checkbox("Counter Hits",value=True,help="+15%: normal counter hit. +32%: counter hit with Spear Talisman equipped.")
 with cols[1]:
     multicolor=st.checkbox("Multicolor",value=True,help="One color per build or simple gradient.")
