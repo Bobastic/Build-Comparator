@@ -1,28 +1,35 @@
 import streamlit as st
 
 def setDefaultBuilds():
-    st.session_state.nBuilds=3
+    st.session_state.nBuilds=4
     st.session_state["name0"]="FS abuser"
     st.session_state["str0"]=66
     st.session_state["dex0"]=16
     st.session_state["int0"]=9
     st.session_state["fth0"]=9
     st.session_state["arc0"]=7
-    st.session_state["infusions0"]=["Heavy","Fire"]
-    st.session_state["name1"]="Phalanx abuser"
-    st.session_state["str1"]=21
-    st.session_state["dex1"]=20
-    st.session_state["int1"]=50
+    st.session_state["infusions0"]=["Heavy"]
+    st.session_state["name1"]="Lightning abuser"
+    st.session_state["str1"]=16
+    st.session_state["dex1"]=66
+    st.session_state["int1"]=9
     st.session_state["fth1"]=9
     st.session_state["arc1"]=7
-    st.session_state["infusions1"]=["Magic","Cold"]
-    st.session_state["name2"]="SB abuser"
+    st.session_state["infusions1"]=["Keen","Lightning"]
+    st.session_state["name2"]="Phalanx abuser"
     st.session_state["str2"]=21
     st.session_state["dex2"]=20
-    st.session_state["int2"]=9
-    st.session_state["fth2"]=50
+    st.session_state["int2"]=50
+    st.session_state["fth2"]=9
     st.session_state["arc2"]=7
-    st.session_state["infusions2"]=["Sacred"]
+    st.session_state["infusions2"]=["Magic","Cold"]
+    st.session_state["name3"]="SB abuser"
+    st.session_state["str3"]=21
+    st.session_state["dex3"]=20
+    st.session_state["int3"]=9
+    st.session_state["fth3"]=50
+    st.session_state["arc3"]=7
+    st.session_state["infusions3"]=["Sacred"]
 
 def setDefaultWeapons():
     st.session_state.weapons=["2H Shamshir","Dismounter","Banished Knight's Halberd","2H Rogier's Rapier","Rogier's Rapier","Wakizashi",
