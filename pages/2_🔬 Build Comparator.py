@@ -43,7 +43,7 @@ with cols[3]:
     counterHits=st.toggle("Counter Hits",value=True,help="+15%: normal counter hit. +32%: counter hit with Spear Talisman equipped.")
     multicolor=st.toggle("Multicolor",value=True,help="One color per build or simple gradient.")
 with cols[4]:
-    comparison=st.selectbox("Comparison with best of...",("row","class","all"),index=1,
+    comparison=st.selectbox("Comparison with best of...",("row","class","none"),index=1,
                             help="How much worse the weapon is compared to the best. For example -20% means the weapon deals 20% less damage than the best. Row: tells you what is the best infusion and build for the weapon. Class: tells you what is the best weapon of the class. None: no comparison")
 
 def convertPNG():
