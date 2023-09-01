@@ -124,7 +124,7 @@ def ARcalculator(weapon:str,infusion:str,build:list[int],twoH:bool=False,reinfor
         attack=attack.split(" + ")[0]
         if attack not in physType: physType[attack]=1
         else: physType[attack]+=1
-    physType=max(tmp,key=tmp.get) #we get Standard, Strike, Slash or Pierce
+    physType=max(physType,key=physType.get) #we get Standard, Strike, Slash or Pierce
     physType={"Standard":0,"Strike":1,"Slash":2,"Pierce":3}[physType]
     res=np.concatenate([[0,0,0,0],tmp[1:]])
     res[physType]=tmp[0]
