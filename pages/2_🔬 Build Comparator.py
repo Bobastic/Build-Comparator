@@ -32,7 +32,7 @@ st.markdown("""
 
 cols=st.columns(6)
 with cols[0]:
-    weaponLvl=st.number("Weapon Level",0,25,25)
+    weaponLvl=st.number_input("Weapon Level",0,25,25)
     opaline=st.toggle("Opaline Hardtear",value=True,help="Opponent has +15% negations.")
 with cols[1]:
     weaponBuffs=st.toggle("Weapon buffs",value=True,help="Grease (Lightning except for split damage weapons like Treespear), Flaming Strike, Lightning Slash, Sacred Blade.")
