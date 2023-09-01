@@ -44,7 +44,7 @@ with cols[3]:
     multicolor=st.toggle("Multicolor",value=True,help="One color per build or simple gradient.")
 with cols[4]:
     displayPercentage=st.toggle("Display %",value=True,help="How much worse the weapon is compared to the best. For example -20% means the weapon deals 20% less damage than the best.")
-    classComparison=st.toggle("Compare with best of class",value=True,help="Compare the weapon with the best of its class or just itself.")
+    classComparison=st.toggle("Compare with class",value=True,help="Compare the weapon with the best of its class or just itself.")
 
 def convertPNG():
     if not st.session_state.download:
