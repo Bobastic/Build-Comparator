@@ -40,7 +40,7 @@ with cols[2]:
     showStats=st.toggle("Build Stats",value=True,help="Show stats in column header.")
 with cols[3]:
     comparison=st.selectbox("Comparison with best of...",("row","class","all"),index=1,
-                            help="Row: tells you what is the best infusion and build for the weapon. Class: tells you what is the best weapon of the class. All: Tells you whats is the best weapon of the table")
+                            help="Row: tells you what is the best infusion and build for the weapon. Class: tells you what is the best weapon of the class. All: tells you whats is the best weapon of the table")
 
 def convertPNG():
     if not st.session_state.download:
