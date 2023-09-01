@@ -254,16 +254,14 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
     #res=res.sort_index(level=[0,1],key=lambda x:x.map({w:EPW[EPW["Name"]==w.replace("2H ","")]["wepType"].values[0] for w in res.index.get_level_values(0).unique()}))
     return res
 
-def fancyTable(DMGtable:pd.DataFrame,comparison:str="row",displayPercentage:bool=True,showStats:bool=True,multicolor:bool=True,showWeaponClass:bool=True,wideDisplay:bool=False,saveOutput:bool=False)->None:
+def fancyTable(DMGtable:pd.DataFrame,comparison:str="class",showStats:bool=True,multicolor:bool=True,showWeaponClass:bool=True,wideDisplay:bool=False,saveOutput:bool=False)->None:
     """
     Displays a fancy damage table.
     Parameters:
         DMGtable: MultiIndexed pandas DataFrame
             Columns are build>infusion. Rows are weapon name>pierce bonus
-        comparison: "row", "class", "all"
-            Compute the difference ratio between cell damage and max row/weapon class/all damage.
-        displayPercentage: boolean
-            Display percentage value in cell.
+        comparison: "row", "class", "none"
+            Compute the difference ratio between cell damage and max row/weapon class damage or not.
         showStats: boolean
             Display build stat spread in column header.
         multicolor: boolean
@@ -280,18 +278,15 @@ def fancyTable(DMGtable:pd.DataFrame,comparison:str="row",displayPercentage:bool
     classes=tmp.index.get_level_values(0).unique() # we want to keep weapon class order most likely
     orderDesc=tmp.loc[pd.IndexSlice[:,:,"No Prc"],:].max(axis=1).sort_values(ascending=False).index.get_level_values(1)
     tmp=tmp.sort_index(level=1,key=lambda x:x.map({ii:i for i,ii in enumerate(orderDesc)}))
-    if comparison!="all":
-        tmp=tmp.sort_index(level=0,sort_remaining=False,key=lambda x:x.map({ii:i for i,ii in enumerate(classes)})) # restore class order
+    tmp=tmp.sort_index(level=0,sort_remaining=False,key=lambda x:x.map({ii:i for i,ii in enumerate(classes)})) # restore class order
     # percentages
     if comparison=="row":
         DMGratio=tmp.apply(lambda x:x/x.max()*100-100,axis=1).astype(float)
-    if comparison=="class":
+    elif comparison=="class":
         DMGratio=tmp.apply(lambda x:x/tmp.loc[pd.IndexSlice[x.name[0],:,x.name[2]],:].max().max()*100-100,axis=1).astype(float)
-    elif comparison=="all":
-        DMGratio=tmp.apply(lambda x:x/tmp.max().max()*100-100,axis=1).astype(float)
     res=tmp.copy()
     for c in tmp.columns:
-        if displayPercentage:
+        if comparison!="none":
             res[c]=res[c].map(lambda x:str(x).replace("<NA>","-"))+" ("+DMGratio[c].round(1).map(lambda x:("👑" if x==0 else (("+" if x>=0 else "-")+str(abs(x)).replace("nan",""))+"%"))+")"
         else:
             res[c]=res[c].map(lambda x:str(x).replace("<NA>","-"))
