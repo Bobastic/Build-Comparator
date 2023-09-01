@@ -30,17 +30,20 @@ st.markdown("""
     </style>
     """,unsafe_allow_html=True)
 
-cols=st.columns(5)
+cols=st.columns(6)
 with cols[0]:
+    weaponLvl=st.number("Weapon Level",0,25,25)
+    opaline=st.toggle("Opaline Hardtear",value=True,help="Opponent has +15% negations.")
+with cols[1]:
     weaponBuffs=st.toggle("Weapon buffs",value=True,help="Grease (Lightning except for split damage weapons like Treespear), Flaming Strike, Lightning Slash, Sacred Blade.")
     counterHits=st.toggle("Counter Hits",value=True,help="+15%: normal counter hit. +32%: counter hit with Spear Talisman equipped.")
-with cols[1]:
+with cols[2]:
     multicolor=st.toggle("Multicolor",value=True,help="One color per build or simple gradient.")
     showWeaponClass=st.toggle("Weapon Class",value=False,help="Display weapon class on the left of the table.")
-with cols[2]:
+with cols[3]:
     displayPercentage=st.toggle("Ratio with best",value=True,help="How much worse the weapon is compared to the best. For example -20% means the weapon deals 20% less damage than the best.")
     showStats=st.toggle("Build Stats",value=True,help="Show stats in column header.")
-with cols[3]:
+with cols[4]:
     comparison=st.selectbox("Comparison with best of...",("row","class","all"),index=1,
                             help="Row: tells you what is the best infusion and build for the weapon. Class: tells you what is the best weapon of the class. All: tells you whats is the best weapon of the table")
 
@@ -74,7 +77,7 @@ if st.session_state.nBuilds!=0 and len(st.session_state.weapons)!=0:
         table=DMGtable(weapons,builds,infusions,defenses,negations,weaponBuffs=weaponBuffs,counterHits=counterHits)
         fancy=fancyTable(table,comparison=comparison,displayPercentage=displayPercentage,showStats=showStats,multicolor=multicolor,showWeaponClass=showWeaponClass)
         st.write(fancy.to_html(),unsafe_allow_html=True)
-    with cols[4]:
+    with cols[5]:
         st.download_button("Download CSV",table.to_csv(),file_name="buildComparatorData.csv")
         if not st.session_state.download:
             st.button("Convert to PNG",disabled=True,on_click=convertPNG)
