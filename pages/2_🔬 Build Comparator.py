@@ -23,14 +23,14 @@ if "nBuilds" not in st.session_state:
 
 st.markdown("""
     <style>
-        div[data-testid="column"]:nth-of-type(7)
+        div[data-testid="column"]:nth-of-type(6)
         {
             text-align: end;
         } 
     </style>
     """,unsafe_allow_html=True)
 
-cols=st.columns(7)
+cols=st.columns(6)
 with cols[0]:
     weaponLvl=st.number_input("Weapon Level",0,25,25)
 with cols[1]:
@@ -43,10 +43,9 @@ with cols[3]:
     counterHits=st.toggle("Counter Hits",value=True,help="+15%: normal counter hit. +32%: counter hit with Spear Talisman equipped.")
     multicolor=st.toggle("Multicolor",value=True,help="One color per build or simple gradient.")
 with cols[4]:
-    displayPercentage=st.toggle("Ratio with best",value=True,help="How much worse the weapon is compared to the best. For example -20% means the weapon deals 20% less damage than the best.")
-with cols[5]:
     comparison=st.selectbox("Comparison with best of...",("row","class","all"),index=1,
-                            help="Row: tells you what is the best infusion and build for the weapon. Class: tells you what is the best weapon of the class. All: tells you whats is the best weapon of the table")
+                            help=f"How much worse the weapon is compared to the best. For example -20% means the weapon deals 20% less damage than the best.
+                            Row: tells you what is the best infusion and build for the weapon. Class: tells you what is the best weapon of the class. None: no comparison")
 
 def convertPNG():
     if not st.session_state.download:
@@ -76,9 +75,9 @@ if st.session_state.nBuilds!=0 and len(st.session_state.weapons)!=0:
         negations=[st.session_state.negstandard,st.session_state.negstrike,st.session_state.negslash,st.session_state.negpierce,
                    st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
         table=DMGtable(weapons,builds,infusions,defenses,negations,weaponBuffs=weaponBuffs,counterHits=counterHits)
-        fancy=fancyTable(table,comparison=comparison,displayPercentage=displayPercentage,showStats=showStats,multicolor=multicolor,showWeaponClass=showWeaponClass)
+        fancy=fancyTable(table,comparison=comparison,showStats=showStats,multicolor=multicolor,showWeaponClass=showWeaponClass)
         st.write(fancy.to_html(),unsafe_allow_html=True)
-    with cols[6]:
+    with cols[5]:
         st.download_button("Download CSV",table.to_csv(),file_name="buildComparatorData.csv")
         if not st.session_state.download:
             st.button("Convert to PNG",disabled=True,on_click=convertPNG)
