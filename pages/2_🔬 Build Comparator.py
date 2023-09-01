@@ -31,15 +31,15 @@ st.markdown("""
 cols=st.columns(5)
 with cols[0]:
     weaponBuffs=st.toggle("Weapon buffs",value=True,help="Grease (Lightning except for split damage weapons like Treespear), Flaming Strike, Lightning Slash, Sacred Blade.")
-    counterHits=st.checkbox("Counter Hits",value=True,help="+15%: normal counter hit. +32%: counter hit with Spear Talisman equipped.")
+    counterHits=st.toggle("Counter Hits",value=True,help="+15%: normal counter hit. +32%: counter hit with Spear Talisman equipped.")
 with cols[1]:
-    multicolor=st.checkbox("Multicolor",value=True,help="One color per build or simple gradient.")
-    showWeaponClass=st.checkbox("Weapon Class",value=False,help="Display weapon class on the left of the table.")
+    multicolor=st.toggle("Multicolor",value=True,help="One color per build or simple gradient.")
+    showWeaponClass=st.toggle("Weapon Class",value=False,help="Display weapon class on the left of the table.")
 with cols[2]:
-    displayPercentage=st.checkbox("Ratio with best",value=True,help="How much worse the weapon is compared to the best. For example -20% means the weapon deals 20% less damage than the best.")
-    showStats=st.checkbox("Build Stats",value=True,help="Show stats in column header.")
+    displayPercentage=st.toggle("Ratio with best",value=True,help="How much worse the weapon is compared to the best. For example -20% means the weapon deals 20% less damage than the best.")
+    showStats=st.toggle("Build Stats",value=True,help="Show stats in column header.")
 with cols[3]:
-    comparison=st.selectbox("Comparison with best of...",("row","class","all"),index=1,
+    comparison=st.toggle("Comparison with best of...",("row","class","all"),index=1,
                             help="Row: tells you what is the best infusion and build for the weapon. Class: tells you what is the best weapon of the class. All: Tells you whats is the best weapon of the table")
 
 def convertPNG():
