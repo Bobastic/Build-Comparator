@@ -23,7 +23,7 @@ if "nBuilds" not in st.session_state:
 
 st.markdown("""
     <style>
-        div[data-testid="column"]:nth-of-type(5)
+        div[data-testid="column"]:nth-of-type(7)
         {
             text-align: end;
         } 
