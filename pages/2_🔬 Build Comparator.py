@@ -35,16 +35,15 @@ with cols[0]:
     weaponLvl=st.number_input("Weapon Level",0,25,25)
 with cols[1]:
     opaline=st.toggle("Opaline Hardtear",value=True,help="Opponent has +15% negations.")
-    aaa=st.toggle("a a",value=True,help="Opponent has +15% negations.")
+    showStats=st.toggle("Build Stats",value=True,help="Show stats in column header.")
 with cols[2]:
     weaponBuffs=st.toggle("Weapon buffs",value=True,help="Grease (Lightning except for split damage weapons like Treespear), Flaming Strike, Lightning Slash, Sacred Blade.")
-    counterHits=st.toggle("Counter Hits",value=True,help="+15%: normal counter hit. +32%: counter hit with Spear Talisman equipped.")
-with cols[3]:
-    multicolor=st.toggle("Multicolor",value=True,help="One color per build or simple gradient.")
     showWeaponClass=st.toggle("Weapon Class",value=False,help="Display weapon class on the left of the table.")
+with cols[3]:
+    counterHits=st.toggle("Counter Hits",value=True,help="+15%: normal counter hit. +32%: counter hit with Spear Talisman equipped.")
+    multicolor=st.toggle("Multicolor",value=True,help="One color per build or simple gradient.")
 with cols[4]:
     displayPercentage=st.toggle("Ratio with best",value=True,help="How much worse the weapon is compared to the best. For example -20% means the weapon deals 20% less damage than the best.")
-    showStats=st.toggle("Build Stats",value=True,help="Show stats in column header.")
 with cols[5]:
     comparison=st.selectbox("Comparison with best of...",("row","class","all"),index=1,
                             help="Row: tells you what is the best infusion and build for the weapon. Class: tells you what is the best weapon of the class. All: tells you whats is the best weapon of the table")
