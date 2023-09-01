@@ -105,8 +105,8 @@ with cols[6]: st.subheader("Infusions")
 for i in range(st.session_state.nBuilds):
     showBuild(i)
 cols=st.columns(2)
-with cols[0]: st.button("+ Build",on_click=addBuild,type="primary")
-with cols[1]: st.button("- Build",on_click=removeBuild,disabled=st.session_state.nBuilds==0)
+with cols[0]: st.button("\+ Build",on_click=addBuild,type="primary")
+with cols[1]: st.button("\- Build",on_click=removeBuild,disabled=st.session_state.nBuilds==0)
 
 st.divider()
 
