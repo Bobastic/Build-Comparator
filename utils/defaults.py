@@ -25,7 +25,8 @@ def setDefaultBuilds():
     st.session_state["infusions2"]=["Sacred"]
 
 def setDefaultWeapons():
-    st.session_state.weapons=["Dismounter","Banished Knight's Halberd","2H Cleanrot Knight's Sword","Cleanrot Knight's Sword","Wakizashi","Lance","Longsword","Partisan","Spiked Spear","2H Shamshir","2H Godskin Stitcher","Star Fist"]
+    st.session_state.weapons=["2H Shamshir","Dismounter","Banished Knight's Halberd","2H Rogier's Rapier","Rogier's Rapier","Wakizashi",
+                              "Lance","Longsword","Noble's Slender Sword","Short Spear","2H Godskin Stitcher","Star Fist","Katar"]
 
 def setDefaultDefStats():
     st.session_state.defstandard=140
