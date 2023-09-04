@@ -289,8 +289,7 @@ def fancyTable(DMGtable:pd.DataFrame,classComparison:bool=True,displayPercentage
     res=tmp.copy()
     for c in tmp.columns:
         if displayPercentage:
-            percentage=" ("+DMGratio[c].round(1).map(lambda x:("👑" if x==0 else (("+" if x>=0 else "-")+str(abs(x)).replace("nan",""))+"%") if not pd.isna(x) else "")+")"
-            res[c]=res[c].map(lambda x:str(x).replace("<NA>","-"))+percentage
+            res[c]=res[c].map(lambda x:str(x).replace("<NA>","-"))+DMGratio[c].round(1).map(lambda x:"" if pd.isna(x) else "(👑)" if x==0 else f"({x}%)")
         else:
             res[c]=res[c].map(lambda x:str(x).replace("<NA>","-"))
     # display max of each row in bold
