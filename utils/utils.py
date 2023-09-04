@@ -311,13 +311,13 @@ def fancyTable(DMGtable:pd.DataFrame,classComparison:bool=True,displayPercentage
         hide.append(2)
     res=res.hide(level=hide)
     # center values
-    res.set_table_styles([{'selector': 'td', 'td': 'text-align: center;'}],overwrite=False)
+    res.set_table_styles([{'selector': 'td': 'text-align: center;'}],overwrite=False)
     # borders
     for i in [j for i,j in zip(tmp.columns[:-1],tmp.columns[1:]) if i[0]!=j[0]]:
-        res.set_table_styles({i: [{'selector': '', 'props': 'border-left: 1px solid grey;'}]}, overwrite=False)
+        res.set_table_styles({i: [{'selector': '', 'props': 'border-left: 1px solid grey;'}]},overwrite=False)
     if res.index.nlevels>1:
         for i in [j for i,j in zip(tmp.index[:-1],tmp.index[1:]) if i[0]!=j[0]]:
-            res.set_table_styles({i: [{'selector': '', 'props': 'border-top: 1px solid grey;'}]}, overwrite=False, axis=1)
+            res.set_table_styles({i: [{'selector': '', 'props': 'border-top: 1px solid grey;'}]},overwrite=False, axis=1)
     # stats
     if not showStats:
         res.format_index(lambda x:x.split("•")[0].rstrip(),axis=1)
