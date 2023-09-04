@@ -19,10 +19,10 @@ st.subheader("Use case examples")
 
 st.markdown("""
 - How much more damage do I get with 69 STR compared to 54 STR on all these weapons?
-- Is Cold->Keen better than Cold->Magic for this inventory?
+- Is Cold->Lightning better than Cold->Magic for this inventory?
 - Fire + Flaming Strike buff or Heavy + Lightning Grease?
 - How broken is Sacred Blade?
-- What is the best build for BKH and Cleanrot between these three?
+- What is the best build for BKH and Dismounter between these three?
 """)
 
 st.subheader("So what does it actually do?")
