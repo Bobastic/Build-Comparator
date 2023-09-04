@@ -12,9 +12,6 @@ st.sidebar.info("Attacks have a motion value of 100 (usually R1).")
 st.sidebar.info("The physical damage type is the most common one for the weapon (Standard for Longsword, Slash for Wakizashi etc...)")
 st.sidebar.info("If you have lots of columns and the table starts to get compressed you can fold this sidebar.")
 
-if "download" not in st.session_state:
-    st.session_state.download=False
-
 if "nBuilds" not in st.session_state:
     st.session_state.nBuilds=0
     setDefaultBuilds()
@@ -46,23 +43,6 @@ with cols[4]:
     displayPercentage=st.toggle("Display %",value=True,help="How much worse the weapon is compared to the best. For example -20% means the weapon deals 20% less damage than the best.")
     classComparison=st.toggle("Compare with class",value=True,help="Compare the weapon with the best of its class or just itself.")
 
-def convertPNG():
-    if not st.session_state.download:
-        st.session_state.download=True
-        st.warning('Now click on "Download PNG" to actually start the download.')
-        import os
-        st.write([f for f in os.walk("/mount/")])
-    else:
-        st.session_state.download=False
-        buff=BytesIO()
-        dfi.export(fancy,buff)
-        try:
-            pass
-        except:
-            st.toast("You have to use chrome to get a decent table sadly. Trying to solve this issue.")
-            dfi.export(fancy,buff,table_conversion="matplotlib")
-        return buff.getvalue()
-
 if st.session_state.nBuilds!=0 and len(st.session_state.weapons)!=0:
     with st.spinner("Computing table..."):
         weapons=st.session_state.weapons
@@ -78,9 +58,6 @@ if st.session_state.nBuilds!=0 and len(st.session_state.weapons)!=0:
         st.write(fancy.to_html(),unsafe_allow_html=True)
     with cols[5]:
         st.download_button("Download CSV",table.to_csv(),file_name="buildComparatorData.csv")
-        if not st.session_state.download:
-            st.button("Convert to PNG",disabled=False,on_click=convertPNG)
-        else:
-            with st.spinner("Converting..."): st.download_button("Download PNG",convertPNG(),file_name="buildComparator.png",mime="image/png")
+        st.download_button("Download HTML",fancy.to_html(),file_name="buildComparator.html")
 else:
     st.error('Input at least one build, one weapon and fill enemy stats in the "🛠️ Parameters" tab.',icon="🚨")
