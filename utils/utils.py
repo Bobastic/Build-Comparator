@@ -7,8 +7,9 @@ EPW=pd.read_csv("data/EquipParamWeapon.csv").dropna(subset="Name").replace("Grea
 RPW=pd.read_csv("data/ReinforceParamWeapon.csv")
 CCG=pd.read_csv("data/CalcCorrectGraph.csv")
 AECP=pd.read_csv("data/AttackElementCorrectParam.csv")
-PAA=pd.read_csv("data/Physical AtkAttribute.csv").dropna(subset="Weapon").replace("Miséricorde","Misericorde").replace("Varré's Bouquet","Varre's Bouquet")
 RD=pd.read_csv("data/Raw_Data.csv").replace("Great Epee","Great Épée")
+PAA=pd.read_csv("data/Physical AtkAttribute.csv").dropna(subset="Weapon").replace("Miséricorde","Misericorde").replace("Varré's Bouquet","Varre's Bouquet").iloc[:,:60].drop(
+    columns=["1h Charged R2 1","1h Charged R2 2","2h Charged R2 1","2h Charged R2 2","1h Guard Counter","2h Guard Counter"])
 
 dmgTypes=["Standard","Strike","Slash","Pierce","Magic","Fire","Lightning","Holy"]
 baseInfusions=["Heavy","Fire","Keen","Lightning","Magic","Cold","Sacred","Flame Art","Blood","Occult"]
@@ -48,7 +49,7 @@ def weaponsOfClass(wClass:str)->list[str]:
 
 # Calculations
 
-def ARcalculator(weapon:str,infusion:str,build:list[int],twoH:bool=False,reinforcmentLvl:any="max")->np.ndarray:
+def ARcalculator(weapon:str,infusion:str,build:list[int],reinforcementLvl:int=25,twoH:bool=False)->np.ndarray:
     """
     Calculates weapon AR
     Parameters:
@@ -60,8 +61,8 @@ def ARcalculator(weapon:str,infusion:str,build:list[int],twoH:bool=False,reinfor
             STR, DEX, INT, FTH, ARC.
         twoH: boolean
             Is the weapon two handed?
-        reinforcmentLvl: int or "max"
-            Weapon reinforcment level.
+        reinforcementLvl: int
+            Weapon reinforcement level (normal, not somber).
     Output:
         numpy array of length 8
     """
@@ -96,20 +97,18 @@ def ARcalculator(weapon:str,infusion:str,build:list[int],twoH:bool=False,reinfor
     if "2H" in weapon:
         weapon=weapon.replace("2H ","")
         twoH=True
-    if reinforcmentLvl=="max" or reinforcmentLvl>10:
-        if reinforcmentLvl=="max": reinforcmentLvl=25
-        reinforcmentLvl=min(reinforcmentLvl,RD[RD["Name"]==weapon]["Max Upgrade"].values[0])
+    if RD[RD["Name"]==weapon]["Max Upgrade"].values[0]==10: reinforcementLvl=(reinforcementLvl+1)//2.5
     ID=EPW[EPW["Name"]==weapon]["ID"].values[0]+infusionOffset[infusion]
     rtID=EPW[EPW["ID"]==ID]["reinforceTypeId"].values[0]
     ccgID=EPW[EPW["ID"]==ID][["correctType_Physics","correctType_Magic","correctType_Fire","correctType_Thunder","correctType_Dark"]].values[0]
     aecID=EPW[EPW["ID"]==ID]["attackElementCorrectId"].values[0]
     baseDmg=EPW[EPW["ID"]==ID][["attackBasePhysics","attackBaseMagic","attackBaseFire","attackBaseThunder","attackBaseDark"]].to_numpy()[0]
     baseScaling=EPW[EPW["ID"]==ID][["correctStrength","correctAgility","correctMagic","correctFaith","correctLuck"]].to_numpy()[0]/100
-    baseDmgReinforcment=RPW[RPW["ID"]==rtID+reinforcmentLvl][["Physical Attack","Magic Attack","Fire Attack","Lightning Attack","Holy Attack"]].to_numpy()[0]
-    baseScalingReinforcment=RPW[RPW["ID"]==rtID+reinforcmentLvl][["Str Scaling","Dex Scaling","Int Scaling","Fai Scaling","Arc Scaling"]].to_numpy()[0]
-    dmg=baseDmg*baseDmgReinforcment # element
-    scaling=baseScaling*baseScalingReinforcment # stat
-    tmp=baseDmg*baseDmgReinforcment
+    baseDmgreinforcement=RPW[RPW["ID"]==rtID+reinforcementLvl][["Physical Attack","Magic Attack","Fire Attack","Lightning Attack","Holy Attack"]].to_numpy()[0]
+    baseScalingreinforcement=RPW[RPW["ID"]==rtID+reinforcementLvl][["Str Scaling","Dex Scaling","Int Scaling","Fai Scaling","Arc Scaling"]].to_numpy()[0]
+    dmg=baseDmg*baseDmgreinforcement # element
+    scaling=baseScaling*baseScalingreinforcement # stat
+    tmp=baseDmg*baseDmgreinforcement
     for i in range(5): #element
         if dmg[i]:
             for j in range(5): #stat
@@ -117,7 +116,14 @@ def ARcalculator(weapon:str,infusion:str,build:list[int],twoH:bool=False,reinfor
                     stat=build[j] if (j!=0 or not twoH) else int(build[j]*1.5)
                     tmp[i]+=dmg[i]*scaling[j]*CalcCorrectFormula(stat,CCG[CCG["ID"]==ccgID[i]])
     # convert 5-array into 8-array
-    physType={"Standard":0,"Strike":1,"Slash":2,"Pierce":3}[PAA[PAA["Weapon"]==weapon]["1h R1 1"].values[0]]
+    physType={}
+    for attack in PAA[PAA["Weapon"]==weapon].iloc[:,2:].values[0]:
+        if pd.isna(attack) or "(" in attack: continue
+        attack=attack.split(" + ")[0]
+        if attack not in physType: physType[attack]=1
+        else: physType[attack]+=1
+    physType=max(physType,key=physType.get) #we get Standard, Strike, Slash or Pierce
+    physType={"Standard":0,"Strike":1,"Slash":2,"Pierce":3}[physType]
     res=np.concatenate([[0,0,0,0],tmp[1:]])
     res[physType]=tmp[0]
     return(res)
@@ -150,7 +156,7 @@ def ARtoDMG(AR:list[int],defenses:list[int],negations:list[int])->np.ndarray:
             res.append((1-n)*0.9*ar)
     return np.array(res)
 
-def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,list[int]],defenses:list[int],negations:list[int],weaponBuffs:bool=True,counterHits:bool=True)->pd.DataFrame:
+def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,list[int]],defenses:list[int],negations:list[int],reinforcementLvl:int=25,weaponBuffs:bool=True,counterHits:bool=True,hardtear:bool=True)->pd.DataFrame:
     """
     Computes damage for each weapon/infusion/build combination.
     Parameters:
@@ -190,25 +196,26 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
     }
     res=[]
     for weapon in weapons:
-        if EPW[EPW["Name"]==weapon.replace("2H ","")].empty:
+        weaponName=weapon.replace("2H ","")
+        if EPW[EPW["Name"]==weaponName].empty:
             print(f"Weapon does not exist: {weapon}")
             continue
-        weaponClass=idWeaponClass[EPW[EPW['Name']==weapon.replace('2H ','')]['wepType'].values[0]]
+        weaponClass=idWeaponClass[EPW[EPW["Name"]==weaponName]["wepType"].values[0]]
         columns=[]
         normal,prc,spr=[],[],[]
         for build in builds:
             # somber weapons
-            if RD[RD["Name"]==weapon.replace("2H ","")]["Infusable"].values[0]=="No":
-                dmg=ARtoDMG(ARcalculator(weapon,"",builds[build]),defenses,negations)
+            if RD[RD["Name"]==weaponName]["Infusable"].values[0]=="No":
+                dmg=ARtoDMG(ARcalculator(weapon,"",builds[build],reinforcementLvl),defenses,negations)
                 normal.append(dmg.sum())
                 if counterHits and dmg[3]:
                     prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
                     spr.append((dmg*np.array([1,1,1,1.15*1.15,1,1,1,1])).sum())
                 columns.append((f"{build} • {' '.join(map(str,builds[build]))}","Standard"))
                 # if buffable (bhf, bouquet, ripple*2, treespear, great club, troll's hammer)
-                if weaponBuffs and EPW[EPW["Name"]==weapon.replace("2H ","")]["isEnhance"].values[0]==1:
+                if weaponBuffs and EPW[EPW["Name"]==weaponName]["isEnhance"].values[0]==1:
                     grease=buffs[weapon] if weapon in buffs else np.array([0,0,0,0,0,0,110,0])
-                    dmg=ARtoDMG(ARcalculator(weapon,"",builds[build])+grease,defenses,negations)
+                    dmg=ARtoDMG(ARcalculator(weapon,"",builds[build],reinforcementLvl)+grease,defenses,negations)
                     normal.append(dmg.sum())
                     if counterHits and dmg[3]:
                         prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
@@ -217,7 +224,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
             # infusable weapons
             else:
                 for infusion in infusions[build]:
-                    dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build]),defenses,negations)
+                    dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build],reinforcementLvl),defenses,negations)
                     normal.append(dmg.sum())
                     if counterHits and dmg[3]:
                         prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
@@ -228,7 +235,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
                         if (infusion in noAshBuff) and (weaponClass in noAshBuff[infusion]):
                             continue
                         grease=buffs[weapon] if weapon in buffs else buffs[infusion][1]
-                        dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build])+grease,defenses,negations)
+                        dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build],reinforcementLvl)+grease,defenses,negations)
                         normal.append(dmg.sum())
                         if counterHits and dmg[3]:
                             prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
@@ -237,6 +244,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
         if columns:
             res.append(pd.DataFrame([normal,prc,spr],index=pd.MultiIndex.from_tuples([(weapon,"No Prc"),(weapon,"Prc+15%"),(weapon,"Prc+32%")]),columns=pd.MultiIndex.from_tuples(columns)))
     res=pd.concat(res).dropna(how="all")
+    if hardtear: res=res*0.9
     # reorder columns to respect infusion order
     res=res.sort_index(axis=1,level=1,sort_remaining=False,key=lambda x:x.map({a:i for i,a in enumerate(infusionOrder)}))
     res=res.sort_index(axis=1,level=0,sort_remaining=False,key=lambda x:x.map({a:i for i,a in enumerate(res.columns.get_level_values(0).unique())}))
@@ -246,14 +254,14 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
     #res=res.sort_index(level=[0,1],key=lambda x:x.map({w:EPW[EPW["Name"]==w.replace("2H ","")]["wepType"].values[0] for w in res.index.get_level_values(0).unique()}))
     return res
 
-def fancyTable(DMGtable:pd.DataFrame,comparison:str="row",displayPercentage:bool=True,showStats:bool=True,multicolor:bool=True,showWeaponClass:bool=True,wideDisplay:bool=False,saveOutput:bool=False)->None:
+def fancyTable(DMGtable:pd.DataFrame,classComparison:bool=True,displayPercentage:bool=True,showStats:bool=True,multicolor:bool=True,showWeaponClass:bool=True,wideDisplay:bool=False,saveOutput:bool=False)->None:
     """
     Displays a fancy damage table.
     Parameters:
         DMGtable: MultiIndexed pandas DataFrame
             Columns are build>infusion. Rows are weapon name>pierce bonus
-        comparison: "row", "class", "all"
-            Compute the difference ratio between cell damage and max row/weapon class/all damage.
+        classComparison: boolean
+            Compare the weapon with the best of its class.
         displayPercentage: boolean
             Display percentage value in cell.
         showStats: boolean
@@ -272,15 +280,12 @@ def fancyTable(DMGtable:pd.DataFrame,comparison:str="row",displayPercentage:bool
     classes=tmp.index.get_level_values(0).unique() # we want to keep weapon class order most likely
     orderDesc=tmp.loc[pd.IndexSlice[:,:,"No Prc"],:].max(axis=1).sort_values(ascending=False).index.get_level_values(1)
     tmp=tmp.sort_index(level=1,key=lambda x:x.map({ii:i for i,ii in enumerate(orderDesc)}))
-    if comparison!="all":
-        tmp=tmp.sort_index(level=0,sort_remaining=False,key=lambda x:x.map({ii:i for i,ii in enumerate(classes)})) # restore class order
+    tmp=tmp.sort_index(level=0,sort_remaining=False,key=lambda x:x.map({ii:i for i,ii in enumerate(classes)})) # restore class order
     # percentages
-    if comparison=="row":
+    if not classComparison:
         DMGratio=tmp.apply(lambda x:x/x.max()*100-100,axis=1).astype(float)
-    if comparison=="class":
+    else:
         DMGratio=tmp.apply(lambda x:x/tmp.loc[pd.IndexSlice[x.name[0],:,x.name[2]],:].max().max()*100-100,axis=1).astype(float)
-    elif comparison=="all":
-        DMGratio=tmp.apply(lambda x:x/tmp.max().max()*100-100,axis=1).astype(float)
     res=tmp.copy()
     for c in tmp.columns:
         if displayPercentage:

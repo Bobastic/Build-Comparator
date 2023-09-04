@@ -1,7 +1,3 @@
-# Disable __pycache__
-import sys
-sys.dont_write_bytecode=True
-
 import dataframe_image as dfi
 import streamlit as st
 from io import BytesIO
@@ -11,7 +7,9 @@ from utils.defaults import setDefaultBuilds,setDefaultWeapons,setDefaultDefStats
 
 st.set_page_config(layout='wide',page_title="Build Comparator",page_icon="🔬")
 
-st.sidebar.info("The damage you see is post enemy defenses and negations. The attack has a motion value of 100 (usually R1).")
+st.sidebar.info("The damage you see is post enemy defenses and negations.")
+st.sidebar.info("Attacks have a motion value of 100 (usually R1).")
+st.sidebar.info("The physical damage type is the most common one for the weapon (Standard for Longsword, Slash for Wakizashi etc...)")
 st.sidebar.info("If you have lots of columns and the table starts to get compressed you can fold this sidebar.")
 
 if "download" not in st.session_state:
@@ -25,26 +23,28 @@ if "nBuilds" not in st.session_state:
 
 st.markdown("""
     <style>
-        div[data-testid="column"]:nth-of-type(5)
+        div[data-testid="column"]:nth-of-type(6)
         {
             text-align: end;
         } 
     </style>
     """,unsafe_allow_html=True)
 
-cols=st.columns(5)
+cols=st.columns(6)
 with cols[0]:
-    weaponBuffs=st.checkbox("Weapon buffs",value=True,help="Grease (Lightning except for split damage weapons like Treespear), Flaming Strike, Lightning Slash, Sacred Blade.")
-    counterHits=st.checkbox("Counter Hits",value=True,help="+15%: normal counter hit. +32%: counter hit with Spear Talisman equipped.")
+    weaponLvl=st.number_input("Weapon Level",0,25,25,help="NORMAL weapon level from 0 to 25. Somber level is automatically calculated from this.")
 with cols[1]:
-    multicolor=st.checkbox("Multicolor",value=True,help="One color per build or simple gradient.")
-    showWeaponClass=st.checkbox("Weapon Class",value=False,help="Display weapon class on the left of the table.")
+    hardtear=st.toggle("Opaline Hardtear",value=True,help="Opponent has +15% negations.")
+    showStats=st.toggle("Build Stats",value=True,help="Show stats in column header.")
 with cols[2]:
-    displayPercentage=st.checkbox("Ratio with best",value=True,help="How much worse the weapon is compared to the best. For example -20% means the weapon deals 20% less damage than the best.")
-    showStats=st.checkbox("Build Stats",value=True,help="Show stats in column header.")
+    weaponBuffs=st.toggle("Weapon buffs",value=True,help="Grease (Lightning except for split damage weapons like Treespear), Flaming Strike, Lightning Slash, Sacred Blade.")
+    showWeaponClass=st.toggle("Weapon Class",value=False,help="Display weapon class on the left of the table.")
 with cols[3]:
-    comparison=st.selectbox("Comparison with best of...",("row","class","all"),index=1,
-                            help="Row: tells you what is the best infusion and build for the weapon. Class: tells you what is the best weapon of the class. All: Tells you whats is the best weapon of the table")
+    counterHits=st.toggle("Counter Hits",value=True,help="+15%: normal counter hit. +32%: counter hit with Spear Talisman equipped.")
+    multicolor=st.toggle("Multicolor",value=True,help="One color per build or simple gradient.")
+with cols[4]:
+    displayPercentage=st.toggle("Display %",value=True,help="How much worse the weapon is compared to the best. For example -20% means the weapon deals 20% less damage than the best.")
+    classComparison=st.toggle("Compare with class",value=True,help="Compare the weapon with the best of its class or just itself.")
 
 def convertPNG():
     if not st.session_state.download:
@@ -73,10 +73,10 @@ if st.session_state.nBuilds!=0 and len(st.session_state.weapons)!=0:
                   st.session_state.defmagic,st.session_state.deffire,st.session_state.deflightning,st.session_state.defholy]
         negations=[st.session_state.negstandard,st.session_state.negstrike,st.session_state.negslash,st.session_state.negpierce,
                    st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
-        table=DMGtable(weapons,builds,infusions,defenses,negations,weaponBuffs=weaponBuffs,counterHits=counterHits)
-        fancy=fancyTable(table,comparison=comparison,displayPercentage=displayPercentage,showStats=showStats,multicolor=multicolor,showWeaponClass=showWeaponClass)
+        table=DMGtable(weapons,builds,infusions,defenses,negations,weaponLvl,weaponBuffs=weaponBuffs,counterHits=counterHits,hardtear=hardtear)
+        fancy=fancyTable(table,classComparison=classComparison,displayPercentage=displayPercentage,showStats=showStats,multicolor=multicolor,showWeaponClass=showWeaponClass)
         st.write(fancy.to_html(),unsafe_allow_html=True)
-    with cols[4]:
+    with cols[5]:
         st.download_button("Download CSV",table.to_csv(),file_name="buildComparatorData.csv")
         if not st.session_state.download:
             st.button("Convert to PNG",disabled=True,on_click=convertPNG)

@@ -8,16 +8,11 @@ st.set_page_config(layout='wide',page_title="Parameters",page_icon="🛠️")
 st.sidebar.info("Default enemy defenses are the average of classic STR, DEX, INT, FTH and ARC builds.")
 st.sidebar.info("Default enemy negations are Imp Head/Beast Champion Armor (Altered)/Fire Prelate Gauntlets/Lionel's Greaves.")
 
-st.header("⚔️ Weapons")
-
 if "nBuilds" not in st.session_state:
     st.session_state.nBuilds=0
     setDefaultBuilds()
     setDefaultWeapons()
     setDefaultDefStats()
-
-def updateState(key):
-    st.session_state[key.lower()]=st.session_state[key]
 
 st.markdown("""
 <style>
@@ -38,6 +33,9 @@ st.markdown("""
 </style>
 """,unsafe_allow_html=True)
 
+def updateState(key):
+    st.session_state[key.lower()]=st.session_state[key]
+
 def addWeapons():
     for w in st.session_state.selected:
         w=f"{'2H ' if st.session_state.twoH else ''}{w}"
@@ -45,20 +43,6 @@ def addWeapons():
             st.session_state.weapons.append(w)
         else:
             st.toast("Weapon already selected")
-
-cols=st.columns([2,7])
-with cols[0]: st.selectbox("Weapon class",weaponClasses,key="class")
-with cols[1]: st.multiselect("Weapons",weaponsOfClass(st.session_state["class"]),key="selected")
-cols=st.columns(2)
-with cols[0]: st.checkbox("2H",key="twoH")
-with cols[1]: st.button("Add to selected weapons",on_click=addWeapons,type="primary")
-
-st.multiselect("Selected weapons",st.session_state.weapons,st.session_state.weapons,key="WEAPONS",on_change=updateState,args=("WEAPONS",))
-
-st.divider()
-
-st.header("📊 Builds")
-
 
 def showBuild(i):
     cols=st.columns([4,3,3,3,3,3,7])
@@ -92,6 +76,22 @@ def removeBuild():
     del st.session_state[f"infusions{i}"]
     st.session_state.nBuilds-=1
 
+
+st.header("⚔️ Weapons")
+
+cols=st.columns([2,7])
+with cols[0]: st.selectbox("Weapon class",weaponClasses,key="class")
+with cols[1]: st.multiselect("Weapons",weaponsOfClass(st.session_state["class"]),key="selected")
+cols=st.columns(2)
+with cols[0]: st.checkbox("2H",key="twoH")
+with cols[1]: st.button("Add to selected weapons",on_click=addWeapons,type="primary")
+
+st.multiselect("Selected weapons",st.session_state.weapons,st.session_state.weapons,key="WEAPONS",on_change=updateState,args=("WEAPONS",))
+
+st.divider()
+
+st.header("📊 Builds")
+
 # Header
 cols=st.columns([4,3,3,3,3,3,7])
 with cols[0]: st.subheader("Build name")
@@ -104,10 +104,9 @@ with cols[6]: st.subheader("Infusions")
 # Build input
 for i in range(st.session_state.nBuilds):
     showBuild(i)
-
 cols=st.columns(2)
-with cols[0]: add=st.button("Add Build",on_click=addBuild,type="primary")
-with cols[1]: rem=st.button("Rem. Build",on_click=removeBuild,disabled=st.session_state.nBuilds==0)
+with cols[0]: st.button("\+ Build",on_click=addBuild,type="primary")
+with cols[1]: st.button("\- Build",on_click=removeBuild,disabled=st.session_state.nBuilds==0)
 
 st.divider()
 
