@@ -21,7 +21,7 @@ st.markdown("""
             display: flex;
             align-items: center;
         }
-        label[data-baseweb="checkbox"]
+        div[data-testid="column"]:nth-of-type(1) label[data-baseweb="checkbox"]
         {
             justify-content: flex-end;
         }
@@ -30,6 +30,11 @@ st.markdown("""
             display: flex;
             justify-content: flex-end;
         }
+
+        div[class="row-widget stDownloadButton"]
+        {
+            text-align: end;
+        } 
     </style>
 """,unsafe_allow_html=True)
 
@@ -37,15 +42,6 @@ st.sidebar.info("The damage you see is post enemy defenses and negations.")
 st.sidebar.info("Attacks have a motion value of 100 (usually R1).")
 st.sidebar.info("The physical damage type is the most common one for the weapon (Standard for Longsword, Slash for Wakizashi etc...)")
 st.sidebar.info("If you have lots of columns and the table starts to get compressed you can fold this sidebar.")
-
-st.markdown("""
-    <style>
-        div[class="row-widget stDownloadButton"]
-        {
-            text-align: end;
-        } 
-    </style>
-""",unsafe_allow_html=True)
 
 comparator,parameters=st.tabs(["Build Comparator","Parameters"])
 
