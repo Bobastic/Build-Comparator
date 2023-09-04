@@ -96,7 +96,7 @@ with parameters:
     with cols[0]: st.selectbox("Weapon class",weaponClasses,key="class")
     with cols[1]: st.multiselect("Weapons",weaponsOfClass(st.session_state["class"]),key="selected")
     cols=st.columns(2)
-    with cols[0]: st.checkbox("2H",key="twoH")
+    with cols[0]: st.toggle("2H",key="twoH")
     with cols[1]: st.button("Add to selected weapons",on_click=addWeapons,type="primary")
 
     st.multiselect("Selected weapons",st.session_state.weapons,st.session_state.weapons,key="WEAPONS",on_change=updateState,args=("WEAPONS",))
