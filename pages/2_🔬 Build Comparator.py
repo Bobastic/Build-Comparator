@@ -31,13 +31,13 @@ cols=st.columns(6)
 with cols[0]:
     weaponLvl=st.number_input("Weapon Level",0,25,25,help="NORMAL weapon level from 0 to 25. Somber level is automatically calculated from this.")
 with cols[1]:
-    hardtear=st.toggle("Opaline Hardtear",value=True,help="Opponent has +10% negations.")
+    hardtear=st.toggle("**Opaline Hardtear**",value=True,help="Opponent has +10% negations.")
     showStats=st.toggle("Build Stats",value=True,help="Show stats in column header.")
 with cols[2]:
-    weaponBuffs=st.toggle("Weapon buffs",value=True,help="Grease (Lightning except for split damage weapons like Treespear), Flaming Strike, Lightning Slash, Sacred Blade.")
+    weaponBuffs=st.toggle("**Weapon buffs**",value=True,help="Grease (Lightning except for split damage weapons like Treespear), Flaming Strike, Lightning Slash, Sacred Blade.")
     showWeaponClass=st.toggle("Weapon Class",value=False,help="Display weapon class on the left of the table.")
 with cols[3]:
-    counterHits=st.toggle("Counter Hits",value=True,help="+15%: normal counter hit. +32%: counter hit with Spear Talisman equipped.")
+    counterHits=st.toggle("**Counter Hits**",value=True,help="+15%: normal counter hit. +32%: counter hit with Spear Talisman equipped.")
     multicolor=st.toggle("Multicolor",value=True,help="One color per build or simple gradient.")
 with cols[4]:
     displayPercentage=st.toggle("Display %",value=True,help="How much worse the weapon is compared to the best. For example -20% means the weapon deals 20% less damage than the best.")
