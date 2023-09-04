@@ -6,6 +6,8 @@ st.sidebar.info("Hi. Check this page for some information about this tool or hea
 
 st.header("Hi. This is my Build Comparator.")
 
+st.text("")
+
 st.subheader("What is the purpose of this tool?")
 
 st.markdown(f"""<div style='text-align: justify;'>
