@@ -195,6 +195,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
         "Clayman's Harpoon":np.array([0,0,0,0,110,0,0,0]),
     }
     res=[]
+    if hardtear: negations=[n*1.1 for n in negations]
     for weapon in weapons:
         weaponName=weapon.replace("2H ","")
         if EPW[EPW["Name"]==weaponName].empty:
@@ -244,7 +245,6 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
         if columns:
             res.append(pd.DataFrame([normal,prc,spr],index=pd.MultiIndex.from_tuples([(weapon,"No Prc"),(weapon,"Prc+15%"),(weapon,"Prc+32%")]),columns=pd.MultiIndex.from_tuples(columns)))
     res=pd.concat(res).dropna(how="all")
-    if hardtear: res=res*0.9
     # reorder columns to respect infusion order
     res=res.sort_index(axis=1,level=1,sort_remaining=False,key=lambda x:x.map({a:i for i,a in enumerate(infusionOrder)}))
     res=res.sort_index(axis=1,level=0,sort_remaining=False,key=lambda x:x.map({a:i for i,a in enumerate(res.columns.get_level_values(0).unique())}))
