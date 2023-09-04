@@ -15,6 +15,8 @@ Usually you get tools for optimal infusion, optimal stats but always for one wea
 There isn't to my knowledge a way to see the damage values of a <strong>whole inventory</strong> across <strong>multiple builds</strong>. So I made one.  
 </div>""",unsafe_allow_html=True)
 
+st.text("")
+
 st.subheader("Use case examples")
 
 st.markdown("""
@@ -25,6 +27,8 @@ st.markdown("""
 - What is the best build for BKH and Dismounter between these three?
 """)
 
+st.text("")
+
 st.subheader("So what does it actually do?")
 
 st.markdown(f"""<div style='text-align: justify;'>
@@ -33,6 +37,8 @@ You can display counter damage, comparisons with the best infusion etc...
 You can also export raw data as a CSV file or download the table as a HTML file.
 </div>""",unsafe_allow_html=True)
 
+st.text("")
+
 st.subheader("Ok, how do I use it?")
 
 st.markdown(f"""<div style='text-align: justify;'>
@@ -40,6 +46,8 @@ Input your weapons, builds, infusions and enemy stats in <strong>🛠️ Paramet
 Then go to <strong>🔬 Build Comparator</strong> to show the table and change what information you want to display.
 There are already some default weapons and builds so you can go straight to <strong>🔬 Build Comparator</strong> to see what the table looks like.
 </div>""",unsafe_allow_html=True)
+
+st.text("")
 
 st.subheader("I would like to give some feedback.")
 
