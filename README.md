@@ -11,10 +11,10 @@ There are already lots of tools for build optimization, mainly in the form of sp
 ## Use case examples
 
 - How much more damage do I get with 69 STR compared to 54 STR on all these weapons?
-- Is Cold->Keen better than Cold->Magic for this inventory?
+- Is Cold -> Lightning better than Cold -> Magic for this inventory?
 - Fire + Flaming Strike buff or Heavy + Lightning Grease?
 - How broken is Sacred Blade?
-- What is the best build for BKH and Cleanrot between these three?
+- What is the best build for BKH and Dismounter between these three?
 
 ## So what does it actually do?
 
@@ -26,4 +26,4 @@ Input your weapons, builds and ennemy stats in **🛠️ Parameters**. Then go t
 
 ## I would like to give some feedback.
 
-Feel free to message  **.smaxy.** on Discord.
+Whether it is for functionnality request, default values suggestions or anything else really, feel free to message  **.smaxy.** on Discord.
