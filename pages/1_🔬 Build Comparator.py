@@ -16,7 +16,7 @@ st.sidebar.info("Default enemy defenses are the average of classic STR, DEX, INT
 st.sidebar.info("Default enemy negations are Imp Head/Beast Champion Armor (Altered)/Fire Prelate Gauntlets/Lionel's Greaves.")
 st.markdown("""
     <style>
-        div[data-baseweb="tab-list"] {
+        .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
             font-size:5rem;
         }
     
