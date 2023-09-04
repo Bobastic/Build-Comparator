@@ -16,23 +16,23 @@ st.sidebar.info("Default enemy defenses are the average of classic STR, DEX, INT
 st.sidebar.info("Default enemy negations are Imp Head/Beast Champion Armor (Altered)/Fire Prelate Gauntlets/Lionel's Greaves.")
 st.markdown("""
     <style>
-        div[data-testid="column"]
-        {
+        div[data-baseweb="tab-list"] {
+            font-size:2rem;
+        }
+    
+        div[data-testid="column"] {
             display: flex;
             align-items: center;
         }
-        div[data-testid="column"]:nth-of-type(1) label[data-baseweb="checkbox"]
-        {
+        div[data-testid="column"]:nth-of-type(1) label[data-baseweb="checkbox"] {
             justify-content: flex-end;
         }
-        div[data-testid="column"]:nth-of-type(1) div[class="row-widget stButton"]
-        {
+        div[data-testid="column"]:nth-of-type(1) div[class="row-widget stButton"] {
             display: flex;
             justify-content: flex-end;
         }
-
-        div[class="row-widget stDownloadButton"]
-        {
+        
+        div[class="row-widget stDownloadButton"] {
             text-align: end;
         } 
     </style>
