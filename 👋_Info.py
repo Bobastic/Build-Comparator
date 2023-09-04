@@ -11,16 +11,16 @@ st.header("Hi. This is my Build Comparator.")
 
 st.subheader("What is the purpose of this tool?")
 
-justify("""
+st.markdown(f"""<div style='text-align: justify;'>
 There are already lots of tools for build optimization, mainly in the form of spreadsheets or slugbot.
 However, I could not find a way to compare whole builds together.
 Usually you get tools for optimal infusion, optimal stats but always for one weapon or weapon class.
 There isn't to my knowledge a way to see the damage values of a **whole inventory** across **multiple builds**. So I made one.  
-""")
+</div>""",unsafe_allow_html=True)
 
 st.subheader("Use case examples")
 
-justify("""
+st.markdown("""
 - How much more damage do I get with 69 STR compared to 54 STR on all these weapons?
 - Is Cold->Keen better than Cold->Magic for this inventory?
 - Fire + Flaming Strike buff or Heavy + Lightning Grease?
