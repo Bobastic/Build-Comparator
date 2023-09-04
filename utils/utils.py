@@ -158,7 +158,7 @@ def ARtoDMG(AR:list[int],defenses:list[int],negations:list[int])->np.ndarray:
             res.append((1-n)*0.9*ar)
     return np.array(res)
 
-def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,list[int]],defenses:list[int],negations:list[int],weaponBuffs:bool=True,counterHits:bool=True)->pd.DataFrame:
+def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,list[int]],defenses:list[int],negations:list[int],weaponBuffs:bool=True,counterHits:bool=True,hardtear:bool=True)->pd.DataFrame:
     """
     Computes damage for each weapon/infusion/build combination.
     Parameters:
@@ -245,6 +245,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
         if columns:
             res.append(pd.DataFrame([normal,prc,spr],index=pd.MultiIndex.from_tuples([(weapon,"No Prc"),(weapon,"Prc+15%"),(weapon,"Prc+32%")]),columns=pd.MultiIndex.from_tuples(columns)))
     res=pd.concat(res).dropna(how="all")
+    if hardtear: res=res*0.9
     # reorder columns to respect infusion order
     res=res.sort_index(axis=1,level=1,sort_remaining=False,key=lambda x:x.map({a:i for i,a in enumerate(infusionOrder)}))
     res=res.sort_index(axis=1,level=0,sort_remaining=False,key=lambda x:x.map({a:i for i,a in enumerate(res.columns.get_level_values(0).unique())}))
