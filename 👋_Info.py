@@ -28,7 +28,7 @@ st.markdown("""
 st.subheader("So what does it actually do?")
 
 st.markdown(f"""<div style='text-align: justify;'>
-You input a list of **weapons** of your choice and as many **builds** and **infusions** as you like and you get a table with estimated damage that is widely customizable.
+You input a list of <strong>weapons</strong> of your choice and as many <strong>builds</strong> and <strong>infusions</strong> as you like and you get a table with estimated damage that is widely customizable.
 You can display counter damage, comparisons with the best infusion etc...
 You can also export raw data as a CSV file or download the table as a PNG image (WIP) to get a cleaner result than screenshots.
 </div>""",unsafe_allow_html=True)
@@ -36,13 +36,13 @@ You can also export raw data as a CSV file or download the table as a PNG image 
 st.subheader("Ok, how do I use it?")
 
 st.markdown(f"""<div style='text-align: justify;'>
-Input your weapons, builds, infusions and enemy stats in **🛠️ Parameters**.
-Then go to **🔬 Build Comparator** to show the table and change what information you want to display.
-There are already some default weapons and builds so you can go straight to **🔬 Build Comparator** to see what the table looks like.
+Input your weapons, builds, infusions and enemy stats in <strong>🛠️ Parameters</strong>.
+Then go to <strong>🔬 Build Comparator</strong> to show the table and change what information you want to display.
+There are already some default weapons and builds so you can go straight to <strong>🔬 Build Comparator</strong> to see what the table looks like.
 </div>""",unsafe_allow_html=True)
 
 st.subheader("I would like to give some feedback.")
 
 st.markdown(f"""<div style='text-align: justify;'>
-Whether it is for functionnality request, default values suggestions or anything else really, feel free to message  **.smaxy.** on Discord.
+Whether it is for functionnality request, default values suggestions or anything else really, feel free to message  <strong>.smaxy.</strong> on Discord.
 </div>""",unsafe_allow_html=True)
