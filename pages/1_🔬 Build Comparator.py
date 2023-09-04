@@ -12,9 +12,9 @@ if "nBuilds" not in st.session_state:
     setDefaultWeapons()
     setDefaultDefStats()
 
-tab1,tab2=st.tabs(["Params","Calculator"])
+params,comparator=st.tabs(["Parameters","Build Comparator"])
 
-with tab1:
+with comparator:
     st.sidebar.info("Default enemy defenses are the average of classic STR, DEX, INT, FTH and ARC builds.")
     st.sidebar.info("Default enemy negations are Imp Head/Beast Champion Armor (Altered)/Fire Prelate Gauntlets/Lionel's Greaves.")
     st.markdown("""
@@ -134,7 +134,7 @@ with tab1:
     with cols[6]: st.number_input("Lightning negation",0.,100.,st.session_state.neglightning,key="NEGLIGHTNING",on_change=updateState,args=("NEGLIGHTNING",),format="%.1f")
     with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,key="NEGHOLY",on_change=updateState,args=("NEGHOLY",),format="%.1f")
 
-with tab2:
+with params:
     st.sidebar.info("The damage you see is post enemy defenses and negations.")
     st.sidebar.info("Attacks have a motion value of 100 (usually R1).")
     st.sidebar.info("The physical damage type is the most common one for the weapon (Standard for Longsword, Slash for Wakizashi etc...)")
