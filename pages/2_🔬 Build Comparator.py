@@ -32,7 +32,7 @@ st.markdown("""
 
 cols=st.columns(6)
 with cols[0]:
-    weaponLvl=st.number_input("Weapon Level",0,25,25)
+    weaponLvl=st.number_input("Weapon Level",0,25,25,help="NORMAL weapon level from 0 to 25. Somber level is automatically calculated from this.)
 with cols[1]:
     hardtear=st.toggle("Opaline Hardtear",value=True,help="Opponent has +15% negations.")
     showStats=st.toggle("Build Stats",value=True,help="Show stats in column header.")
@@ -73,7 +73,7 @@ if st.session_state.nBuilds!=0 and len(st.session_state.weapons)!=0:
                   st.session_state.defmagic,st.session_state.deffire,st.session_state.deflightning,st.session_state.defholy]
         negations=[st.session_state.negstandard,st.session_state.negstrike,st.session_state.negslash,st.session_state.negpierce,
                    st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
-        table=DMGtable(weapons,builds,infusions,defenses,negations,weaponBuffs=weaponBuffs,counterHits=counterHits,hardtear=hardtear)
+        table=DMGtable(weapons,builds,infusions,defenses,negations,weaponLvl,weaponBuffs=weaponBuffs,counterHits=counterHits,hardtear=hardtear)
         fancy=fancyTable(table,classComparison=classComparison,displayPercentage=displayPercentage,showStats=showStats,multicolor=multicolor,showWeaponClass=showWeaponClass)
         st.write(fancy.to_html(),unsafe_allow_html=True)
     with cols[5]:
