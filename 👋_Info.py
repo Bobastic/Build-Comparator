@@ -30,7 +30,7 @@ st.subheader("So what does it actually do?")
 st.markdown(f"""<div style='text-align: justify;'>
 You input a list of <strong>weapons</strong> of your choice and as many <strong>builds</strong> and <strong>infusions</strong> as you like and you get a table with estimated damage that is widely customizable.
 You can display counter damage, comparisons with the best infusion etc...
-You can also export raw data as a CSV file or download the table as a PNG image (WIP) to get a cleaner result than screenshots.
+You can also export raw data as a CSV file or download the table as HTML.
 </div>""",unsafe_allow_html=True)
 
 st.subheader("Ok, how do I use it?")
