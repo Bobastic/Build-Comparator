@@ -2,9 +2,6 @@ import streamlit as st
 
 st.set_page_config(layout='centered',page_title="Build Comparator",page_icon="⚖️")
 
-def justify(text):
-  return st.markdown(f"<div style='text-align: justify;'>{text}</div>",unsafe_allow_html=True)
-
 st.sidebar.info("Hi. Check this page for some information about this tool or head straight to **Build Comparator** to figure it out by yourself.")
 
 st.header("Hi. This is my Build Comparator.")
@@ -30,22 +27,22 @@ st.markdown("""
 
 st.subheader("So what does it actually do?")
 
-justify("""
+st.markdown(f"""<div style='text-align: justify;'>
 You input a list of **weapons** of your choice and as many **builds** and **infusions** as you like and you get a table with estimated damage that is widely customizable.
 You can display counter damage, comparisons with the best infusion etc...
 You can also export raw data as a CSV file or download the table as a PNG image (WIP) to get a cleaner result than screenshots.
-""")
+</div>""",unsafe_allow_html=True)
 
 st.subheader("Ok, how do I use it?")
 
-justify("""
+st.markdown(f"""<div style='text-align: justify;'>
 Input your weapons, builds, infusions and enemy stats in **🛠️ Parameters**.
 Then go to **🔬 Build Comparator** to show the table and change what information you want to display.
 There are already some default weapons and builds so you can go straight to **🔬 Build Comparator** to see what the table looks like.
-""")
+</div>""",unsafe_allow_html=True)
 
 st.subheader("I would like to give some feedback.")
 
-justify("""
+st.markdown(f"""<div style='text-align: justify;'>
 Whether it is for functionnality request, default values suggestions or anything else really, feel free to message  **.smaxy.** on Discord.
-""")
+</div>""",unsafe_allow_html=True)
