@@ -34,7 +34,7 @@ cols=st.columns(6)
 with cols[0]:
     weaponLvl=st.number_input("Weapon Level",0,25,25,help="NORMAL weapon level from 0 to 25. Somber level is automatically calculated from this.")
 with cols[1]:
-    hardtear=st.toggle("Opaline Hardtear",value=True,help="Opponent has +15% negations.")
+    hardtear=st.toggle("Opaline Hardtear",value=True,help="Opponent has +10% negations.")
     showStats=st.toggle("Build Stats",value=True,help="Show stats in column header.")
 with cols[2]:
     weaponBuffs=st.toggle("Weapon buffs",value=True,help="Grease (Lightning except for split damage weapons like Treespear), Flaming Strike, Lightning Slash, Sacred Blade.")
