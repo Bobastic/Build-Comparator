@@ -44,5 +44,5 @@ There are already some default weapons and builds so you can go straight to **ðŸ
 st.subheader("I would like to give some feedback.")
 
 st.markdown("""
-Feel free to message  **.smaxy.** on Discord.
+Whether it is for functionnality request, default values suggestions or anything else really, feel free to message  **.smaxy.** on Discord.
 """)
