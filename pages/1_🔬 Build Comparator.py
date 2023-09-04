@@ -12,7 +12,7 @@ if "nBuilds" not in st.session_state:
     setDefaultWeapons()
     setDefaultDefStats()
 
-comparator,params=st.tabs(["Build Comparator","Parameters"])
+comparator,parameters=st.tabs(["Build Comparator","Parameters"])
 
 with parameters:
     st.sidebar.info("Default enemy defenses are the average of classic STR, DEX, INT, FTH and ARC builds.")
