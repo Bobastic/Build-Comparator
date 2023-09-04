@@ -12,7 +12,7 @@ st.markdown(f"""<div style='text-align: justify;'>
 There are already lots of tools for build optimization, mainly in the form of spreadsheets or slugbot.
 However, I could not find a way to compare whole builds together.
 Usually you get tools for optimal infusion, optimal stats but always for one weapon or weapon class.
-There isn't to my knowledge a way to see the damage values of a **whole inventory** across **multiple builds**. So I made one.  
+There isn't to my knowledge a way to see the damage values of a <strong>whole inventory</strong> across <strong>multiple build</strong>. So I made one.  
 </div>""",unsafe_allow_html=True)
 
 st.subheader("Use case examples")
