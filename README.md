@@ -18,7 +18,7 @@ There are already lots of tools for build optimization, mainly in the form of sp
 
 ## So what does it actually do?
 
-You input a list of **weapons** of your choice and as many **builds** and **infusions** as you like and you get a table with estimated damage that is widely customizable. You can display counter damage, comparisons with the best infusion etc... You can also export raw data as a CSV file or download the table as a PNG image (WIP) to get a cleaner result than screenshots.
+You input a list of **weapons** of your choice and as many **builds** and **infusions** as you like and you get a table with estimated damage that is widely customizable. You can display counter damage, comparisons with the best infusion etc... You can also export raw data as a CSV file or download the table as a HTML file.
 
 ## Ok, how do I use it?
 
