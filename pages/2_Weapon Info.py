@@ -52,11 +52,16 @@ with info:
     dmg=ARcalculator(st.session_state.weapon,st.session_state.infusion,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC])
     labels=[l for i,l in enumerate(dmgTypes) if dmg[i]!=0]
     sizes=[s for s in dmg if s!=0]
-    fig1,ax1=plt.subplots()
-    ax1.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)
-    #ax1.axis('equal')
-    
-    st.pyplot(fig1)
+    fig,ax=plt.subplots()
+    ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)    
+    st.pyplot(fig)
+    dmg=[ARcalculator(st.session_state.weapon,i,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]) for i in baseInfusions]
+    best=max(range(len(dmg)),key=dmg.__getitem__)
+    labels=[l for i,l in enumerate(dmgTypes) if dmg[best][i]!=0]
+    sizes=[s for s in dmg[best] if s!=0]
+    fig,ax=plt.subplots()
+    ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)    
+    st.pyplot(fig)
 
 with allocate:
     cols=st.columns(3)
