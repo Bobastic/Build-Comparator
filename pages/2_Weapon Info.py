@@ -61,7 +61,7 @@ with info:
     labels=sorted(baseInfusions,key=lambda x:sum(dmg[x]),reverse=True)
     data=np.array([dmg[l] for l in labels])
     data_cum=data.cumsum(axis=1)
-    colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","blue","red","yellow","orange"]
+    colors=["silver","silver","silver","silver","blue","red","yellow","orange"]
     fig,ax=plt.subplots()
     ax.invert_yaxis()
     ax.xaxis.set_visible(False)
@@ -77,7 +77,7 @@ with info:
 
     
     import plotly.graph_objects as go
-    colors=["snow","snow","snow","snow","blue","red","yellow","orange"]
+    colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","blue","red","yellow","orange"]
     fig=go.Figure()
     for i in range(8):
         fig.add_trace(go.Bar(y=baseInfusions,x=data[:,i],name=dmgTypes[i],orientation="h",text=data[:,i],marker={"color":colors[i]}))
