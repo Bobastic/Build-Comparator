@@ -79,7 +79,7 @@ with info:
     import plotly.graph_objects as go
     fig=go.Figure()
     for i in range(8):
-        fig.add_trace(go.Bar(y=baseInfusions,x=data[:,i],name=dmgTypes[i],orientation="h",text=data[:,i]))
+        fig.add_trace(go.Bar(y=baseInfusions,x=data[:,i],name=dmgTypes[i],orientation="h",text=data[:,i],color=colors[i]))
     fig.update_layout(barmode='stack')
     st.plotly_chart(fig)
 
