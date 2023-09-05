@@ -17,7 +17,7 @@ with cols[4]: st.number_input("ARC",1,99,7,key="ARC")
 
 cols=st.columns(3)
 with cols[0]: st.selectbox("Weapon class",weaponClasses,key="class")
-with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state["class"]),key="weapon")
+with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state["class"]),key="weapon",index=3)
 with cols[2]: st.selectbox("Infusion",baseInfusions,key="infusion")
 
 cols=st.columns(8)
