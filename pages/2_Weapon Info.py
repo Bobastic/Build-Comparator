@@ -44,7 +44,7 @@ dmg=ARcalculator(st.session_state.weapon,st.session_state.infusion,[st.session_s
 labels=[l for i,l in enumerate(dmgTypes) if dmg[i]!=0]
 sizes=[s for s in dmg if s!=0]
 fig1,ax1=plt.subplots()
-ax1.pie(sizes,labels=labels,autopct='%1.1f%%')
+ax1.pie(sizes,labels=labels)
 #ax1.axis('equal')
 
 st.pyplot(fig1)
