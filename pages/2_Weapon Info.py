@@ -50,41 +50,30 @@ with info:
     with cols[6]: st.number_input("Lightning negation",0.,100.,st.session_state.neglightning,format="%.1f")
     with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,format="%.1f")
     st.divider()
-    cols=st.columns(2)
-    with cols[1]:
-        st.selectbox("Infusion",baseInfusions,key="infusion",label_visibility="collapsed")
-        dmg=ARcalculator(st.session_state.weapon,st.session_state.infusion,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC])
-        labels=[l for i,l in enumerate(dmgTypes) if dmg[i]!=0]
-        sizes=[s for s in dmg if s!=0]
-        fig,ax=plt.subplots()
-        ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)
-        ax.legend()
-        st.pyplot(fig)
-    with cols[0]:
-        #best=max(range(len(dmg)),key=lambda x:sum(dmg[x]))
-        #labels=[l for i,l in enumerate(dmgTypes) if dmg[best][i]!=0]
-        #sizes=[s for s in dmg[best] if s!=0]
-        #fig,ax=plt.subplots()
-        #ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)
-        #ax.legend()
-        #st.subheader(f"Best infusion: {baseInfusions[best]}")
-        dmg={i:ARcalculator(st.session_state.weapon,i,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]) for i in baseInfusions}
-        labels=sorted(baseInfusions,key=lambda x:sum(dmg[x]),reverse=True)
-        data=np.array([dmg[l] for l in labels])
-        data_cum=data.cumsum(axis=1)
-        colors=["silver","silver","silver","silver","blue","red","yellow","orange"]
-        fig,ax=plt.subplots()
-        ax.invert_yaxis()
-        ax.xaxis.set_visible(False)
-        for i,(dmgType,color) in enumerate(zip(dmgTypes,colors)):
-            widths=data[:,i]
-            starts=data_cum[:,i]-widths
-            rects = ax.barh(labels,widths,left=starts,height=0.5,label=dmgType,color=color)
-            r,g,b,_=to_rgba(color)
-            text_color="white" if r*g*b<0.5 else "darkgrey"
-            ax.bar_label(rects,label_type='center',color=text_color)
-        ax.legend(ncols=8,bbox_to_anchor=(0,1),loc='lower left',fontsize='small')
-        st.pyplot(fig)
+    #best=max(range(len(dmg)),key=lambda x:sum(dmg[x]))
+    #labels=[l for i,l in enumerate(dmgTypes) if dmg[best][i]!=0]
+    #sizes=[s for s in dmg[best] if s!=0]
+    #fig,ax=plt.subplots()
+    #ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)
+    #ax.legend()
+    #st.subheader(f"Best infusion: {baseInfusions[best]}")
+    dmg={i:ARcalculator(st.session_state.weapon,i,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]) for i in baseInfusions}
+    labels=sorted(baseInfusions,key=lambda x:sum(dmg[x]),reverse=True)
+    data=np.array([dmg[l] for l in labels])
+    data_cum=data.cumsum(axis=1)
+    colors=["silver","silver","silver","silver","blue","red","yellow","orange"]
+    fig,ax=plt.subplots()
+    ax.invert_yaxis()
+    ax.xaxis.set_visible(False)
+    for i,(dmgType,color) in enumerate(zip(dmgTypes,colors)):
+        widths=data[:,i]
+        starts=data_cum[:,i]-widths
+        rects=ax.barh(labels,widths,left=starts,height=0.5,label=dmgType,color=color)
+        r,g,b,_=to_rgba(color)
+        text_color="white" if r*g*b<0.5 else "darkgrey"
+        ax.bar_label(rects,label_type='center',color=text_color)
+    ax.legend(ncols=8,bbox_to_anchor=(0,1),loc='lower left',fontsize='small')
+    st.pyplot(fig)
 
 with allocate:
     cols=st.columns(3)
