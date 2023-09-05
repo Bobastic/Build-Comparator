@@ -9,11 +9,11 @@ if "defstandard" not in st.session_state:
     setDefaultDefStats()
 
 cols=st.columns(5)
-with cols[0]: st.number_input("STR",1,99,66)
-with cols[1]: st.number_input("DEX",1,99,16)
-with cols[2]: st.number_input("INT",1,99,9)
-with cols[3]: st.number_input("FTH",1,99,9)
-with cols[4]: st.number_input("ARC",1,99,7)
+with cols[0]: st.number_input("STR",1,99,66,key="STR")
+with cols[1]: st.number_input("DEX",1,99,16,key="DEX")
+with cols[2]: st.number_input("INT",1,99,9,key="INT")
+with cols[3]: st.number_input("FTH",1,99,9,key="FTH")
+with cols[4]: st.number_input("ARC",1,99,7,key="ARC")
 
 cols=st.columns(3)
 with cols[0]: st.selectbox("Weapon class",weaponClasses,key="class")
