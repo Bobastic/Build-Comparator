@@ -60,7 +60,6 @@ with info:
         ax.legend()
         st.pyplot(fig)
     with cols[0]:
-        dmg=[ARcalculator(st.session_state.weapon,i,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]) for i in baseInfusions]
         #best=max(range(len(dmg)),key=lambda x:sum(dmg[x]))
         #labels=[l for i,l in enumerate(dmgTypes) if dmg[best][i]!=0]
         #sizes=[s for s in dmg[best] if s!=0]
@@ -68,14 +67,22 @@ with info:
         #ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)
         #ax.legend()
         #st.subheader(f"Best infusion: {baseInfusions[best]}")
-        bi=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(dmg[x]),reverse=True)]
-        dmg.sort(key=sum,reverse=True)
-        dmg=[[d[i] for d in dmg] for i in range(8)]
-        fig, ax = plt.subplots()
-        bottom = np.zeros(len(baseInfusions))
-        for dt,d in zip(dmgTypes,dmg):
-            p = ax.bar(bi, d, 0.5, label=dt, bottom=bottom)
-            bottom += d
+        dmg={i:np.array([ARcalculator(st.session_state.weapon,i,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]) for i in baseInfusions])}
+        data=np.array(list(dmg.values()))
+        data_cum=data.cumsum(axis=1)
+        labels=sorted(baseInfusions,key=lambda x:sum(dmg[x]),reverse=True)
+        colors=["White","Grey","Black","Purple","Red","Yellow","Blue","Orange"]
+        fig,ax=plt.subplots()
+        ax.invert_yaxis()
+        ax.xaxis.set_visible(False)
+        for i,(dmgType,color) in enumerate(zip(dmgTypes,colors)):
+            widths=data[:,i]
+            starts=data_cum[:,i]-widths
+            rects = ax.barh(labels,widths,left=starts,height=0.5,label=colname,color=color)
+            #r,g,b,_=color
+            #text_color = 'white' if r * g * b < 0.5 else 'darkgrey'
+            ax.bar_label(rects,label_type='center',color='darkgrey')
+        ax.legend(ncols=8,bbox_to_anchor=(0,1),loc='lower left',fontsize='small')
         st.pyplot(fig)
 
 with allocate:
