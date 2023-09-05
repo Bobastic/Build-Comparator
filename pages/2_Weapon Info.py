@@ -56,7 +56,7 @@ with info:
     ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)    
     st.pyplot(fig)
     dmg=[ARcalculator(st.session_state.weapon,i,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]) for i in baseInfusions]
-    best=max(range(len(dmg)),key=dmg.__getitem__)
+    best=max(range(len(dmg)),key=lambda x:sum(dmg[x]))
     labels=[l for i,l in enumerate(dmgTypes) if dmg[best][i]!=0]
     sizes=[s for s in dmg[best] if s!=0]
     fig,ax=plt.subplots()
