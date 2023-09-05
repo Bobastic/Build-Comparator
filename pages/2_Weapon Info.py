@@ -70,12 +70,13 @@ with info:
         ax.legend()
         st.subheader(f"Best infusion: {baseInfusions[best]}")
         """
-        dmg.sort(key=sum,reverse=True)
+        bi=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(dmg[x]))]
+        dmg.sort(key=lambda x:sum,reverse=True)
         dmg=[[d[i] for d in dmg] for i in range(8)]
         fig, ax = plt.subplots()
         bottom = np.zeros(len(baseInfusions))
         for dt,d in zip(dmgTypes,dmg):
-            p = ax.bar(baseInfusions, d, 0.5, label=dt, bottom=bottom)
+            p = ax.bar(bi, d, 0.5, label=dt, bottom=bottom)
             bottom += d
         st.pyplot(fig)
 
