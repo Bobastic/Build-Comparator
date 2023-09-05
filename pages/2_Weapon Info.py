@@ -79,7 +79,7 @@ with info:
     import plotly.graph_objects as go
     x=['b', 'a', 'c', 'd']
     fig = go.Figure(go.Bar(y=x, x=[2,5,1,9], name='Montreal',orientation="h"))
-    fig.add_trace(go.Bar(y=x, x=[1, 4, 9, 16], name='Ottawa',orientation="h"))
+    fig.add_trace(go.Bar(y=x, x=[1, 4, 0, 16], name='Ottawa',orientation="h"))
     fig.add_trace(go.Bar(y=x, x=[6, 8, 4.5, 8], name='Toronto',orientation="h"))
     fig.update_layout(barmode='stack',xaxis={'categoryorder':'total descending'})
     st.plotly_chart(fig)
