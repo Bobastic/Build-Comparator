@@ -50,7 +50,7 @@ with info:
     with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,format="%.1f")
     st.divider()
     data=np.array([ARcalculator(st.session_state.weapon,i,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]) for i in baseInfusions])
-    labels=[baseInfusions[i] for i in range(len(baseInfusions)).sort(key=lambda x:sum(data[x,:]))]
+    labels=[baseInfusions[i] for i in list(range(len(baseInfusions))).sort(key=lambda x:sum(data[x,:]))]
     data=data[np.argsort(data.sum(axis=1))[:10]] # we sort by total and keep the top 10
     colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(14, 90, 157)","rgb(214, 39, 40)","rgb(255, 225, 53)","rgb(255, 127, 14)"]
     fig=go.Figure()
