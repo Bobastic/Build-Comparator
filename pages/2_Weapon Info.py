@@ -80,7 +80,7 @@ with info:
     fig=go.Figure()
     for i in range(8):
         fig.add_trace(go.Bar(y=baseInfusions,x=data[:,i],name=dmgTypes[i],orientation="h",text=data[:,i]))
-    fig.update_layout(barmode='stack',xaxis={'categoryorder':'total descending'})
+    fig.update_layout(barmode='stack')
     st.plotly_chart(fig)
 
 with allocate:
