@@ -3,6 +3,8 @@ import streamlit as st
 from utils.utils import baseInfusions,weaponClasses,weaponsOfClass,ARcalculator,ARtoDMG
 from utils.defaults import setDefaultDefStats
 
+st.set_page_config(layout='wide',page_title="Weapon Info",page_icon="🔬")
+
 if "defstandard" not in st.session_state:
     setDefaultDefStats()
 
