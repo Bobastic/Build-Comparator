@@ -77,7 +77,7 @@ with info:
 
     
     import plotly.graph_objects as go
-    colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(23, 190, 207)","rgb(214, 39, 40)","yellow","rgb(255, 127, 14)"]
+    colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(14, 90, 157)","rgb(214, 39, 40)","rgb(234, 243, 10)","rgb(255, 127, 14)"]
     fig=go.Figure()
     for i in range(8):
         fig.add_trace(go.Bar(y=baseInfusions,x=data[:,i],name=dmgTypes[i],orientation="h",text=data[:,i],marker={"color":colors[i]}))
