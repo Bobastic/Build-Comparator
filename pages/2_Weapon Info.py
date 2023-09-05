@@ -16,6 +16,9 @@ with cols[2]: st.number_input("INT",1,99,9,key="INT")
 with cols[3]: st.number_input("FTH",1,99,9,key="FTH")
 with cols[4]: st.number_input("ARC",1,99,7,key="ARC")
 
+info,allocate,bic=st.tabs(3)
+
+with 
 cols=st.columns(3)
 with cols[0]: st.selectbox("Weapon class",weaponClasses,key="class")
 with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state["class"]),key="weapon",index=3)
@@ -44,7 +47,7 @@ dmg=ARcalculator(st.session_state.weapon,st.session_state.infusion,[st.session_s
 labels=[l for i,l in enumerate(dmgTypes) if dmg[i]!=0]
 sizes=[s for s in dmg if s!=0]
 fig1,ax1=plt.subplots()
-ax1.pie(sizes,labels=labels)
+ax1.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)
 #ax1.axis('equal')
 
 st.pyplot(fig1)
