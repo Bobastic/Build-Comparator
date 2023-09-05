@@ -50,7 +50,7 @@ with info:
     st.divider()
     cols=st.columns(2)
     with cols[0]:
-        st.selectbox("Infusion",baseInfusions,key="infusion",label="collapsed")
+        st.selectbox("Infusion",baseInfusions,key="infusion",label_visibility="collapsed")
         dmg=ARcalculator(st.session_state.weapon,st.session_state.infusion,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC])
         labels=[l for i,l in enumerate(dmgTypes) if dmg[i]!=0]
         sizes=[s for s in dmg if s!=0]
