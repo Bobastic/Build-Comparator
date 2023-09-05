@@ -56,7 +56,6 @@ with info:
         fig,ax=plt.subplots()
         ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)
         ax.legend()
-        st.write(st.session_state.infusion)
         st.pyplot(fig)
     with cols[1]:
         dmg=[ARcalculator(st.session_state.weapon,i,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]) for i in baseInfusions]
@@ -66,7 +65,7 @@ with info:
         fig,ax=plt.subplots()
         ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)
         ax.legend()
-        st.header(f"Best infusion: {baseInfusions[best]}")
+        st.subheader(f"Best infusion: {baseInfusions[best]}")
         st.pyplot(fig)
 
 with allocate:
