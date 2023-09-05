@@ -70,7 +70,7 @@ with info:
         ax.legend()
         st.subheader(f"Best infusion: {baseInfusions[best]}")
         """
-        dmg.sort(key=sum)
+        dmg.sort(key=sum,order="desc")
         dmg=[[d[i] for d in dmg] for i in range(8)]
         fig, ax = plt.subplots()
         bottom = np.zeros(len(baseInfusions))
