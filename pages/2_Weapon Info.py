@@ -1,7 +1,6 @@
 import streamlit as st
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.colors import to_rgba
+import plotly.graph_objects as go
 
 from utils.utils import baseInfusions,weaponClasses,weaponsOfClass,ARcalculator,ARtoDMG,dmgTypes
 from utils.defaults import setDefaultDefStats
@@ -50,33 +49,7 @@ with info:
     with cols[6]: st.number_input("Lightning negation",0.,100.,st.session_state.neglightning,format="%.1f")
     with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,format="%.1f")
     st.divider()
-    #best=max(range(len(dmg)),key=lambda x:sum(dmg[x]))
-    #labels=[l for i,l in enumerate(dmgTypes) if dmg[best][i]!=0]
-    #sizes=[s for s in dmg[best] if s!=0]
-    #fig,ax=plt.subplots()
-    #ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)
-    #ax.legend()
-    #st.subheader(f"Best infusion: {baseInfusions[best]}")
-    dmg={i:ARcalculator(st.session_state.weapon,i,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]) for i in baseInfusions}
-    labels=sorted(baseInfusions,key=lambda x:sum(dmg[x]),reverse=True)
-    data=np.array([dmg[l] for l in labels])
-    data_cum=data.cumsum(axis=1)
-    colors=["silver","silver","silver","silver","blue","red","yellow","orange"]
-    fig,ax=plt.subplots()
-    ax.invert_yaxis()
-    ax.xaxis.set_visible(False)
-    for i,(dmgType,color) in enumerate(zip(dmgTypes,colors)):
-        widths=data[:,i]
-        starts=data_cum[:,i]-widths
-        rects=ax.barh(labels,widths,left=starts,height=0.5,label=dmgType,color=color)
-        r,g,b,_=to_rgba(color)
-        text_color="white" if r*g*b<0.5 else "darkgrey"
-        ax.bar_label(rects,label_type='center',color=text_color)
-    ax.legend(ncols=8,bbox_to_anchor=(0,1),loc='lower left',fontsize='small')
-    st.pyplot(fig)
-
-    
-    import plotly.graph_objects as go
+    data=np.array([ARcalculator(st.session_state.weapon,i,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]) for i in baseInfusions])
     colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(14, 90, 157)","rgb(214, 39, 40)","rgb(255, 225, 53)","rgb(255, 127, 14)"]
     fig=go.Figure()
     for i in range(8):
