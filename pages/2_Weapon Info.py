@@ -61,15 +61,13 @@ with info:
         st.pyplot(fig)
     with cols[0]:
         dmg=[ARcalculator(st.session_state.weapon,i,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]) for i in baseInfusions]
-        """
-        best=max(range(len(dmg)),key=lambda x:sum(dmg[x]))
-        labels=[l for i,l in enumerate(dmgTypes) if dmg[best][i]!=0]
-        sizes=[s for s in dmg[best] if s!=0]
-        fig,ax=plt.subplots()
-        ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)
-        ax.legend()
-        st.subheader(f"Best infusion: {baseInfusions[best]}")
-        """
+        #best=max(range(len(dmg)),key=lambda x:sum(dmg[x]))
+        #labels=[l for i,l in enumerate(dmgTypes) if dmg[best][i]!=0]
+        #sizes=[s for s in dmg[best] if s!=0]
+        #fig,ax=plt.subplots()
+        #ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)
+        #ax.legend()
+        #st.subheader(f"Best infusion: {baseInfusions[best]}")
         bi=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(dmg[x]))]
         dmg.sort(key=lambda x:sum,reverse=True)
         dmg=[[d[i] for d in dmg] for i in range(8)]
