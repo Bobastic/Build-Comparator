@@ -68,9 +68,9 @@ with info:
         #ax.legend()
         #st.subheader(f"Best infusion: {baseInfusions[best]}")
         dmg={i:ARcalculator(st.session_state.weapon,i,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]) for i in baseInfusions}
-        data=np.array(list(dmg.values()))
-        data_cum=data.cumsum(axis=1)
         labels=sorted(baseInfusions,key=lambda x:sum(dmg[x]),reverse=True)
+        data=np.array([dmg[l] for l in labels])
+        data_cum=data.cumsum(axis=1)
         colors=["White","Grey","Black","Purple","Red","Yellow","Blue","Orange"]
         fig,ax=plt.subplots()
         ax.invert_yaxis()
