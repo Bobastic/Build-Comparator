@@ -72,7 +72,7 @@ with info:
         """
         dmg=[[d[i] for d in dmg] for i in range(8)]
         fig, ax = plt.subplots()
-        bottom = np.zeros(8)
+        bottom = np.zeros(len(baseInfusions))
         for dt,d in zip(dmgTypes,dmg):
             st.write(dt)
             p = ax.bar(baseInfusions, d, 0.5, label=dt, bottom=bottom)
