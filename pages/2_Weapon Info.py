@@ -79,8 +79,8 @@ with info:
     import plotly.graph_objects as go
     fig=go.Figure()
     for i in range(8):
-        fig.add_trace(go.Bar(y=labels,x=data[:,i],name=dmgTypes[i],orientation="h"))
-    fig.update_layout(barmode='stack',xaxis={'categoryorder':'total descending'})
+        fig.add_trace(go.Bar(y=baseInfusions,x=data[:,i],name=dmgTypes[i],orientation="h"))
+    fig.update_layout(barmode='stack',xaxis={'categoryorder':'total ascending'})
     st.plotly_chart(fig)
 
 with allocate:
