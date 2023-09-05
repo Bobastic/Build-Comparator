@@ -17,7 +17,7 @@ st.sidebar.info("Default enemy negations are Imp Head/Beast Champion Armor (Alte
 st.markdown("""
     <style>
         .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
-            font-size:5rem;
+            font-size:2rem;
         }
     
         div[data-testid="column"] {
