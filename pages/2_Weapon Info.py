@@ -60,9 +60,8 @@ with info:
 
 with allocate:
     cols=st.columns(3)
-    with cols[0]: st.selectbox("Weapon class",weaponClasses,key="class")
-    with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state["class"]),key="weapon",index=3)
-    with cols[2]: st.selectbox("Infusion",baseInfusions,key="infusion")
+    with cols[0]: st.selectbox("Weapon class",weaponClasses,key="class2")
+    with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state["class2"]),key="weapon2",index=3)
     cols=st.columns(8)
     with cols[0]: st.number_input("Standard defense",0,400,st.session_state.defstandard)
     with cols[1]: st.number_input("Strike defense",0,400,st.session_state.defstrike)
@@ -84,13 +83,13 @@ with allocate:
 
 with bic:
     cols=st.columns(5)
-    with cols[0]: st.number_input("STR",1,99,66,key="STR")
-    with cols[1]: st.number_input("DEX",1,99,16,key="DEX")
-    with cols[2]: st.number_input("INT",1,99,9,key="INT")
-    with cols[3]: st.number_input("FTH",1,99,9,key="FTH")
-    with cols[4]: st.number_input("ARC",1,99,7,key="ARC")
+    with cols[0]: st.number_input("STR",1,99,66,key="STR3")
+    with cols[1]: st.number_input("DEX",1,99,16,key="DEX3")
+    with cols[2]: st.number_input("INT",1,99,9,key="INT3")
+    with cols[3]: st.number_input("FTH",1,99,9,key="FTH3")
+    with cols[4]: st.number_input("ARC",1,99,7,key="ARC3")
     cols=st.columns(3)
-    with cols[0]: st.selectbox("Weapon class",weaponClasses,key="class")
+    with cols[0]: st.selectbox("Weapon class",weaponClasses,key="class3")
     cols=st.columns(8)
     with cols[0]: st.number_input("Standard defense",0,400,st.session_state.defstandard)
     with cols[1]: st.number_input("Strike defense",0,400,st.session_state.defstrike)
