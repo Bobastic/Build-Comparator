@@ -78,7 +78,7 @@ with info:
         for i,(dmgType,color) in enumerate(zip(dmgTypes,colors)):
             widths=data[:,i]
             starts=data_cum[:,i]-widths
-            rects = ax.barh(labels,widths,left=starts,height=0.5,label=colname,color=color)
+            rects = ax.barh(labels,widths,left=starts,height=0.5,label=dmgType,color=color)
             #r,g,b,_=color
             #text_color = 'white' if r * g * b < 0.5 else 'darkgrey'
             ax.bar_label(rects,label_type='center',color='darkgrey')
