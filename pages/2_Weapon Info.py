@@ -47,6 +47,7 @@ with info:
     with cols[5]: st.number_input("Fire negation",0.,100.,st.session_state.negfire,format="%.1f")
     with cols[6]: st.number_input("Lightning negation",0.,100.,st.session_state.neglightning,format="%.1f")
     with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,format="%.1f")
+    st.divider()
     cols=st.columns(2)
     with cols[0]:
         st.selectbox("Infusion",baseInfusions,key="infusion")
