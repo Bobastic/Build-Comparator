@@ -75,6 +75,15 @@ with info:
     ax.legend(ncols=8,bbox_to_anchor=(0,1),loc='lower left',fontsize='small')
     st.pyplot(fig)
 
+    
+    import plotly.graph_objects as go
+    x=['b', 'a', 'c', 'd']
+    fig = go.Figure(go.Bar(x=x, y=[2,5,1,9], name='Montreal'))
+    fig.add_trace(go.Bar(x=x, y=[1, 4, 9, 16], name='Ottawa'))
+    fig.add_trace(go.Bar(x=x, y=[6, 8, 4.5, 8], name='Toronto'))
+    fig.update_layout(barmode='stack', xaxis={'categoryorder':'total descending'})
+    st.plotly(fig)
+
 with allocate:
     cols=st.columns(3)
     with cols[0]: st.selectbox("Weapon class",weaponClasses,key="class2")
