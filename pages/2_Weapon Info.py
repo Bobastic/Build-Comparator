@@ -1,7 +1,7 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 
-from utils.utils import baseInfusions,weaponClasses,weaponsOfClass,ARcalculator,ARtoDMG
+from utils.utils import baseInfusions,weaponClasses,weaponsOfClass,ARcalculator,ARtoDMG,dmgTypes
 from utils.defaults import setDefaultDefStats
 
 st.set_page_config(layout='wide',page_title="Weapon Info",page_icon="🔬")
@@ -40,10 +40,9 @@ with cols[5]: st.number_input("Fire negation",0.,100.,st.session_state.negfire,f
 with cols[6]: st.number_input("Lightning negation",0.,100.,st.session_state.neglightning,format="%.1f")
 with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,format="%.1f")
 
-labels = 'Frogs', 'Hogs', 'Dogs', 'Logs'
 sizes = ARcalculator(st.session_state.weapon,st.session_state.infusion,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC])
 fig1, ax1 = plt.subplots()
-ax1.pie(sizes,labels=labels,autopct='%1.1f%%')
+ax1.pie(sizes,labels=dmgTypes,autopct='%1.1f%%')
 #ax1.axis('equal')
 
 st.pyplot(fig1)
