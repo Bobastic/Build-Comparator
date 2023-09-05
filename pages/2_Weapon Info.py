@@ -82,7 +82,7 @@ with info:
     fig.add_trace(go.Bar(x=x, y=[1, 4, 9, 16], name='Ottawa'))
     fig.add_trace(go.Bar(x=x, y=[6, 8, 4.5, 8], name='Toronto'))
     fig.update_layout(barmode='stack', xaxis={'categoryorder':'total descending'})
-    st.plotly(fig)
+    st.plotly_chart(fig)
 
 with allocate:
     cols=st.columns(3)
