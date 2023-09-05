@@ -53,7 +53,8 @@ with info:
     labels=[l for i,l in enumerate(dmgTypes) if dmg[i]!=0]
     sizes=[s for s in dmg if s!=0]
     fig,ax=plt.subplots()
-    ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)    
+    ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)
+    ax.legend()
     with cols[0]:
         st.write(st.session_state.infusion)
         st.pyplot(fig)
@@ -62,7 +63,8 @@ with info:
     labels=[l for i,l in enumerate(dmgTypes) if dmg[best][i]!=0]
     sizes=[s for s in dmg[best] if s!=0]
     fig,ax=plt.subplots()
-    ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)    
+    ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)
+    ax.legend()
     with cols[1]:
         st.write(f"Best infusion: {baseInfusions[best]}")
         st.pyplot(fig)
