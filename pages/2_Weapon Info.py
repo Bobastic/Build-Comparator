@@ -70,6 +70,7 @@ with info:
         ax.legend()
         st.subheader(f"Best infusion: {baseInfusions[best]}")
         """
+        dmg=[d[i] for i in range(8) for d in dmg]
         fig, ax = plt.subplots()
         bottom = np.zeros(8)
         for dt,d in zip(dmgTypes,dmg):
