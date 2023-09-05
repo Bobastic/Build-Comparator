@@ -67,7 +67,7 @@ with info:
         #ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)
         #ax.legend()
         #st.subheader(f"Best infusion: {baseInfusions[best]}")
-        dmg={i:[ARcalculator(st.session_state.weapon,i,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC] for i in baseInfusions])}
+        dmg={i:[ARcalculator(st.session_state.weapon,i,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]) for i in baseInfusions]}
         data=np.array(list(dmg.values()))
         data_cum=data.cumsum(axis=1)
         labels=sorted(baseInfusions,key=lambda x:sum(dmg[x]),reverse=True)
