@@ -9,6 +9,14 @@ st.set_page_config(layout='wide',page_title="Weapon Info",page_icon="🔬")
 if "defstandard" not in st.session_state:
     setDefaultDefStats()
 
+st.markdown("""
+    <style>
+        .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
+            font-size:1.5rem;
+        }
+    </style>
+""",unsafe_allow_html=True)
+
 info,allocate,bic=st.tabs(["Weapon Info","Allocate Stats","Best of class"])
 
 with info:
