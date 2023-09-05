@@ -49,7 +49,7 @@ with info:
     with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,format="%.1f")
     st.divider()
     cols=st.columns(2)
-    with cols[0]:
+    with cols[1]:
         st.selectbox("Infusion",baseInfusions,key="infusion",label_visibility="collapsed")
         dmg=ARcalculator(st.session_state.weapon,st.session_state.infusion,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC])
         labels=[l for i,l in enumerate(dmgTypes) if dmg[i]!=0]
@@ -58,7 +58,7 @@ with info:
         ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)
         ax.legend()
         st.pyplot(fig)
-    with cols[1]:
+    with cols[0]:
         dmg=[ARcalculator(st.session_state.weapon,i,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]) for i in baseInfusions]
         best=max(range(len(dmg)),key=lambda x:sum(dmg[x]))
         labels=[l for i,l in enumerate(dmgTypes) if dmg[best][i]!=0]
