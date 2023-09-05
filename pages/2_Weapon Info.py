@@ -71,6 +71,7 @@ with info:
         st.subheader(f"Best infusion: {baseInfusions[best]}")
         """
         dmg=[[d[i] for d in dmg] for i in range(8)]
+        st.write(dmg)
         fig, ax = plt.subplots()
         bottom = np.zeros(8)
         for dt,d in zip(dmgTypes,dmg):
