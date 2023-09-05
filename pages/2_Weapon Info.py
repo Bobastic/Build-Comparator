@@ -68,8 +68,8 @@ with info:
         #ax.pie(sizes,labels=labels,autopct='%1.1f%%',labeldistance=None)
         #ax.legend()
         #st.subheader(f"Best infusion: {baseInfusions[best]}")
-        bi=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(dmg[x]))]
-        dmg.sort(key=lambda x:sum,reverse=True)
+        bi=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(dmg[x]),reverse=True)]
+        dmg.sort(key=sum,reverse=True)
         dmg=[[d[i] for d in dmg] for i in range(8)]
         fig, ax = plt.subplots()
         bottom = np.zeros(len(baseInfusions))
