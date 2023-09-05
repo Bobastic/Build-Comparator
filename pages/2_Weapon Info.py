@@ -71,7 +71,7 @@ with info:
         labels=sorted(baseInfusions,key=lambda x:sum(dmg[x]),reverse=True)
         data=np.array([dmg[l] for l in labels])
         data_cum=data.cumsum(axis=1)
-        colors=["White","Grey","Black","Purple","Red","Yellow","Blue","Orange"]
+        colors=["White","White","White","White","Blue","Red","Yellow","Orange"]
         fig,ax=plt.subplots()
         ax.invert_yaxis()
         ax.xaxis.set_visible(False)
