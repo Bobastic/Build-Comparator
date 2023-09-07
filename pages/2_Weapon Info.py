@@ -56,7 +56,7 @@ with info:
                   st.session_state.defmagic,st.session_state.deffire,st.session_state.deflightning,st.session_state.defholy]
         negations=[st.session_state.negstandard,st.session_state.negstrike,st.session_state.negslash,st.session_state.negpierce,
                   st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
-        nBest=5
+        nBest=4
         data=np.array([ARtoDMG(ARcalculator(st.session_state.weapon,i,stats),defenses,negations) for i in baseInfusions])
         labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(data[x,:]))][-nBest:]
         data=data[np.argsort(data.sum(axis=1))[-nBest:]] # we sort by total and keep the best
