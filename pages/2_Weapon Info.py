@@ -14,7 +14,7 @@ if "defstandard" not in st.session_state:
     st.session_state.INT=9
     st.session_state.FTH=9
     st.session_state.ARC=7
-    st.session_state.class="Halberds"
+    st.session_state.wClass="Halberds"
 
 def updateState(key):
         st.session_state[key]=st.session_state[key.replace("_","")]
@@ -31,8 +31,8 @@ info,allocate,bic=st.tabs(["Weapon Info","Allocate Stats","Best of class"])
 
 with info:
     cols=st.columns(2)
-    with cols[0]: st.selectbox("Weapon class",weaponClasses,key="class_",on_change=updateState,args=("class_",))
-    with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state["class"]),index=3,key="weapon_",on_change=updateState,args=("weapon_",))
+    with cols[0]: st.selectbox("Weapon class",weaponClasses,key="wClass_",on_change=updateState,args=("wClass_",))
+    with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state["wClass"]),index=3,key="weapon_",on_change=updateState,args=("weapon_",))
     cols=st.columns(5)
     with cols[0]: st.number_input("STR",1,99,st.session_state.STR,key="STR_",on_change=updateState,args=("STR_",))
     with cols[1]: st.number_input("DEX",1,99,st.session_state.DEX,key="DEX_",on_change=updateState,args=("DEX_",))
@@ -80,8 +80,8 @@ with info:
 
 with allocate:
     cols=st.columns(2)
-    with cols[0]: st.selectbox("Weapon class",weaponClasses,key="class__",on_change=updateState,args=("class__",))
-    with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state["class"]),index=3,key="weapon__",on_change=updateState,args=("weapon__",))
+    with cols[0]: st.selectbox("Weapon class",weaponClasses,key="wClass__",on_change=updateState,args=("wClass__",))
+    with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state["wClass"]),index=3,key="weapon__",on_change=updateState,args=("weapon__",))
     cols=st.columns(8)
     with cols[0]: st.number_input("Standard defense",0,400,st.session_state.defstandard,key="defstandard__",on_change=updateState,args=("defstandard__",))
     with cols[1]: st.number_input("Strike defense",0,400,st.session_state.defstrike,key="defstrike__",on_change=updateState,args=("defstrike__",))
@@ -102,7 +102,7 @@ with allocate:
     with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,format="%.1f",key="negholy__",on_change=updateState,args=("negholy__",))
 
 with bic:
-    st.selectbox("Weapon class",weaponClasses,key="class___",on_change=updateState,args=("class___",))
+    st.selectbox("Weapon class",weaponClasses,key="wClass___",on_change=updateState,args=("wClass___",))
     cols=st.columns(5)
     with cols[0]: st.number_input("STR",1,99,66,key="STR___",on_change=updateState,args=("STR___",))
     with cols[1]: st.number_input("DEX",1,99,16,key="DEX___",on_change=updateState,args=("DEX___",))
