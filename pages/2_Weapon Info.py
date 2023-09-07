@@ -7,7 +7,7 @@ from utils.defaults import setDefaultDefStats
 
 st.set_page_config(layout='wide',page_title="Weapon Info",page_icon="🔬")
 
-if "defstandard" not in st.session_state:
+if "wClass" not in st.session_state:
     setDefaultDefStats()
     st.session_state.STR=66
     st.session_state.DEX=16
