@@ -9,6 +9,11 @@ st.set_page_config(layout='wide',page_title="Weapon Info",page_icon="🔬")
 
 if "defstandard" not in st.session_state:
     setDefaultDefStats()
+    st.session_state.STR=66
+    st.session_state.DEX=16
+    st.session_state.INT=9
+    st.session_state.FTH=9
+    st.session_state.ARC=7
 
 def updateState(key):
         st.session_state[key]=st.session_state[key.replace("_","")]
@@ -28,11 +33,11 @@ with info:
     with cols[0]: st.selectbox("Weapon class",weaponClasses,key="class_",on_change=updateState,args=("class_",))
     with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state["class"]),index=3,key="weapon_",on_change=updateState,args=("weapon_",))
     cols=st.columns(5)
-    with cols[0]: st.number_input("STR",1,99,66,key="STR_",on_change=updateState,args=("STR_",))
-    with cols[1]: st.number_input("DEX",1,99,16,key="DEX_",on_change=updateState,args=("DEX_",))
-    with cols[2]: st.number_input("INT",1,99,9,key="INT_",on_change=updateState,args=("INT_",))
-    with cols[3]: st.number_input("FTH",1,99,9,key="FTH_",on_change=updateState,args=("FTH_",))
-    with cols[4]: st.number_input("ARC",1,99,7,key="ARC_",on_change=updateState,args=("ARC_",))
+    with cols[0]: st.number_input("STR",1,99,st.session_state.STR,key="STR_",on_change=updateState,args=("STR_",))
+    with cols[1]: st.number_input("DEX",1,99,st.session_state.DEX,key="DEX_",on_change=updateState,args=("DEX_",))
+    with cols[2]: st.number_input("INT",1,99,st.session_state.INT,key="INT_",on_change=updateState,args=("INT_",))
+    with cols[3]: st.number_input("FTH",1,99,st.session_state.FTH,key="FTH_",on_change=updateState,args=("FTH_",))
+    with cols[4]: st.number_input("ARC",1,99,st.session_state.ARC,key="ARC_",on_change=updateState,args=("ARC_",))
     cols=st.columns(8)
     with cols[0]: st.number_input("Standard defense",0,400,st.session_state.defstandard,key="defstandard_",on_change=updateState,args=("defstandard_",))
     with cols[1]: st.number_input("Strike defense",0,400,st.session_state.defstrike,key="defstrike_",on_change=updateState,args=("defstrike_",))
