@@ -66,7 +66,7 @@ with info:
                   st.session_state.defmagic,st.session_state.deffire,st.session_state.deflightning,st.session_state.defholy]
         negations=[st.session_state.negstandard,st.session_state.negstrike,st.session_state.negslash,st.session_state.negpierce,
                   st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
-        nBest=5
+        nBest=20
         data=np.array([ARtoDMG(ARcalculator(st.session_state.weapon,i,stats),defenses,negations) for i in baseInfusions])
         labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(data[x,:]))][-nBest:]
         data=data[np.argsort(data.sum(axis=1))[-nBest:]] # we sort by total and keep the best
@@ -76,8 +76,8 @@ with info:
             fig.add_trace(go.Bar(x=data[:,i],y=labels,name=dmgTypes[i],orientation="h",
                                  text=[round(d) for d in data[:,i]],marker={"color":colors[i]},showlegend=bool(data[:,i].sum()!=0),insidetextfont={"size":13}))
         fig.add_trace(go.Scatter(x=data.sum(axis=1),y=labels,text=[f"  {d:.0f}" for d in data.sum(axis=1)],mode='text',textfont={"size":13},textposition="middle right",showlegend=False))
-        fig.update_layout(barmode='stack',legend_traceorder="normal",autosize=False,height=350,legend={"orientation":"h","yanchor":"bottom","y":1.02})
-        st.plotly_chart(fig,use_container_width=True,config={"displayModeBar":False},height=200)
+        fig.update_layout(barmode='stack',legend_traceorder="normal",autosize=False,legend={"orientation":"h","yanchor":"bottom","y":1.02})
+        st.plotly_chart(fig,use_container_width=True,config={"displayModeBar":False})
 
 with allocate:
     cols=st.columns(3)
