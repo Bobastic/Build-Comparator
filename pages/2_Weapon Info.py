@@ -63,7 +63,6 @@ with info:
         colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgba(14, 90, 157, 0.3)","rgba(214, 39, 40, 0.3)","rgba(255, 225, 53, 0.3)","rgba(255, 127, 14, 0.3)"]
         fig=go.Figure()
         for i in range(8):
-            st.write(data[:,i].sum()!=0)
             fig.add_trace(go.Bar(x=data[:,i],y=labels,name=dmgTypes[i],orientation="h",text=[round(d) for d in data[:,i]],marker={"color":colors[i]},showlegend=bool(data[:,i].sum()!=0)))
         fig.add_trace(go.Scatter(x=data.sum(axis=1),y=labels,text=[f"  {d:.0f}" for d in data.sum(axis=1)],mode='text',textfont={"size":12},textposition="middle right",showlegend=False))
         fig.update_layout(barmode='stack',legend_traceorder="normal",autosize=False,height=300,legend={"orientation":"h","yanchor":"bottom","y":1.02})
