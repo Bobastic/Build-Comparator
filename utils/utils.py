@@ -375,13 +375,14 @@ def fancyTable(DMGtable:pd.DataFrame,classComparison:bool=True,displayPercentage
     # display max of each row in bold
     res=res.style.format(precision=1).apply(lambda x:tmp.apply(lambda x:x.apply(lambda xx:"font-weight: bold" if not pd.isna(xx) and xx==x.max() else ""),axis=1),axis=None) # miracle
     # background color
+    vmin=-15
     for i in tmp.index:
         if not multicolor:
-            res.background_gradient(cmap="Greens",axis=None,gmap=DMGratio.fillna(vmin),vmin=-15,vmax=0)
+            res.background_gradient(cmap="Greens",axis=None,gmap=DMGratio.fillna(vmin),vmin=vmin,vmax=0)
         else:
             cmaps=[["white","red"],["white","gold"],["white","blue"],["white","orange"],["white","violet"]]
             for j,jj in enumerate(tmp.columns.get_level_values(0).unique()):
-                res.background_gradient(cmap=LinearSegmentedColormap.from_list("",cmaps[j%5]),axis=None,gmap=DMGratio.fillna(vmin),subset=(i,tmp[[jj]].columns),vmin=-15,vmax=0)
+                res.background_gradient(cmap=LinearSegmentedColormap.from_list("",cmaps[j%5]),axis=None,gmap=DMGratio.fillna(vmin),subset=(i,tmp[[jj]].columns),vmin=vmin,vmax=0)
     # weapon class display and hide pierce bonus if useless
     hide=[]
     if not showWeaponClass:
