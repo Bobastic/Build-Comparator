@@ -49,22 +49,24 @@ with info:
     with cols[6]: st.number_input("Lightning negation",0.,100.,st.session_state.neglightning,format="%.1f")
     with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,format="%.1f")
     st.divider()
-    stats=[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]
-    defenses=[st.session_state.defstandard,st.session_state.defstrike,st.session_state.defslash,st.session_state.defpierce,
-              st.session_state.defmagic,st.session_state.deffire,st.session_state.deflightning,st.session_state.defholy]
-    negations=[st.session_state.negstandard,st.session_state.negstrike,st.session_state.negslash,st.session_state.negpierce,
-              st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
-    nBest=6
-    data=np.array([ARtoDMG(ARcalculator(st.session_state.weapon,i,stats),defenses,negations) for i in baseInfusions])
-    labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(data[x,:]))][-nBest:]
-    data=data[np.argsort(data.sum(axis=1))[-nBest:]] # we sort by total and keep the best
-    colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgba(14, 90, 157, 0.3)","rgba(214, 39, 40, 0.3)","rgba(255, 225, 53, 0.3)","rgba(255, 127, 14, 0.3)"]
-    fig=go.Figure()
-    for i in range(8):
-        fig.add_trace(go.Bar(x=data[:,i],y=labels,name=dmgTypes[i],orientation="h",text=[round(d) for d in data[:,i]],marker={"color":colors[i]}))
-    fig.add_trace(go.Scatter(x=data.sum(axis=1),y=labels,text=[f"  {d:.0f}" for d in data.sum(axis=1)],mode='text',textfont={"size":12},textposition="middle right",showlegend=False))
-    fig.update_layout(barmode='stack',legend_traceorder="normal")
-    st.plotly_chart(fig,use_container_width=True)
+    cols=st.columns(2)
+    with cols[0]:
+        stats=[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]
+        defenses=[st.session_state.defstandard,st.session_state.defstrike,st.session_state.defslash,st.session_state.defpierce,
+                  st.session_state.defmagic,st.session_state.deffire,st.session_state.deflightning,st.session_state.defholy]
+        negations=[st.session_state.negstandard,st.session_state.negstrike,st.session_state.negslash,st.session_state.negpierce,
+                  st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
+        nBest=6
+        data=np.array([ARtoDMG(ARcalculator(st.session_state.weapon,i,stats),defenses,negations) for i in baseInfusions])
+        labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(data[x,:]))][-nBest:]
+        data=data[np.argsort(data.sum(axis=1))[-nBest:]] # we sort by total and keep the best
+        colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgba(14, 90, 157, 0.3)","rgba(214, 39, 40, 0.3)","rgba(255, 225, 53, 0.3)","rgba(255, 127, 14, 0.3)"]
+        fig=go.Figure()
+        for i in range(8):
+            fig.add_trace(go.Bar(x=data[:,i],y=labels,name=dmgTypes[i],orientation="h",text=[round(d) for d in data[:,i]],marker={"color":colors[i]}))
+        fig.add_trace(go.Scatter(x=data.sum(axis=1),y=labels,text=[f"  {d:.0f}" for d in data.sum(axis=1)],mode='text',textfont={"size":12},textposition="middle right",showlegend=False))
+        fig.update_layout(barmode='stack',legend_traceorder="normal")
+        st.plotly_chart(fig,use_container_width=True)
 
 with allocate:
     cols=st.columns(3)
