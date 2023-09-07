@@ -56,7 +56,7 @@ with info:
               st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
     data=np.array([ARtoDMG(ARcalculator(st.session_state.weapon,i,stats),defenses,negations) for i in baseInfusions])
     st.table(data)
-    labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(data[x,:]))][:10]
+    labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=data.sum(axis=1))][:10]
     st.write(f"{baseInfusions}{labels}")
     data=data[np.argsort(data.sum(axis=1))[:10]] # we sort by total and keep the top 10
     colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgba(14, 90, 157, 0.3)","rgba(214, 39, 40, 0.3)","rgba(255, 225, 53, 0.3)","rgba(255, 127, 14, 0.3)"]
