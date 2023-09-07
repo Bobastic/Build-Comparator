@@ -14,6 +14,7 @@ if "defstandard" not in st.session_state:
     st.session_state.INT=9
     st.session_state.FTH=9
     st.session_state.ARC=7
+    st.session_state.class="Halberds"
 
 def updateState(key):
         st.session_state[key]=st.session_state[key.replace("_","")]
