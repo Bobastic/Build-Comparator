@@ -15,6 +15,7 @@ if "defstandard" not in st.session_state:
     st.session_state.FTH=9
     st.session_state.ARC=7
     st.session_state.wClass="Halberds"
+    st.session_state.weapon="Banished Knight's Halberd"
 
 def updateState(key):
         st.session_state[key]=st.session_state[key.replace("_","")]
