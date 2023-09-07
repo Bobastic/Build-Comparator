@@ -331,7 +331,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
     res=res.sort_index(axis=1,level=1,sort_remaining=False,key=lambda x:x.map({a:i for i,a in enumerate(infusionOrder)}))
     res=res.sort_index(axis=1,level=0,sort_remaining=False,key=lambda x:x.map({a:i for i,a in enumerate(res.columns.get_level_values(0).unique())}))
     # add weapon class to index
-    res.index=pd.MultiIndex.from_tuples([(f"{'2H ' if '2H' in w else ''}{weaponClass}",w,d) for w,d in res.index])
+    res.index=pd.MultiIndex.from_tuples([(f"{'2H ' if '2H' in w else ''}{idWeaponClass[EPW[EPW['Name']==w.replace('2H ','')]['wepType'].values[0]]}",w,d) for w,d in res.index])
     return res
 
 def fancyTable(DMGtable:pd.DataFrame,classComparison:bool=True,displayPercentage:bool=True,showStats:bool=True,multicolor:bool=True,showWeaponClass:bool=True,wideDisplay:bool=False,saveOutput:bool=False)->None:
