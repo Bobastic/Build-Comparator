@@ -50,12 +50,13 @@ with info:
     with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,format="%.1f")
     st.divider()
     data=np.array([ARcalculator(st.session_state.weapon,i,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]) for i in baseInfusions])
-    labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(data[x,:]))]
+    labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(data[x,:]))][:10]
     data=data[np.argsort(data.sum(axis=1))[:10]] # we sort by total and keep the top 10
     colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgba(14, 90, 157, 0.3)","rgba(214, 39, 40, 0.3)","rgba(255, 225, 53, 0.3)","rgba(255, 127, 14, 0.3)"]
     fig=go.Figure()
     for i in range(8):
-        fig.add_trace(go.Bar(y=labels,x=data[:,i],name=dmgTypes[i],orientation="h",text=[round(d) for d in data[:,i]],marker={"color":colors[i]}))
+        fig.add_trace(go.Bar(x=data[:,i],y=labels,name=dmgTypes[i],orientation="h",text=[round(d) for d in data[:,i]],marker={"color":colors[i]}))
+    fig.add_trace(go.Scatter(x=data.sum(axis=1),y=labels,text=ata.sum(axis=1),mode='text',textposition='right',textfont={"size":18},showlegend=False))
     fig.update_layout(barmode='stack')
     st.plotly_chart(fig)
 
