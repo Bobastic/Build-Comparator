@@ -55,7 +55,7 @@ with info:
     colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgba(14, 90, 157, 0.5)","rgba(214, 39, 40, 0.5)","rgba(255, 225, 53, 0.5)","rgba(255, 127, 14, 0.5)"]
     fig=go.Figure()
     for i in range(8):
-        fig.add_trace(go.Bar(y=labels,x=data[:,i],name=dmgTypes[i],orientation="h",text=data[:,i],marker={"color":colors[i]}))
+        fig.add_trace(go.Bar(y=labels,x=data[:,i],name=dmgTypes[i],orientation="h",text=[np.around(d) for d in data[:,i]],marker={"color":colors[i]}))
     fig.update_layout(barmode='stack')
     st.plotly_chart(fig)
 
