@@ -64,7 +64,7 @@ with info:
         fig.add_trace(go.Bar(x=data[:,i],y=labels,name=dmgTypes[i],orientation="h",text=[round(d) for d in data[:,i]],marker={"color":colors[i]}))
     fig.add_trace(go.Scatter(x=data.sum(axis=1),y=labels,text=[f"  {d:.0f}" for d in data.sum(axis=1)],mode='text',textfont={"size":12},textposition="middle right",showlegend=False))
     fig.update_layout(barmode='stack',legend_traceorder="normal")
-    st.plotly_chart(fig)
+    st.plotly_chart(fig,use_container_width=True)
 
 with allocate:
     cols=st.columns(3)
