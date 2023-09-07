@@ -58,7 +58,7 @@ with info:
     st.table(data)
     labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(data[x,:]))][-10:]
     st.write(f"{baseInfusions}{labels}")
-    data=data[np.argsort(data.sum(axis=1))[:10]] # we sort by total and keep the top 10
+    data=data[np.argsort(data.sum(axis=1))[-10:]] # we sort by total and keep the top 10
     colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgba(14, 90, 157, 0.3)","rgba(214, 39, 40, 0.3)","rgba(255, 225, 53, 0.3)","rgba(255, 127, 14, 0.3)"]
     fig=go.Figure()
     for i in range(8):
