@@ -80,9 +80,10 @@ with info:
         st.plotly_chart(fig,use_container_width=True,config={"displayModeBar":False},height=200)
 
 with allocate:
-    cols=st.columns(2)
+    cols=st.columns(3)
     with cols[0]: st.selectbox("Weapon class",weaponClasses,key="wClass__",on_change=updateState,args=("wClass__",))
     with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state["wClass"]),index=3,key="weapon__",on_change=updateState,args=("weapon__",))
+    with cols[2]: st.selectbox("Infusion",baseInfusions,key="infusion__",on_change=updateState,args=("infusion__",))
     cols=st.columns(8)
     with cols[0]: st.number_input("Standard defense",0,400,st.session_state.defstandard,key="defstandard__",on_change=updateState,args=("defstandard__",))
     with cols[1]: st.number_input("Strike defense",0,400,st.session_state.defstrike,key="defstrike__",on_change=updateState,args=("defstrike__",))
