@@ -54,11 +54,10 @@ with info:
               st.session_state.defmagic,st.session_state.deffire,st.session_state.deflightning,st.session_state.defholy]
     negations=[st.session_state.negstandard,st.session_state.negstrike,st.session_state.negslash,st.session_state.negpierce,
               st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
+    nBest=6
     data=np.array([ARtoDMG(ARcalculator(st.session_state.weapon,i,stats),defenses,negations) for i in baseInfusions])
-    st.table(data)
-    labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(data[x,:]))][-10:]
-    st.write(f"{baseInfusions}{labels}")
-    data=data[np.argsort(data.sum(axis=1))[-10:]] # we sort by total and keep the top 10
+    labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(data[x,:]))][-nBest:]
+    data=data[np.argsort(data.sum(axis=1))[-nBest:]] # we sort by total and keep the best
     colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgba(14, 90, 157, 0.3)","rgba(214, 39, 40, 0.3)","rgba(255, 225, 53, 0.3)","rgba(255, 127, 14, 0.3)"]
     fig=go.Figure()
     for i in range(8):
