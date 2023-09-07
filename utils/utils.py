@@ -207,7 +207,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
         for build in builds:
             # somber weapons
             if RD[RD["Name"]==weaponName]["Infusable"].values[0]=="No":
-                dmg=ARtoDMG(ARcalculator(weapon,"",builds[build],reinforcementLvl),defenses,negations)
+                dmg=ARtoDMG(ARcalculator(weapon,"Standard",builds[build],reinforcementLvl),defenses,negations)
                 normal.append(dmg.sum())
                 if counterHits and dmg[3]:
                     prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
@@ -216,7 +216,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
                 # if buffable (bhf, bouquet, ripple*2, treespear, great club, troll's hammer)
                 if weaponBuffs and EPW[EPW["Name"]==weaponName]["isEnhance"].values[0]==1:
                     grease=buffs[weapon] if weapon in buffs else np.array([0,0,0,0,0,0,110,0])
-                    dmg=ARtoDMG(ARcalculator(weapon,"",builds[build],reinforcementLvl)+grease,defenses,negations)
+                    dmg=ARtoDMG(ARcalculator(weapon,"Standard",builds[build],reinforcementLvl)+grease,defenses,negations)
                     normal.append(dmg.sum())
                     if counterHits and dmg[3]:
                         prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
@@ -293,16 +293,15 @@ def fancyTable(DMGtable:pd.DataFrame,classComparison:bool=True,displayPercentage
         else:
             res[c]=res[c].map(lambda x:str(x).replace("<NA>","-"))
     # display max of each row in bold
-    res=res.style.format(precision=1).apply(lambda x:tmp.apply(lambda x:x.apply(lambda xx:'font-weight: bold' if not pd.isna(xx) and xx==x.max() else ''),axis=1),axis=None) # miracle
+    res=res.style.format(precision=1).apply(lambda x:tmp.apply(lambda x:x.apply(lambda xx:"font-weight: bold" if not pd.isna(xx) and xx==x.max() else ""),axis=1),axis=None) # miracle
     # background color
     for i in tmp.index:
-        vmin=-20
         if not multicolor:
-            res.background_gradient(cmap="Greens",axis=None,gmap=DMGratio.fillna(vmin),vmin=vmin,vmax=0)
+            res.background_gradient(cmap="Greens",axis=None,gmap=DMGratio.fillna(vmin),vmin=-15,vmax=0)
         else:
             cmaps=[["white","red"],["white","gold"],["white","blue"],["white","orange"],["white","violet"]]
             for j,jj in enumerate(tmp.columns.get_level_values(0).unique()):
-                res.background_gradient(cmap=LinearSegmentedColormap.from_list("",cmaps[j%5]),axis=None,gmap=DMGratio.fillna(vmin),subset=(i,tmp[[jj]].columns),vmin=vmin,vmax=2)
+                res.background_gradient(cmap=LinearSegmentedColormap.from_list("",cmaps[j%5]),axis=None,gmap=DMGratio.fillna(vmin),subset=(i,tmp[[jj]].columns),vmin=-15,vmax=0)
     # weapon class display and hide pierce bonus if useless
     hide=[]
     if not showWeaponClass:
