@@ -55,6 +55,7 @@ with info:
     negations=[st.session_state.negstandard,st.session_state.negstrike,st.session_state.negslash,st.session_state.negpierce,
               st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
     data=np.array([ARtoDMG(ARcalculator(st.session_state.weapon,i,stats),defenses,negations) for i in baseInfusions])
+    st.table(data)
     labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(data[x,:]))][:10]
     st.write(f"{baseInfusions}{labels}")
     data=data[np.argsort(data.sum(axis=1))[:10]] # we sort by total and keep the top 10
