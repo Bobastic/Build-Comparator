@@ -56,7 +56,7 @@ def ARcalculator(weapon:str,infusion:str,build:list[int],reinforcementLvl:int=25
         weapon: string
             Weapon name.
         infusion: string
-            Infusion name. For standard use "".
+            Infusion name.
         build: list of length 5
             STR, DEX, INT, FTH, ARC.
         twoH: boolean
@@ -67,7 +67,7 @@ def ARcalculator(weapon:str,infusion:str,build:list[int],reinforcementLvl:int=25
         numpy array of length 8
     """
     infusionOffset={
-        "":0,
+        "Standard":0,
         "Heavy":100,
         "Keen":200,
         "Quality":300, # lmao
