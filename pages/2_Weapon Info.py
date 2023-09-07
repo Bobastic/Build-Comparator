@@ -49,7 +49,12 @@ with info:
     with cols[6]: st.number_input("Lightning negation",0.,100.,st.session_state.neglightning,format="%.1f")
     with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,format="%.1f")
     st.divider()
-    data=np.array([ARcalculator(st.session_state.weapon,i,[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]) for i in baseInfusions])
+    stats=[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]
+    defenses=[st.session_state.defstandard,st.session_state.defstrike,st.session_state.defslash,st.session_state.defpierce,
+              st.session_state.defmagic,st.session_state.deffire,st.session_state.deflightning,st.session_state.defholy]
+    negations=[st.session_state.negstandard,st.session_state.negstrike,st.session_state.negslash,st.session_state.negpierce,
+              st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
+    data=np.array([ARtoDMG(ARcalculator(st.session_state.weapon,i,stats),defenses,negations) for i in baseInfusions])
     labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(data[x,:]))][:10]
     data=data[np.argsort(data.sum(axis=1))[:10]] # we sort by total and keep the top 10
     colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgba(14, 90, 157, 0.3)","rgba(214, 39, 40, 0.3)","rgba(255, 225, 53, 0.3)","rgba(255, 127, 14, 0.3)"]
