@@ -18,7 +18,7 @@ if "wClass" not in st.session_state:
     st.session_state.weapon="Banished Knight's Halberd"
 
 def updateState(key):
-        st.session_state[key]=st.session_state[key.replace("_","")]
+        st.session_state[key.replace("_","")]=st.session_state[key]
 
 st.markdown("""
     <style>
