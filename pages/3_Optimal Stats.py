@@ -3,25 +3,13 @@ import numpy as np
 import plotly.graph_objects as go
 
 from utils.utils import baseInfusions,weaponClasses,weaponsOfClass,ARcalculator,ARtoDMG,dmgTypes
-from utils.defaults import setDefaultDefStats
+from utils.defaults import setDefaultDefStats,setDefaultCalcParams
 
 st.set_page_config(layout='wide',page_title="Weapon Info",page_icon="🔬")
 
 if "wClass" not in st.session_state:
     setDefaultDefStats()
-    st.session_state.STR=66
-    st.session_state.DEX=16
-    st.session_state.INT=9
-    st.session_state.FTH=9
-    st.session_state.ARC=7
-    st.session_state.wClass="Halberds"
-    st.session_state.weapon="Banished Knight's Halberd"
-    st.session_state.pts=55
-    st.session_state.baseSTR=14
-    st.session_state.baseDEX=13
-    st.session_state.baseINT=9
-    st.session_state.baseFTH=9
-    st.session_state.baseARC=7
+    setDefaultCalcParams()
 
 def updateState(key):
         st.session_state[key.replace("_","")]=st.session_state[key]
