@@ -35,6 +35,9 @@ st.markdown("""
             display: flex;
             align-items: end;
         }
+        h3 {
+            text-align: center;
+        }
     </style>
 """,unsafe_allow_html=True)
 
