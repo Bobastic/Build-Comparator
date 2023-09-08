@@ -1,3 +1,5 @@
+import numpy as np
+
 dmgTypes=["Standard","Strike","Slash","Pierce","Magic","Fire","Lightning","Holy"]
 baseInfusions=["Heavy","Fire","Keen","Lightning","Magic","Cold","Sacred","Flame Art","Blood","Poison","Occult","Standard"]
 infusionOrder=["Heavy","Hvy+Gse","Fire","Fire+FS","Keen","Keen+Gse","Lightning","Ltng+LS","Magic","Cold","Sacred","Scrd+SB","Flame Art","F.Art+FS","Blood","Poison","Occult","Quality","Qty+Gse","Standard","Std+Gse"] # for the table column names
