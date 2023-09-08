@@ -31,7 +31,7 @@ st.markdown("""
         .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
             font-size:1.5rem;
         }
-        div[data-testid="column"] {
+        div[data-testid="column"]:nth-of-type(3) label[data-baseweb="checkbox"] {
             display: flex;
             align-items: end;
         }
