@@ -132,7 +132,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
             Display counter hit damage and spear tali counter hit damage
     """
     res=[]
-    if hardtear: negations=[n*1.1 for n in negations]                    ,forbiddenAshBuff,rareBuff,ashBuff,greaseBuff
+    if hardtear: negations=[n*1.1 for n in negations]
     for weapon in weapons:
         weaponName=weapon.replace("2H ","")
         if EPW[EPW["Name"]==weaponName].empty:
