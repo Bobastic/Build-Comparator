@@ -22,7 +22,7 @@ def updateState(key):
 
 columns=st.columns(2)
 with columns[0]:
-cols=st.columns(2)
+    cols=st.columns(2)
     with cols[0]: st.selectbox("Weapon class",weaponClasses,key="wClass_",on_change=updateState,args=("wClass_",))
     with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state["wClass"]),index=3,key="weapon_",on_change=updateState,args=("weapon_",))
     cols=st.columns(5)
