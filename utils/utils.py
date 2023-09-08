@@ -3,7 +3,7 @@ import numpy as np
 import streamlit as st
 from matplotlib.colors import LinearSegmentedColormap
 
-from constants import dmgTypes,baseInfusions,infusionOrder,idWeaponClass,weaponClasses,infusionOffset
+from constants import dmgTypes,baseInfusions,infusionOrder,idWeaponClass,weaponClasses,infusionOffset,forbiddenAshBuff,rareBuff,infusionBuff
 
 EPW=pd.read_csv("data/EquipParamWeapon.csv").dropna(subset="Name").replace("Great epee","Great Épée",regex=True)
 RPW=pd.read_csv("data/ReinforceParamWeapon.csv")
@@ -132,124 +132,6 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
         counterHits: boolean
             Display counter hit damage and spear tali counter hit damage
     """
-    noAshBuff={
-        "Fire":["Whips","Colossal Swords","Colossal Weapons"],
-        "Flame Art":["Whips","Colossal Swords","Colossal Weapons"],
-        "Lightning":["Halberds","Spears","Great Spears","Scythes","Whips","Fists","Claws"],
-        "Sacred":["Whips","Fists","Claws"]
-    }
-    buffs={
-        "Heavy":["Hvy+Gse",np.array([0,0,0,0,0,0,110,0])],
-        "Fire":["Fire+FS",np.array([0,0,0,0,0,90,0,0])],
-        "Keen":["Keen+Gse",np.array([0,0,0,0,0,0,110,0])],
-        "Lightning":["Ltng+LS",np.array([0,0,0,0,0,0,90,0])],
-        "Sacred":["Scrd+SB",np.array([0,0,0,0,0,0,0,90])],
-        "Flame Art":["F.Art+FS",np.array([0,0,0,0,0,90,0,0])],
-        # buffable split dmg weapons
-        "Treespear":np.array([0,0,0,0,0,0,0,110]),
-        "Great Club":np.array([0,0,0,0,0,110,0,0]),
-        "Troll's Hammer":np.array([0,0,0,0,0,110,0,0]),
-        "Clayman's Harpoon":np.array([0,0,0,0,110,0,0,0]),
-    }
-    res=[]
-    if hardtear: negations=[n*1.1 for n in negations]
-    for weapon in weapons:
-        weaponName=weapon.replace("2H ","")
-        if EPW[EPW["Name"]==weaponName].empty:
-            print(f"Weapon does not exist: {weapon}")
-            continue
-        weaponClass=idWeaponClass[EPW[EPW["Name"]==weaponName]["wepType"].values[0]]
-        columns=[]
-        normal,prc,spr=[],[],[]
-        for build in builds:
-            # somber weapons
-            if RD[RD["Name"]==weaponName]["Infusable"].values[0]=="No":
-                dmg=ARtoDMG(ARcalculator(weapon,"Standard",builds[build],reinforcementLvl),defenses,negations)
-                normal.append(dmg.sum())
-                if counterHits and dmg[3]:
-                    prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
-                    spr.append((dmg*np.array([1,1,1,1.15*1.15,1,1,1,1])).sum())
-                columns.append((f"{build} • {' '.join(map(str,builds[build]))}","Standard"))
-                # if buffable (bhf, bouquet, ripple*2, treespear, great club, troll's hammer)
-                if weaponBuffs and EPW[EPW["Name"]==weaponName]["isEnhance"].values[0]==1:
-                    grease=buffs[weapon] if weapon in buffs else np.array([0,0,0,0,0,0,110,0])
-                    dmg=ARtoDMG(ARcalculator(weapon,"Standard",builds[build],reinforcementLvl)+grease,defenses,negations)
-                    normal.append(dmg.sum())
-                    if counterHits and dmg[3]:
-                        prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
-                        spr.append((dmg*np.array([1,1,1,1.15*1.15,1,1,1,1])).sum())
-                    columns.append((f"{build} • {' '.join(map(str,builds[build]))}","Std+Gse"))
-            # infusable weapons
-            else:
-                for infusion in infusions[build]:
-                    dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build],reinforcementLvl),defenses,negations)
-                    normal.append(dmg.sum())
-                    if counterHits and dmg[3]:
-                        prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
-                        spr.append((dmg*np.array([1,1,1,1.15*1.15,1,1,1,1])).sum())
-                    columns.append((f"{build} • {' '.join(map(str,builds[build]))}",infusion))
-                    # compute buffs (grease, flaming strike etc)
-                    if weaponBuffs and (infusion in buffs):
-                        if (infusion in noAshBuff) and (weaponClass in noAshBuff[infusion]):
-                            continue
-                        grease=buffs[weapon] if weapon in buffs else buffs[infusion][1]
-                        dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build],reinforcementLvl)+grease,defenses,negations)
-                        normal.append(dmg.sum())
-                        if counterHits and dmg[3]:
-                            prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
-                            spr.append((dmg*np.array([1,1,1,1.15*1.15,1,1,1,1])).sum())
-                        columns.append((f"{build} • {' '.join(map(str,builds[build]))}",buffs[infusion][0]))
-        if columns:
-            res.append(pd.DataFrame([normal,prc,spr],index=pd.MultiIndex.from_tuples([(weapon,"No Prc"),(weapon,"Prc+15%"),(weapon,"Prc+32%")]),columns=pd.MultiIndex.from_tuples(columns)))
-    res=pd.concat(res).dropna(how="all")
-    # reorder columns to respect infusion order
-    res=res.sort_index(axis=1,level=1,sort_remaining=False,key=lambda x:x.map({a:i for i,a in enumerate(infusionOrder)}))
-    res=res.sort_index(axis=1,level=0,sort_remaining=False,key=lambda x:x.map({a:i for i,a in enumerate(res.columns.get_level_values(0).unique())}))
-    # add weapon class to index
-    res.index=pd.MultiIndex.from_tuples([(f"{'2H ' if '2H' in w else ''}{idWeaponClass[EPW[EPW['Name']==w.replace('2H ','')]['wepType'].values[0]]}",w,d) for w,d in res.index])
-    # put weapons of the same class next to each other (doesnt work)
-    #res=res.sort_index(level=[0,1],key=lambda x:x.map({w:EPW[EPW["Name"]==w.replace("2H ","")]["wepType"].values[0] for w in res.index.get_level_values(0).unique()}))
-    return res
-
-def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,list[int]],defenses:list[int],negations:list[int],reinforcementLvl:int=25,weaponBuffs:bool=True,counterHits:bool=True,hardtear:bool=True)->pd.DataFrame:
-    """
-    Computes damage for each weapon/infusion/build combination.
-    Parameters:
-        weapons: list of string
-            List of weapon names.
-        builds: dict {string:list of int of length 5}
-            Dict of builds with the keys being build name and values being STR DEX INT FTH ARC.
-        infusions: dict {string:list of strings}
-            Dict to specify what infusions we want for each build. Keys are build names and values are list of infusions.
-        defenses: list of length 8
-            Defenses for each damage type.
-        negations: list of length 8
-            Negations for each damage type.
-        weaponBuffs: boolean
-            Display weapon buffs like greases or Flaming Strike/Sacred Blade.
-        counterHits: boolean
-            Display counter hit damage and spear tali counter hit damage
-    """
-    noAshBuff={
-        "Fire":["Whips","Colossal Swords","Colossal Weapons"],
-        "Flame Art":["Whips","Colossal Swords","Colossal Weapons"],
-        "Lightning":["Halberds","Spears","Great Spears","Scythes","Whips","Fists","Claws"],
-        "Sacred":["Whips","Fists","Claws"]
-    }
-    buffs={
-        "Heavy":["Hvy+Gse",np.array([0,0,0,0,0,0,110,0])],
-        "Fire":["Fire+FS",np.array([0,0,0,0,0,90,0,0])],
-        "Keen":["Keen+Gse",np.array([0,0,0,0,0,0,110,0])],
-        "Lightning":["Ltng+LS",np.array([0,0,0,0,0,0,90,0])],
-        "Sacred":["Scrd+SB",np.array([0,0,0,0,0,0,0,90])],
-        "Flame Art":["F.Art+FS",np.array([0,0,0,0,0,90,0,0])],
-        "Standard":["Std+Gse",np.array([0,0,0,0,0,0,110,0])],
-        # buffable split dmg weapons
-        "Treespear":np.array([0,0,0,0,0,0,0,110]),
-        "Great Club":np.array([0,0,0,0,0,110,0,0]),
-        "Troll's Hammer":np.array([0,0,0,0,0,110,0,0]),
-        "Clayman's Harpoon":np.array([0,0,0,0,110,0,0,0]),
-    }
     res=[]
     if hardtear: negations=[n*1.1 for n in negations]
     for weapon in weapons:
