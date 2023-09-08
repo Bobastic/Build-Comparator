@@ -33,6 +33,8 @@ st.markdown("""
         }
         label[data-baseweb="checkbox"] {
             justify-content: flex-end;
+        }
+        div[data-testid="column"] {
             align-items: center;
         }
     </style>
