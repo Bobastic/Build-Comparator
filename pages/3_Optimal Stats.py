@@ -36,12 +36,12 @@ st.markdown("""
         }
         div[data-testid="column"] {
             display: flex;
-            align-items: center;
+            align-items: end;
         }
     </style>
 """,unsafe_allow_html=True)
 
-cols=st.columns([5,5,1])
+cols=st.columns([6,6,1])
 with cols[0]: st.selectbox("Weapon class",weaponClasses,key="wClass_",on_change=updateState,args=("wClass_",))
 with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state["wClass"]),index=3,key="weapon_",on_change=updateState,args=("weapon_",))
 with cols[2]: st.toggle("2H",key="twoH_")
