@@ -3,7 +3,7 @@ import numpy as np
 import streamlit as st
 from matplotlib.colors import LinearSegmentedColormap
 
-from constants import dmgTypes,baseInfusions,infusionOrder,idWeaponClass,weaponClasses,infusionOffset,forbiddenAshBuff,rareBuff,infusionBuff
+from constants import dmgTypes,baseInfusions,infusionOrder,idWeaponClass,weaponClasses,infusionOffset,forbiddenAshBuff,rareBuff,infusionBuff,claymanBuff
 
 EPW=pd.read_csv("data/EquipParamWeapon.csv").dropna(subset="Name").replace("Great epee","Great Épée",regex=True)
 RPW=pd.read_csv("data/ReinforceParamWeapon.csv")
@@ -21,7 +21,7 @@ def weaponsOfClass(wClass:str)->list[str]:
 
 # Calculations
 
-def ARcalculator(weapon:str,infusion:str,build:list[int],reinforcementLvl:int=25,twoH:bool=False)->np.ndarray:
+def ARcalculator(weapon:str,infusion:str,build:list[int],reinforcementLvl:int=25)->np.ndarray:
     """
     Calculates weapon AR
     Parameters:
@@ -31,8 +31,6 @@ def ARcalculator(weapon:str,infusion:str,build:list[int],reinforcementLvl:int=25
             Infusion name.
         build: list of length 5
             STR, DEX, INT, FTH, ARC.
-        twoH: boolean
-            Is the weapon two handed?
         reinforcementLvl: int
             Weapon reinforcement level (normal, not somber).
     Output:
@@ -51,11 +49,9 @@ def ARcalculator(weapon:str,infusion:str,build:list[int],reinforcementLvl:int=25
         growthMin=ccgData.iloc[0,7+i-1]
         growthMax=ccgData.iloc[0,7+i]
         return (growthMin+(growthMax-growthMin)*growth)/100
-    if "2H" in weapon:
-        weapon=weapon.replace("2H ","")
-        twoH=True
-    if RD[RD["Name"]==weapon]["Max Upgrade"].values[0]==10: reinforcementLvl=(reinforcementLvl+1)//2.5
-    ID=EPW[EPW["Name"]==weapon]["ID"].values[0]+infusionOffset[infusion]
+    weaponName=weapon.replace("2H ","")
+    if RD[RD["Name"]==weaponName]["Max Upgrade"].values[0]==10: reinforcementLvl=(reinforcementLvl+1)//2.5
+    ID=EPW[EPW["Name"]==weaponName]["ID"].values[0]+infusionOffset[infusion]
     rtID=EPW[EPW["ID"]==ID]["reinforceTypeId"].values[0]
     ccgID=EPW[EPW["ID"]==ID][["correctType_Physics","correctType_Magic","correctType_Fire","correctType_Thunder","correctType_Dark"]].values[0]
     aecID=EPW[EPW["ID"]==ID]["attackElementCorrectId"].values[0]
@@ -70,11 +66,11 @@ def ARcalculator(weapon:str,infusion:str,build:list[int],reinforcementLvl:int=25
         if dmg[i]:
             for j in range(5): #stat
                 if AECP[AECP["Row ID"]==aecID].iloc[0,1+5*i+j]:
-                    stat=build[j] if (j!=0 or not twoH) else int(build[j]*1.5)
+                    stat=int(build[j]*1.5) if (j==0 and "2H" in weapon) else build[j]
                     tmp[i]+=dmg[i]*scaling[j]*CalcCorrectFormula(stat,CCG[CCG["ID"]==ccgID[i]])
     # convert 5-array into 8-array
     physType={}
-    for attack in PAA[PAA["Weapon"]==weapon].iloc[:,2:].values[0]:
+    for attack in PAA[PAA["Weapon"]==weaponName].iloc[:,2:].values[0]:
         if pd.isna(attack) or "(" in attack: continue
         attack=attack.split(" + ")[0]
         if attack not in physType: physType[attack]=1
@@ -133,7 +129,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
             Display counter hit damage and spear tali counter hit damage
     """
     res=[]
-    if hardtear: negations=[n*1.1 for n in negations]
+    if hardtear: negations=[n*1.1 for n in negations]                    ,forbiddenAshBuff,rareBuff,ashBuff,greaseBuff
     for weapon in weapons:
         weaponName=weapon.replace("2H ","")
         if EPW[EPW["Name"]==weaponName].empty:
@@ -146,7 +142,6 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
         normal,prc,spr=[],[],[]
         for build in builds:
             weaponInfusions=infusions[build] if infusable else ["Standard"]
-            # buffable somber: bhf, bouquet, ripple*2, treespear, great club, troll's hammer
             for infusion in weaponInfusions:
                 dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build],reinforcementLvl),defenses,negations)
                 normal.append(dmg.sum())
@@ -155,14 +150,21 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
                     spr.append((dmg*np.array([1,1,1,1.15*1.15,1,1,1,1])).sum())
                 columns.append((f"{build} • {' '.join(map(str,builds[build]))}",infusion))
                 # compute buffs (grease, flaming strike etc)
-                if weaponBuffs and buffable and ((infusion in buffs) or (weapon in buffs)) and not ((infusion in noAshBuff) and (weaponClass in noAshBuff[infusion])):
-                    buff=buffs[weapon] if weapon in buffs else buffs[infusion][1]
-                    dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build],reinforcementLvl)+buff,defenses,negations)
-                    normal.append(dmg.sum())
-                    if counterHits and dmg[3]:
-                        prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
-                        spr.append((dmg*np.array([1,1,1,1.15*1.15,1,1,1,1])).sum())
-                    columns.append((f"{build} • {' '.join(map(str,builds[build]))}",buffs[infusion][0]))
+                # buffable     split     infusable: clayman
+                # buffable     split not infusable: treespear, great club, troll's hammer
+                # buffable not split not infusable: bhf, bouquet, ripple*2
+                if weaponBuffs and buffable:
+                    if not (infusion in forbiddenAshBuff and weaponClass in forbiddenAshBuff[infusion]):
+                        if weaponName in rareBuff: buff=rareBuff[weaponName]
+                        elif infusion in ashBuff: buff=ashBuff[infusion]
+                        elif infusion in greaseBuff: buff=greaseBuff[infusion] if weaponName!="Clayman's Harpoon" else claymanBuff[infusion]
+                        else: raise Exception(weapon)
+                        dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build],reinforcementLvl)+buff[1],defenses,negations)
+                        normal.append(dmg.sum())
+                        if counterHits and dmg[3]:
+                            prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
+                            spr.append((dmg*np.array([1,1,1,1.15*1.15,1,1,1,1])).sum())
+                        columns.append((f"{build} • {' '.join(map(str,builds[build]))}",buff[0]))
         if columns:
             res.append(pd.DataFrame([normal,prc,spr],index=pd.MultiIndex.from_tuples([(weapon,"No Prc"),(weapon,"Prc+15%"),(weapon,"Prc+32%")]),columns=pd.MultiIndex.from_tuples(columns)))
     res=pd.concat(res).dropna(how="all")
