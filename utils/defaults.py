@@ -35,6 +35,21 @@ def setDefaultWeapons():
     st.session_state.weapons=["2H Shamshir","Dismounter","Banished Knight's Halberd","2H Rogier's Rapier","Rogier's Rapier","Wakizashi",
                               "Lance","Longsword","Noble's Slender Sword","Short Spear","2H Godskin Stitcher","Star Fist","Katar"]
 
+def setDefaultCalcParams():
+    st.session_state.wClass="Halberds"
+    st.session_state.weapon="Banished Knight's Halberd"
+    st.session_state.STR=66
+    st.session_state.DEX=16
+    st.session_state.INT=9
+    st.session_state.FTH=9
+    st.session_state.ARC=7
+    st.session_state.baseSTR=14
+    st.session_state.baseDEX=13
+    st.session_state.baseINT=9
+    st.session_state.baseFTH=9
+    st.session_state.baseARC=7
+    st.session_state.pts=55
+
 def setDefaultDefStats():
     st.session_state.defstandard=140
     st.session_state.defstrike=140
