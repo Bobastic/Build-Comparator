@@ -49,6 +49,7 @@ def ARcalculator(weapon:str,infusion:str,build:list[int],reinforcementLvl:int=25
         growthMax=ccgData.iloc[0,7+i]
         return (growthMin+(growthMax-growthMin)*growth)/100
     weaponName=weapon.replace("2H ","")
+    if RD[RD["Name"]==weaponName]["Infusable"].values[0]=="No" and infusion!="Standard": return
     if RD[RD["Name"]==weaponName]["Max Upgrade"].values[0]==10: reinforcementLvl=(reinforcementLvl+1)//2.5
     ID=EPW[EPW["Name"]==weaponName]["ID"].values[0]+infusionOffset[infusion]
     rtID=EPW[EPW["ID"]==ID]["reinforceTypeId"].values[0]
