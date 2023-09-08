@@ -61,7 +61,7 @@ with cols[5]: st.number_input("Fire negation",0.,100.,st.session_state.negfire,f
 with cols[6]: st.number_input("Lightning negation",0.,100.,st.session_state.neglightning,format="%.1f",key="neglightning_",on_change=updateState,args=("neglightning_",))
 with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,format="%.1f",key="negholy_",on_change=updateState,args=("negholy_",))
 
-bestInf,bestStats=st.tabs(["Best Infusion","Best Stats"])
+bestInf,bestStats=st.columns(2)
 
 with bestInf:
     cols=st.columns(5)
@@ -70,12 +70,11 @@ with bestInf:
     with cols[2]: st.number_input("INT",1,99,st.session_state.INT,key="INT_",on_change=updateState,args=("INT_",))
     with cols[3]: st.number_input("FTH",1,99,st.session_state.FTH,key="FTH_",on_change=updateState,args=("FTH_",))
     with cols[4]: st.number_input("ARC",1,99,st.session_state.ARC,key="ARC_",on_change=updateState,args=("ARC_",))
-    plot=st.columns(2)[0]
-    with st.columns(2)[0]:
-        cols=st.columns(3)
-        with cols[0]: st.toggle("Opaline Hardtear",value=False,key="hardtear_")
-        with cols[1]: st.toggle("Counter Hits",key="counter_")
-        with cols[2]: st.toggle("Weapon Buffs",key="buffs_")
+    plot=st.empty()
+    cols=st.columns(3)
+    with cols[0]: st.toggle("Opaline Hardtear",value=False,key="hardtear_")
+    with cols[1]: st.toggle("Counter Hits",key="counter_")
+    with cols[2]: st.toggle("Weapon Buffs",key="buffs_")
     with plot:
         stats=[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]
         defenses=[st.session_state.defstandard,st.session_state.defstrike,st.session_state.defslash,st.session_state.defpierce,
