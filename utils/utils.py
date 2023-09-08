@@ -166,6 +166,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
                         columns.append((f"{build} • {' '.join(map(str,builds[build]))}",buff[0]))
         if columns:
             res.append(pd.DataFrame([normal,prc,spr],index=pd.MultiIndex.from_tuples([(weapon,"No Prc"),(weapon,"Prc+15%"),(weapon,"Prc+32%")]),columns=pd.MultiIndex.from_tuples(columns)))
+    if not res: return None
     res=pd.concat(res).dropna(how="all")
     # reorder columns to respect infusion order
     res=res.sort_index(axis=1,level=1,sort_remaining=False,key=lambda x:x.map({a:i for i,a in enumerate(infusionOrder)}))
