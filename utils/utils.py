@@ -94,6 +94,9 @@ def ARtoDMG(AR:list[int],defenses:list[int],negations:list[int])->np.ndarray:
         numpy array of length 8
     """
     res=[]
+    st.write(AR)
+    st.write(defenses)
+    st.write(negations)
     for ar,d,n in zip(AR,defenses,negations):
         n/=100
         if d>ar*8:
