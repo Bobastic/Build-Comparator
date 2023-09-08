@@ -77,7 +77,7 @@ claymanBuff={ # fuck clayman
 }
 
 rareBuff={ # exceptions from the general rule
-    "Treespear":np.array([0,0,0,0,0,0,0,110]),
-    "Great Club":np.array([0,0,0,0,0,110,0,0]),
-    "Troll's Hammer":np.array([0,0,0,0,0,110,0,0]),
+    "Treespear":["Std+Gse",np.array([0,0,0,0,0,0,0,110])],
+    "Great Club":["Std+Gse",np.array([0,0,0,0,0,110,0,0])],
+    "Troll's Hammer":["Std+Gse",np.array([0,0,0,0,0,110,0,0])],
 }
