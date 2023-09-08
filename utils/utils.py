@@ -3,6 +3,8 @@ import numpy as np
 import streamlit as st
 from matplotlib.colors import LinearSegmentedColormap
 
+from constants import *
+
 EPW=pd.read_csv("data/EquipParamWeapon.csv").dropna(subset="Name").replace("Great epee","Great Épée",regex=True)
 RPW=pd.read_csv("data/ReinforceParamWeapon.csv")
 CCG=pd.read_csv("data/CalcCorrectGraph.csv")
@@ -11,36 +13,6 @@ RD=pd.read_csv("data/Raw_Data.csv").replace("Great Epee","Great Épée")
 PAA=pd.read_csv("data/Physical AtkAttribute.csv").dropna(subset="Weapon").replace("Miséricorde","Misericorde").replace("Varré's Bouquet","Varre's Bouquet").iloc[:,:60].drop(
     columns=["1h Charged R2 1","1h Charged R2 2","2h Charged R2 1","2h Charged R2 2","1h Guard Counter","2h Guard Counter"])
 
-dmgTypes=["Standard","Strike","Slash","Pierce","Magic","Fire","Lightning","Holy"]
-baseInfusions=["Heavy","Fire","Keen","Lightning","Magic","Cold","Sacred","Flame Art","Blood","Occult","Standard"]
-infusionOrder=["Heavy","Hvy+Gse","Fire","Fire+FS","Keen","Keen+Gse","Lightning","Ltng+LS","Magic","Cold","Sacred","Scrd+SB","Flame Art","F.Art+FS","Blood","Poison","Occult","Standard","Std+Gse"]
-
-idWeaponClass={
-    29: "Halberds",
-    25: "Spears",
-    3: "Straight Swords",
-    1: "Daggers",
-    9: "Curved Swords",
-    5: "Greatswords",
-    7: "Colossal Swords",
-    15: "Thrusting Swords",
-    16: "Heavy Thrusting Swords",
-    11: "Curved Greatswords",
-    13: "Katanas",
-    14: "Twinblades",
-    21: "Hammers",
-    23: "Greathammers",
-    24: "Flails",
-    17: "Axes",
-    19: "Greataxes",
-    28: "Great Spears",
-    31: "Scythes",
-    39: "Whips",
-    35: "Fists",
-    37: "Claws",
-    41: "Colossal Weapons",
-}
-weaponClasses=idWeaponClass.values()
 def weaponsOfClass(wClass:str)->list[str]:
     # returns a list of all weappons of the specified class
     classes={v:k for k,v in idWeaponClass.items()}
