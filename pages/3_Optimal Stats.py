@@ -16,7 +16,7 @@ if "wClass" not in st.session_state:
     st.session_state.ARC=7
     st.session_state.wClass="Halberds"
     st.session_state.weapon="Banished Knight's Halberd"
-    st.session_state.pts=0
+    st.session_state.pts=60
     st.session_state.baseSTR=14
     st.session_state.baseDEX=13
     st.session_state.baseINT=9
@@ -94,4 +94,4 @@ with bestStats:
     with cols[4]: st.number_input("Base ARC",1,99,st.session_state.baseARC,key="baseARC_",on_change=updateState,args=("baseARC_",))
     cols=st.columns(2)
     with cols[0]: st.selectbox("Infusion",baseInfusions,key="infusion__",on_change=updateState,args=("infusion__",))
-    with cols[1]: st.number_input("Stat Points",0,813,st.session_state.pts,key="pts_",on_change=updateState,args=("pts_",))
+    with cols[1]: st.number_input("Stat points to allocate",0,813,st.session_state.pts,key="pts_",on_change=updateState,args=("pts_",))
