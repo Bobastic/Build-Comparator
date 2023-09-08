@@ -3,7 +3,7 @@ import numpy as np
 import streamlit as st
 from matplotlib.colors import LinearSegmentedColormap
 
-from constants import dmgTypes,baseInfusions,infusionOrder,idWeaponClass,weaponClasses,infusionOffset,forbiddenAshBuff,rareBuff,infusionBuff,claymanBuff
+from constants import dmgTypes,baseInfusions,infusionOrder,idWeaponClass,weaponClasses,infusionOffset,forbiddenAshBuff,rareBuff,ashBuff,greaseBuff,claymanBuff
 
 EPW=pd.read_csv("data/EquipParamWeapon.csv").dropna(subset="Name").replace("Great epee","Great Épée",regex=True)
 RPW=pd.read_csv("data/ReinforceParamWeapon.csv")
