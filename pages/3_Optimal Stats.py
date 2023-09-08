@@ -70,8 +70,8 @@ with bestInf:
     with cols[2]: st.number_input("INT",1,99,st.session_state.INT,key="INT_",on_change=updateState,args=("INT_",))
     with cols[3]: st.number_input("FTH",1,99,st.session_state.FTH,key="FTH_",on_change=updateState,args=("FTH_",))
     with cols[4]: st.number_input("ARC",1,99,st.session_state.ARC,key="ARC_",on_change=updateState,args=("ARC_",))
-    plot=st.columns(2)[0]
-    with st.columns(2)[0]:
+    plot=st.columns([1,2,1])[1]
+    with st.columns([1,2,1])[1]:
         cols=st.columns(3)
         with cols[0]: st.toggle("Opaline Hardtear",value=False,key="hardtear_")
         with cols[1]: st.toggle("Counter Hits",key="counter_")
