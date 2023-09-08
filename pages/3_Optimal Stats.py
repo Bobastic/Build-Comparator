@@ -12,7 +12,8 @@ if "wClass" not in st.session_state:
     setDefaultCalcParams()
 
 def updateState(key):
-        st.session_state[key.replace("_","")]=st.session_state[key]
+    st.session_state[key.replace("_","")]=st.session_state[key]
+    st.session_state.weapon=st.session_state.weapon_
 
 st.markdown("""
     <style>
