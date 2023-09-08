@@ -27,4 +27,21 @@ idWeaponClass={
     37: "Claws",
     41: "Colossal Weapons",
 }
+
 weaponClasses=idWeaponClass.values()
+
+infusionOffset={
+        "Standard":0,
+        "Heavy":100,
+        "Keen":200,
+        "Quality":300, # lmao
+        "Fire":400,
+        "Flame Art":500,
+        "Lightning":600,
+        "Sacred":700,
+        "Magic":800,
+        "Cold":900,
+        "Poison":1000,
+        "Blood":1100,
+        "Occult":1200,
+    }
