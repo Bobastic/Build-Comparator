@@ -20,7 +20,7 @@ if "wClass" not in st.session_state:
 def updateState(key):
         st.session_state[key.replace("_","")]=st.session_state[key]
 
-columns=st.columns([2,3])
+columns=st.columns([1,2])
 with columns[0]:
     cols=st.columns(2)
     with cols[0]: st.selectbox("Weapon class",weaponClasses,key="wClass_",on_change=updateState,args=("wClass_",))
