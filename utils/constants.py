@@ -1,8 +1,8 @@
 dmgTypes=["Standard","Strike","Slash","Pierce","Magic","Fire","Lightning","Holy"]
 baseInfusions=["Heavy","Fire","Keen","Lightning","Magic","Cold","Sacred","Flame Art","Blood","Occult","Standard"]
-infusionOrder=["Heavy","Hvy+Gse","Fire","Fire+FS","Keen","Keen+Gse","Lightning","Ltng+LS","Magic","Cold","Sacred","Scrd+SB","Flame Art","F.Art+FS","Blood","Poison","Occult","Standard","Std+Gse"]
+infusionOrder=["Heavy","Hvy+Gse","Fire","Fire+FS","Keen","Keen+Gse","Lightning","Ltng+LS","Magic","Cold","Sacred","Scrd+SB","Flame Art","F.Art+FS","Blood","Poison","Occult","Standard","Std+Gse"] # for the table column names
 
-idWeaponClass={
+idWeaponClass={ # refers to "wepType" in EquipParamWeapon
     29: "Halberds",
     25: "Spears",
     3: "Straight Swords",
@@ -28,9 +28,9 @@ idWeaponClass={
     41: "Colossal Weapons",
 }
 
-weaponClasses=idWeaponClass.values()
+weaponClasses=idWeaponClass.values() # Halberds, Spears etc...
 
-infusionOffset={
+infusionOffset={ # offset to get "ID" from EquipParamWeapon with standard weapon ID
     "Standard":0,
     "Heavy":100,
     "Keen":200,
@@ -44,4 +44,27 @@ infusionOffset={
     "Poison":1000,
     "Blood":1100,
     "Occult":1200,
+}
+
+forbiddenAshBuff={ # weapon classes incompatible with flaming strike, lightning slash and sacred blade
+    "Fire":["Whips","Colossal Swords","Colossal Weapons"],
+    "Flame Art":["Whips","Colossal Swords","Colossal Weapons"],
+    "Lightning":["Halberds","Spears","Great Spears","Scythes","Whips","Fists","Claws"],
+    "Sacred":["Whips","Fists","Claws"]
+}
+
+infusionBuff={ # grease/ash of war buff to apply depending on the infusion
+    "Heavy":["Hvy+Gse",np.array([0,0,0,0,0,0,110,0])],
+    "Fire":["Fire+FS",np.array([0,0,0,0,0,90,0,0])],
+    "Keen":["Keen+Gse",np.array([0,0,0,0,0,0,110,0])],
+    "Lightning":["Ltng+LS",np.array([0,0,0,0,0,0,90,0])],
+    "Sacred":["Scrd+SB",np.array([0,0,0,0,0,0,0,90])],
+    "Flame Art":["F.Art+FS",np.array([0,0,0,0,0,90,0,0])],
+}
+
+rareBuff={ # exceptions from the general rule
+    "Treespear":np.array([0,0,0,0,0,0,0,110]),
+    "Great Club":np.array([0,0,0,0,0,110,0,0]),
+    "Troll's Hammer":np.array([0,0,0,0,0,110,0,0]),
+    "Clayman's Harpoon":np.array([0,0,0,0,110,0,0,0]),
 }
