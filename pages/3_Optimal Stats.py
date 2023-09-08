@@ -66,7 +66,7 @@ with bestInf:
     with cols[4]: st.number_input("ARC",1,99,st.session_state.ARC,key="ARC_",on_change=updateState,args=("ARC_",))
     plot=st.empty()
     cols=st.columns(3)
-    with cols[0]: st.toggle("Opaline Hardtear",value=False,key="hardtear_")
+    with cols[0]: hardtear=st.toggle("Opaline Hardtear",value=True)
     with cols[1]: st.toggle("Counter Hits",key="counter_")
     with cols[2]: st.toggle("Weapon Buffs",key="buffs_")
     with plot:
