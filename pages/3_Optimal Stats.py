@@ -35,6 +35,7 @@ st.markdown("""
             justify-content: flex-end;
         }
         div[data-testid="column"] {
+            display: flex;
             align-items: center;
         }
     </style>
