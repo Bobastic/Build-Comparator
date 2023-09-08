@@ -33,7 +33,7 @@ st.markdown("""
         }
         label[data-baseweb="checkbox"] {
             justify-content: flex-end;
-            align-items: end;
+            align-items: center;
         }
     </style>
 """,unsafe_allow_html=True)
