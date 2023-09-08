@@ -62,7 +62,7 @@ with comparator:
         displayPercentage=st.toggle("Display %",value=True,help="How much worse the weapon is compared to the best. For example -20% means the weapon deals 20% less damage than the best.")
         classComparison=st.toggle("Compare with class",value=True,help="Compare the weapon with the best of its class or just itself.")
 
-    if st.session_state.nBuilds!=0 and len(st.session_state.weapons)!=0:
+    if st.session_state.nBuilds!=0 and len(st.session_state.weapons)!=0 and [st.session_state[f"infusions{i}"] for i in range(st.session_state.nBuilds)]:
         with st.spinner("Computing table..."):
             weapons=st.session_state.weapons
             builds={st.session_state[f"name{i}"]:[st.session_state[f"str{i}"],st.session_state[f"dex{i}"],st.session_state[f"int{i}"],st.session_state[f"fth{i}"],st.session_state[f"arc{i}"]]
@@ -79,7 +79,7 @@ with comparator:
             st.download_button("Download CSV",table.to_csv(),file_name="buildComparatorData.csv")
             st.download_button("Download HTML",fancy.to_html(),file_name="buildComparator.html")
     else:
-        st.error('Input at least one build, one weapon and fill enemy stats in the "🛠️ Parameters" tab.',icon="🚨")
+        st.error('Input at least one build, one infusion and one weapon in the "🛠️ Parameters" tab.',icon="🚨")
 
 with parameters:
     def updateState(key):
