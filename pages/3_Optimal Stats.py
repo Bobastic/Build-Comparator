@@ -31,6 +31,9 @@ st.markdown("""
         .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
             font-size:1.5rem;
         }
+        label[data-baseweb="checkbox"] {
+            justify-content: flex-end;
+        }
     </style>
 """,unsafe_allow_html=True)
 
