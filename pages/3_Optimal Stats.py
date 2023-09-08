@@ -73,14 +73,18 @@ with bestInf:
     with cols[2]: st.number_input("INT",1,99,st.session_state.INT,key="INT_",on_change=updateState,args=("INT_",))
     with cols[3]: st.number_input("FTH",1,99,st.session_state.FTH,key="FTH_",on_change=updateState,args=("FTH_",))
     with cols[4]: st.number_input("ARC",1,99,st.session_state.ARC,key="ARC_",on_change=updateState,args=("ARC_",))
-    cols=st.columns(2)
-    with cols[0]:
+    plot=st.columns(2)
+    cols=st.columns(3)
+    with cols[0]: st.toggle("Opaline Hardtear",key="hardtear_")
+    with cols[1]: st.toggle("Counter Hits",key="counter_")
+    with cols[2]: st.toggle("Weapon Buffs",key="buffs_")
+    with plot[0]:
         stats=[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]
         defenses=[st.session_state.defstandard,st.session_state.defstrike,st.session_state.defslash,st.session_state.defpierce,
                   st.session_state.defmagic,st.session_state.deffire,st.session_state.deflightning,st.session_state.defholy]
         negations=[st.session_state.negstandard,st.session_state.negstrike,st.session_state.negslash,st.session_state.negpierce,
                   st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
-        nBest=20
+        nBest=10
         weapon=f"{'2H ' if st.session_state.twoH_ else ''}{st.session_state.weapon}"
         data=np.array([ARtoDMG(ARcalculator(weapon,i,stats),defenses,negations) for i in baseInfusions])
         labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(data[x,:]))][-nBest:]
