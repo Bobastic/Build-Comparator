@@ -16,7 +16,7 @@ if "wClass" not in st.session_state:
     st.session_state.ARC=7
     st.session_state.wClass="Halberds"
     st.session_state.weapon="Banished Knight's Halberd"
-    st.session_state.pts=60
+    st.session_state.pts=55
     st.session_state.baseSTR=14
     st.session_state.baseDEX=13
     st.session_state.baseINT=9
@@ -95,3 +95,4 @@ with bestStats:
     cols=st.columns(2)
     with cols[0]: st.selectbox("Infusion",baseInfusions,key="infusion__",on_change=updateState,args=("infusion__",))
     with cols[1]: st.number_input("Stat points to allocate",0,813,st.session_state.pts,key="pts_",on_change=updateState,args=("pts_",))
+    st.info("A Vagabond with 60 vigor, 10 mind and 27 endurance has 55 points left to allocate to reach RL 125.")
