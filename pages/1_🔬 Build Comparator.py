@@ -61,7 +61,7 @@ with comparator:
     with cols[4]:
         displayPercentage=st.toggle("Display %",value=True,help="How much worse the weapon is compared to the best. For example -20% means the weapon deals 20% less damage than the best.")
         classComparison=st.toggle("Compare with class",value=True,help="Compare the weapon with the best of its class or just itself.")
-    st.write([st.session_state[f"infusions{i}"] for i in range(st.session_state.nBuilds)])
+
     if st.session_state.nBuilds!=0 and len(st.session_state.weapons)!=0 and [inf for i in range(st.session_state.nBuilds) for inf in st.session_state[f"infusions{i}"]]:
         with st.spinner("Computing table..."):
             weapons=st.session_state.weapons
