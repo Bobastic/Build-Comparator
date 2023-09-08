@@ -49,8 +49,10 @@ def ARcalculator(weapon:str,infusion:str,build:list[int],reinforcementLvl:int=25
         growthMax=ccgData.iloc[0,7+i]
         return (growthMin+(growthMax-growthMin)*growth)/100
     weaponName=weapon.replace("2H ","")
-    if RD[RD["Name"]==weaponName]["Infusable"].values[0]=="No" and infusion!="Standard": return
-    if RD[RD["Name"]==weaponName]["Max Upgrade"].values[0]==10: reinforcementLvl=(reinforcementLvl+1)//2.5
+    if RD[RD["Name"]==weaponName]["Infusable"].values[0]=="No" and infusion!="Standard": # only infuse infusable weapons
+        return np.zeros(8)
+    if RD[RD["Name"]==weaponName]["Max Upgrade"].values[0]==10: # convert normal upgrade level to somber if needed
+        reinforcementLvl=(reinforcementLvl+1)//2.5
     ID=EPW[EPW["Name"]==weaponName]["ID"].values[0]+infusionOffset[infusion]
     rtID=EPW[EPW["ID"]==ID]["reinforceTypeId"].values[0]
     ccgID=EPW[EPW["ID"]==ID][["correctType_Physics","correctType_Magic","correctType_Fire","correctType_Thunder","correctType_Dark"]].values[0]
