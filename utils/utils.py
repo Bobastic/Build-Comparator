@@ -3,7 +3,7 @@ import numpy as np
 import streamlit as st
 from matplotlib.colors import LinearSegmentedColormap
 
-from constants import *
+from constants import dmgTypes,baseInfusions,infusionOrder,idWeaponClass,weaponClasses,infusionOffset
 
 EPW=pd.read_csv("data/EquipParamWeapon.csv").dropna(subset="Name").replace("Great epee","Great Épée",regex=True)
 RPW=pd.read_csv("data/ReinforceParamWeapon.csv")
@@ -38,21 +38,6 @@ def ARcalculator(weapon:str,infusion:str,build:list[int],reinforcementLvl:int=25
     Output:
         numpy array of length 8
     """
-    infusionOffset={
-        "Standard":0,
-        "Heavy":100,
-        "Keen":200,
-        "Quality":300, # lmao
-        "Fire":400,
-        "Flame Art":500,
-        "Lightning":600,
-        "Sacred":700,
-        "Magic":800,
-        "Cold":900,
-        "Poison":1000,
-        "Blood":1100,
-        "Occult":1200,
-    }
     def CalcCorrectFormula(stat,ccgData):
         # used for stat scaling calculations
         for i in range(5):
