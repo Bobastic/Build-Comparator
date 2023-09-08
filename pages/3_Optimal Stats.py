@@ -31,9 +31,6 @@ st.markdown("""
         .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
             font-size:1.5rem;
         }
-        label[data-baseweb="checkbox"] {
-            justify-content: flex-end;
-        }
         div[data-testid="column"] {
             display: flex;
             align-items: end;
@@ -41,7 +38,7 @@ st.markdown("""
     </style>
 """,unsafe_allow_html=True)
 
-cols=st.columns([7,7,1])
+cols=st.columns([9,9,1])
 with cols[0]: st.selectbox("Weapon class",weaponClasses,key="wClass_",on_change=updateState,args=("wClass_",))
 with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state["wClass"]),index=3,key="weapon_",on_change=updateState,args=("weapon_",))
 with cols[2]: st.toggle("2H",key="twoH_")
