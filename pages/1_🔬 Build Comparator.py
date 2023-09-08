@@ -72,7 +72,6 @@ with comparator:
                     st.session_state.defmagic,st.session_state.deffire,st.session_state.deflightning,st.session_state.defholy]
             negations=[st.session_state.negstandard,st.session_state.negstrike,st.session_state.negslash,st.session_state.negpierce,
                     st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
-            st.write(negations)
             table=DMGtable(weapons,builds,infusions,defenses,negations,weaponLvl,weaponBuffs,counterHits,hardtear)
             fancy=fancyTable(table,classComparison,displayPercentage,showStats,multicolor,showWeaponClass)
             st.write(fancy.to_html(),unsafe_allow_html=True)
