@@ -157,7 +157,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
                         if weaponName in rareBuff: buff=rareBuff[weaponName]
                         elif infusion in ashBuff: buff=ashBuff[infusion]
                         elif infusion in greaseBuff: buff=greaseBuff[infusion] if weaponName!="Clayman's Harpoon" else claymanBuff[infusion]
-                        else: raise Exception(weapon)
+                        else: continue
                         dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build],reinforcementLvl)+buff[1],defenses,negations)
                         normal.append(dmg.sum())
                         if counterHits and dmg[3]:
