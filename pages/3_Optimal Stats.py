@@ -80,4 +80,12 @@ with bestInf:
         st.plotly_chart(fig,use_container_width=True,config={"displayModeBar":False})
 
 with bestStats:
-    st.selectbox("Infusion",baseInfusions,key="infusion__",on_change=updateState,args=("infusion__",))
+    cols=st.columns(5)
+    with cols[0]: st.number_input("STR",1,99,st.session_state.STR,key="STR__",on_change=updateState,args=("STR__",))
+    with cols[1]: st.number_input("DEX",1,99,st.session_state.DEX,key="DEX__",on_change=updateState,args=("DEX__",))
+    with cols[2]: st.number_input("INT",1,99,st.session_state.INT,key="INT__",on_change=updateState,args=("INT__",))
+    with cols[3]: st.number_input("FTH",1,99,st.session_state.FTH,key="FTH__",on_change=updateState,args=("FTH__",))
+    with cols[4]: st.number_input("ARC",1,99,st.session_state.ARC,key="ARC__",on_change=updateState,args=("ARC__",))
+    cols=st.columns(2)
+    with cols[0]: st.selectbox("Infusion",baseInfusions,key="infusion__",on_change=updateState,args=("infusion__",))
+    with cols[1]: st.number_input("Stat Points",0,813,st.session_state.pts,key="pts_",on_change=updateState,args=("pts_",))
