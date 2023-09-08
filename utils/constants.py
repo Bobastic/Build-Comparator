@@ -1,6 +1,6 @@
 dmgTypes=["Standard","Strike","Slash","Pierce","Magic","Fire","Lightning","Holy"]
-baseInfusions=["Heavy","Fire","Keen","Lightning","Magic","Cold","Sacred","Flame Art","Blood","Occult","Standard"]
-infusionOrder=["Heavy","Hvy+Gse","Fire","Fire+FS","Keen","Keen+Gse","Lightning","Ltng+LS","Magic","Cold","Sacred","Scrd+SB","Flame Art","F.Art+FS","Blood","Poison","Occult","Standard","Std+Gse"] # for the table column names
+baseInfusions=["Heavy","Fire","Keen","Lightning","Magic","Cold","Sacred","Flame Art","Blood","Poison","Occult","Standard"]
+infusionOrder=["Heavy","Hvy+Gse","Fire","Fire+FS","Keen","Keen+Gse","Lightning","Ltng+LS","Magic","Cold","Sacred","Scrd+SB","Flame Art","F.Art+FS","Blood","Poison","Occult","Quality","Qty+Gse","Standard","Std+Gse"] # for the table column names
 
 idWeaponClass={ # refers to "wepType" in EquipParamWeapon
     29: "Halberds",
@@ -53,18 +53,29 @@ forbiddenAshBuff={ # weapon classes incompatible with flaming strike, lightning 
     "Sacred":["Whips","Fists","Claws"]
 }
 
-infusionBuff={ # grease/ash of war buff to apply depending on the infusion
-    "Heavy":["Hvy+Gse",np.array([0,0,0,0,0,0,110,0])],
+ashBuff={ # ash of war buff to apply depending on the infusion
     "Fire":["Fire+FS",np.array([0,0,0,0,0,90,0,0])],
-    "Keen":["Keen+Gse",np.array([0,0,0,0,0,0,110,0])],
     "Lightning":["Ltng+LS",np.array([0,0,0,0,0,0,90,0])],
     "Sacred":["Scrd+SB",np.array([0,0,0,0,0,0,0,90])],
     "Flame Art":["F.Art+FS",np.array([0,0,0,0,0,90,0,0])],
+}
+
+greaseBuff={ # grease to apply depending on the infusion
+    "Heavy":["Hvy+Gse",np.array([0,0,0,0,0,0,110,0])],
+    "Keen":["Keen+Gse",np.array([0,0,0,0,0,0,110,0])],
+    "Standard":["Std+Gse",np.array([0,0,0,0,0,0,110,0])],
+    "Quality":["Qty+Gse",np.array([0,0,0,0,0,0,110,0])],
+}
+
+claymanBuff={ # fuck clayman
+    "Heavy":["Hvy+Gse",np.array([0,0,0,0,110,0,0,0])],
+    "Keen":["Keen+Gse",np.array([0,0,0,0,110,0,0,0])],
+    "Standard":["Std+Gse",np.array([0,0,0,0,110,0,0,0])],
+    "Quality":["Qty+Gse",np.array([0,0,0,0,110,0,0,0])],
 }
 
 rareBuff={ # exceptions from the general rule
     "Treespear":np.array([0,0,0,0,0,0,0,110]),
     "Great Club":np.array([0,0,0,0,0,110,0,0]),
     "Troll's Hammer":np.array([0,0,0,0,0,110,0,0]),
-    "Clayman's Harpoon":np.array([0,0,0,0,110,0,0,0]),
 }
