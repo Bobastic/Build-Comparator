@@ -63,7 +63,7 @@ with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,f
 
 st.divider()
 
-bestInf,_,_,bestStats=st.columns([15,1,1,15])
+bestInf,_,_,bestStats=st.columns([20,1,1,20])
 
 with bestInf:
     cols=st.columns(5)
