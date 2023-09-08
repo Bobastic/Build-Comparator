@@ -61,6 +61,8 @@ with cols[5]: st.number_input("Fire negation",0.,100.,st.session_state.negfire,f
 with cols[6]: st.number_input("Lightning negation",0.,100.,st.session_state.neglightning,format="%.1f",key="neglightning_",on_change=updateState,args=("neglightning_",))
 with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,format="%.1f",key="negholy_",on_change=updateState,args=("negholy_",))
 
+st.divider()
+
 bestInf,bestStats=st.columns(2)
 
 with bestInf:
