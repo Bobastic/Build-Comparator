@@ -74,8 +74,8 @@ with info:
         fig=go.Figure()
         for i in range(8):
             fig.add_trace(go.Bar(x=data[:,i],y=labels,name=dmgTypes[i],orientation="h",
-                                 text=[round(d) for d in data[:,i]],marker={"color":colors[i]},showlegend=bool(data[:,i].sum()!=0),insidetextfont={"size":15},textangle=0))
-        fig.add_trace(go.Scatter(x=data.sum(axis=1),y=labels,text=[f"  {d:.0f}" for d in data.sum(axis=1)],mode='text',textfont={"size":13},textposition="middle right",showlegend=False))
+                                 text=[round(d) for d in data[:,i]],marker={"color":colors[i]},showlegend=bool(data[:,i].sum()!=0),insidetextfont={"size":14},textangle=0))
+        fig.add_trace(go.Scatter(x=data.sum(axis=1),y=labels,text=[f"  {d:.0f}" for d in data.sum(axis=1)],mode='text',textfont={"size":14},textposition="middle right",showlegend=False))
         fig.update_layout(barmode='stack',legend_traceorder="normal",margin=go.layout.Margin(l=0,r=0,b=0,t=0)) #autosize=False,height=350,legend={"orientation":"h","yanchor":"bottom","y":1.02}
         st.plotly_chart(fig,use_container_width=True,config={"displayModeBar":False})
 
