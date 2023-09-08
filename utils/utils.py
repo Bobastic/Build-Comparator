@@ -94,6 +94,7 @@ def ARtoDMG(AR:list[int],defenses:list[int],negations:list[int])->np.ndarray:
         numpy array of length 8
     """
     res=[]
+    import streamlit as st
     st.write(AR)
     st.write(defenses)
     st.write(negations)
