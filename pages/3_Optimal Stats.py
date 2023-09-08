@@ -92,7 +92,7 @@ with bestStats:
     with cols[2]: st.number_input("Base INT",1,99,st.session_state.baseINT,key="baseINT_",on_change=updateState,args=("baseINT_",))
     with cols[3]: st.number_input("Base FTH",1,99,st.session_state.baseFTH,key="baseFTH_",on_change=updateState,args=("baseFTH_",))
     with cols[4]: st.number_input("Base ARC",1,99,st.session_state.baseARC,key="baseARC_",on_change=updateState,args=("baseARC_",))
-    cols=st.columns(2)
+    cols=st.columns(3)
     with cols[0]: st.selectbox("Infusion",baseInfusions,key="infusion__",on_change=updateState,args=("infusion__",))
     with cols[1]: st.number_input("Stat points to allocate",0,813,st.session_state.pts,key="pts_",on_change=updateState,args=("pts_",))
     with cols[2]: st.info("A Vagabond with 60 vigor, 10 mind and 27 endurance has 55 points left to allocate to reach RL 125.")
