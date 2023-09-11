@@ -84,12 +84,13 @@ with bestInf:
         data=data[~np.all(data==0,axis=1)]
         st.markdown(data)
         labels=baseInfusions if len(data)>1 else ["Standard"]
-        labels=[baseInfusions[i] for i in sorted(range(len(labels)),key=lambda x:sum(data[x,:]))][-nBest:]
+        labels=[lablels[i] for i in sorted(range(len(labels)),key=lambda x:sum(data[x,:]))][-nBest:]
         data=data[np.argsort(data.sum(axis=1))[-nBest:]] # we sort by total and keep the best
         colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgba(14, 90, 157, 0.3)","rgba(214, 39, 40, 0.3)","rgba(255, 225, 53, 0.3)","rgba(255, 127, 14, 0.3)"]
+        width=[0.8]*len(labels) if len(labels)>1 else [0.2]
         fig=go.Figure()
         for i in range(8):
-            fig.add_trace(go.Bar(x=data[:,i],y=labels,name=dmgTypes[i],orientation="h",width=[0.8]*len(labels),
+            fig.add_trace(go.Bar(x=data[:,i],y=labels,name=dmgTypes[i],orientation="h",width=width,
                                  text=[round(d) for d in data[:,i]],marker={"color":colors[i]},showlegend=bool(data[:,i].sum()!=0),insidetextfont={"size":14},textangle=0))
         fig.add_trace(go.Scatter(x=data.sum(axis=1),y=labels,text=[f"  {d:.0f}" for d in data.sum(axis=1)],mode='text',textfont={"size":14},textposition="middle right",showlegend=False))
         fig.update_layout(barmode='stack',legend_traceorder="normal",margin=go.layout.Margin(l=0,r=0,b=0,t=0),legend={"orientation":"h","yanchor":"bottom","y":1.02}) #autosize=False,height=350
