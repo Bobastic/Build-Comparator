@@ -32,6 +32,9 @@ st.markdown("""
         .appview-container .main .block-container {
             padding-top: 3rem;
         }
+        div[data-testid="metric-container"] {
+            align-items: center;
+        }
     </style>
 """,unsafe_allow_html=True)
 
@@ -129,4 +132,4 @@ with bestStats:
     with cols[2]: st.metric("Optimal INT",bestStats[2])
     with cols[3]: st.metric("Optimal FTH",bestStats[3])
     with cols[4]: st.metric("Optimal ARC",bestStats[4])
-    with st.columns(3)[1]: st.metric("Best Damage",int(dmg),"+4.5%")
+    st.metric("Best Damage",int(dmg),"+4.5%")
