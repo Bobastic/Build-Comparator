@@ -11,9 +11,6 @@ if "wClass" not in st.session_state:
     setDefaultDefStats()
     setDefaultCalcParams()
 
-if "weapon" not in st.session_state:
-    st.write("coucou")
-
 def updateState(key):
     st.session_state[key.replace("_","")]=st.session_state[key]
 
