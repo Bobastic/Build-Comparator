@@ -104,7 +104,7 @@ with bestInf:
         st.plotly_chart(fig,use_container_width=True,config={"displayModeBar":False})
 
 with bestStats:
-    st.subheader("🔍 Optimal Stats 🔍")
+    st.subheader("🔍 Optimal Stats 🔎")
     cols=st.columns(5)
     with cols[0]: st.number_input("Base STR",1,99,st.session_state.baseSTR,key="baseSTR_",on_change=updateState,args=("baseSTR_",))
     with cols[1]: st.number_input("Base DEX",1,99,st.session_state.baseDEX,key="baseDEX_",on_change=updateState,args=("baseDEX_",))
