@@ -4,8 +4,6 @@ st.set_page_config(layout='centered',page_title="Build Comparator",page_icon="âš
 
 st.sidebar.info("Hi. Check this page for some information about this tool or head straight to **ðŸ”¬ Build Comparator** or **Weapon Optimize** to figure it out by yourself.")
 
-st.text("")
-
 st.subheader("What is the purpose of this tool?")
 
 st.markdown(f"""<div style='text-align: justify;'>
