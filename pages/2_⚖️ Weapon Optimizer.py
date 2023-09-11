@@ -49,7 +49,7 @@ st.sidebar.info("The physical damage type is the most common one for the weapon 
 cols=st.columns([6,6,4,1])
 with cols[0]: st.selectbox("Weapon class",weaponClasses,key="wClass")
 with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state.wClass),key="weapon")
-with cols[2]: st.number_input("Weapon level",0,25,25)
+with cols[2]: st.number_input("Weapon level",0,25,25,help="NORMAL weapon level from 0 to 25. Somber level is automatically calculated from this.")
 with cols[3]: st.toggle("2H",key="twoH")
 cols=st.columns(8)
 with cols[0]: st.number_input("Standard defense",0,400,st.session_state.defstandard,key="defstandard_",on_change=updateState,args=("defstandard_",))
