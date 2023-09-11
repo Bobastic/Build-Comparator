@@ -18,6 +18,11 @@ def weaponsOfClass(wClass:str)->list[str]:
     tmp=EPW[EPW["wepType"]==classes[wClass.replace("2H ","")]]
     return [f"2H {w}" if "2H" in wClass else w for w in tmp[tmp["reinforceTypeId"].isin([0,2200])]["Name"]]
 
+def weaponInfusions(weapon:str)->list[str]:
+    # returns a list of the weapon's available infusions
+    infusable=RD[RD["Name"]==weapon.replace("2H ","")]["Infusable"].values[0]=="Yes"
+    return baseInfusions if infusable else ["Standard"]
+
 # Calculations
 
 def ARcalculator(weapon:str,infusion:str,build:list[int],reinforcementLvl:int=25)->np.ndarray:
@@ -137,14 +142,12 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
         if EPW[EPW["Name"]==weaponName].empty:
             print(f"Weapon does not exist: {weapon}")
             continue
-        infusable=RD[RD["Name"]==weaponName]["Infusable"].values[0]=="Yes"
         buffable=EPW[EPW["Name"]==weaponName]["isEnhance"].values[0]==1
         weaponClass=idWeaponClass[EPW[EPW["Name"]==weaponName]["wepType"].values[0]]
         columns=[]
         normal,prc,spr=[],[],[]
         for build in builds:
-            weaponInfusions=infusions[build] if infusable else ["Standard"]
-            for infusion in weaponInfusions:
+            for infusion in weaponInfusions(weapon):
                 dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build],reinforcementLvl),defenses,negations)
                 normal.append(dmg.sum())
                 if counterHits and dmg[3]:
