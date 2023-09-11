@@ -11,6 +11,9 @@ if "wClass" not in st.session_state:
     setDefaultDefStats()
     setDefaultCalcParams()
 
+if "weapon" not in st.session_state:
+    st.write("coucou")
+
 def updateState(key):
     st.session_state[key.replace("_","")]=st.session_state[key]
 
@@ -77,7 +80,7 @@ with bestInf:
                   st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
         nBest=10
         weapon=f"{'2H ' if st.session_state.twoH_ else ''}{st.session_state.weapon}"
-        data=np.array([ARtoDMG(ARcalculator(weapon,i,stats),defenses,negations) for i in baseInfusions])
+        data=np.array([ARtoDMG(ARcalculator(weapon,i,stats),defenses,negations,hardtear=hardtear) for i in baseInfusions])
         st.table(data)
         labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(data[x,:]))][-nBest:]
         data=data[np.argsort(data.sum(axis=1))[-nBest:]] # we sort by total and keep the best
