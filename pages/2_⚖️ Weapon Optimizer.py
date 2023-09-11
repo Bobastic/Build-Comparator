@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 from utils.utils import baseInfusions,weaponClasses,weaponsOfClass,ARcalculator,ARtoDMG,dmgTypes
 from utils.defaults import setDefaultDefStats,setDefaultCalcParams
 
-st.set_page_config(layout='wide',page_title="Weapon Info",page_icon="🔬")
+st.set_page_config(layout='wide',page_title="Weapon Optimizer",page_icon="⚖️")
 
 if "wClass" not in st.session_state:
     setDefaultDefStats()
