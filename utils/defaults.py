@@ -36,8 +36,6 @@ def setDefaultWeapons():
                               "Lance","Longsword","Noble's Slender Sword","Short Spear","2H Godskin Stitcher","Star Fist","Katar"]
 
 def setDefaultCalcParams():
-    st.session_state.wClass="Halberds"
-    st.session_state.weapon="Banished Knight's Halberd"
     st.session_state.STR=66
     st.session_state.DEX=16
     st.session_state.INT=9
