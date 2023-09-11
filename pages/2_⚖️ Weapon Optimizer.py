@@ -125,7 +125,6 @@ with bestStats:
     st.info("A base Vagabond with 60 VIG and 27 END has 55 points left to allocate to reach RL 125.")
     bestStats=[st.session_state.baseSTR,st.session_state.baseDEX,st.session_state.baseINT,st.session_state.baseFTH,st.session_state.baseARC]
     dmg=0
-    st.markdown(st.session_state.infusion)
     for _ in range(st.session_state.pts):
         for i in range(5):
             tmpStats=bestStats[:]
