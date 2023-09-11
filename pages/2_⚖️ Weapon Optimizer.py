@@ -33,6 +33,8 @@ st.markdown("""
             padding-top: 3rem;
         }
         div[data-testid="metric-container"] {
+            display: flex;
+            flex-direction: column;
             align-items: center;
         }
     </style>
