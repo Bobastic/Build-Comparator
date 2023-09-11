@@ -89,7 +89,7 @@ with bestInf:
         colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgba(14, 90, 157, 0.3)","rgba(214, 39, 40, 0.3)","rgba(255, 225, 53, 0.3)","rgba(255, 127, 14, 0.3)"]
         fig=go.Figure()
         for i in range(8):
-            fig.add_trace(go.Bar(x=data[:,i],y=labels,name=dmgTypes[i],orientation="h",
+            fig.add_trace(go.Bar(x=data[:,i],y=labels,name=dmgTypes[i],orientation="h",width=[0.5]*len(labels),
                                  text=[round(d) for d in data[:,i]],marker={"color":colors[i]},showlegend=bool(data[:,i].sum()!=0),insidetextfont={"size":14},textangle=0))
         fig.add_trace(go.Scatter(x=data.sum(axis=1),y=labels,text=[f"  {d:.0f}" for d in data.sum(axis=1)],mode='text',textfont={"size":14},textposition="middle right",showlegend=False))
         fig.update_layout(barmode='stack',legend_traceorder="normal",margin=go.layout.Margin(l=0,r=0,b=0,t=0),legend={"orientation":"h","yanchor":"bottom","y":1.02}) #autosize=False,height=350
