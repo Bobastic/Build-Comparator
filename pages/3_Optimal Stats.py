@@ -20,7 +20,7 @@ def updateState(key):
 st.markdown("""
     <style>
         .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
-            font-size:1.5rem;
+            font-size: 1.5rem;
         }
         div[data-testid="column"]:nth-of-type(3) {
             display: flex;
@@ -28,6 +28,9 @@ st.markdown("""
         }
         h3 {
             text-align: center;
+        }
+        .appview-container .main .block-container {
+            padding-top: 1rem;
         }
     </style>
 """,unsafe_allow_html=True)
