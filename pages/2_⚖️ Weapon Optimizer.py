@@ -99,7 +99,7 @@ with bestInf:
                   st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
         nBest=10
         weapon=f"{'2H ' if st.session_state.twoH else ''}{st.session_state.weapon}"
-        data=np.array([ARtoDMG(ARcalculator(weapon,i,stats),defenses,negations) for i in infusions])
+        data=np.array([ARtoDMG(ARcalculator(weapon,i,stats,st.session_state.reinforcementLvl),defenses,negations) for i in infusions])
         labels=[infusions[i] for i in sorted(range(len(infusions)),key=lambda x:sum(data[x,:]))][-nBest:]
         data=data[np.argsort(data.sum(axis=1))[-nBest:]] # we sort by total and keep the best
         colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgba(14, 90, 157, 0.3)","rgba(214, 39, 40, 0.3)","rgba(255, 225, 53, 0.3)","rgba(255, 127, 14, 0.3)"]
@@ -130,7 +130,7 @@ with bestStats:
         for i in range(5):
             tmpStats=bestStats[:]
             tmpStats[i]+=1
-            tmpDmg=ARtoDMG(ARcalculator(weapon,st.session_state.infusion,tmpStats),defenses,negations)
+            tmpDmg=ARtoDMG(ARcalculator(weapon,st.session_state.infusion,tmpStats,st.session_state.reinforcementLvl),defenses,negations)
             if sum(tmpDmg)>dmg:
                 dmg=sum(tmpDmg)
                 lvlUp=i
