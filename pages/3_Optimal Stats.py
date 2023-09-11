@@ -84,7 +84,7 @@ with bestInf:
         data=data[~np.all(data==0,axis=1)]
         st.markdown(data)
         labels=baseInfusions if len(data)>1 else ["Standard"]
-        labels=[lablels[i] for i in sorted(range(len(labels)),key=lambda x:sum(data[x,:]))][-nBest:]
+        labels=[labels[i] for i in sorted(range(len(labels)),key=lambda x:sum(data[x,:]))][-nBest:]
         data=data[np.argsort(data.sum(axis=1))[-nBest:]] # we sort by total and keep the best
         colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgba(14, 90, 157, 0.3)","rgba(214, 39, 40, 0.3)","rgba(255, 225, 53, 0.3)","rgba(255, 127, 14, 0.3)"]
         width=[0.8]*len(labels) if len(labels)>1 else [0.2]
