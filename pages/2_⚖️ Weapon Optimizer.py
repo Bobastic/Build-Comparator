@@ -68,7 +68,7 @@ st.divider()
 bestInf,_,_,bestStats=st.columns([20,1,1,20])
 
 with bestInf:
-    st.subheader("Damage Calculator")
+    st.subheader("⚔️ Damage Calculator ⚔️")
     cols=st.columns(5)
     with cols[0]: st.number_input("STR",1,99,st.session_state.STR,key="STR_",on_change=updateState,args=("STR_",))
     with cols[1]: st.number_input("DEX",1,99,st.session_state.DEX,key="DEX_",on_change=updateState,args=("DEX_",))
