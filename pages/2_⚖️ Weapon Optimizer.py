@@ -111,16 +111,16 @@ with bestStats:
     with cols[0]: infusion=st.selectbox("Infusion",baseInfusions,key="infusion__",on_change=updateState,args=("infusion__",))
     with cols[1]: pts=st.number_input("Stat points to allocate",0,813,st.session_state.pts,key="pts_",on_change=updateState,args=("pts_",))
     with cols[2]: st.info("A base Vagabond with 60 VIG and 27 END has 55 points left for RL 125.")
-    stats_=[st.session_state.baseSTR,st.session_state.baseDEX,st.session_state.baseINT,st.session_state.baseFTH,st.session_state.baseARC]
+    bestStats=[st.session_state.baseSTR,st.session_state.baseDEX,st.session_state.baseINT,st.session_state.baseFTH,st.session_state.baseARC]
     dmg=0
     while pts>0:
         for i in range(5):
-            tmpStats=stats_[:]
+            tmpStats=bestStats[:]
             tmpStats[i]+=1
-            tmpDmg=ARtoDMG(ARcalculator(weapon,st.session_state.infusion,tmpStats),defenses,negations)
+            tmpDmg=ARtoDMG(ARcalculator(weapon,infusion,tmpStats),defenses,negations)
             if sum(tmpDmg)>dmg:
                 dmg=sum(tmpDmg)
                 lvlUp=i
-        stats[lvlUp]+=1
+        bestStats[lvlUp]+=1
         pts-=1
     st.markdown(stats)
