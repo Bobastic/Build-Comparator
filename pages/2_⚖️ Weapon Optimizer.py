@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
 
-from utils.utils import baseInfusions,weaponClasses,weaponsOfClass,ARcalculator,ARtoDMG,dmgTypes
+from utils.utils import baseInfusions,weaponClasses,weaponsOfClass,ARcalculator,ARtoDMG,dmgTypes,weaponInfusions
 from utils.defaults import setDefaultDefStats,setDefaultCalcParams
 
 st.set_page_config(layout='wide',page_title="Weapon Optimizer",page_icon="⚖️")
@@ -112,7 +112,7 @@ with bestStats:
     with cols[3]: st.number_input("Base FTH",1,99,st.session_state.baseFTH,key="baseFTH_",on_change=updateState,args=("baseFTH_",))
     with cols[4]: st.number_input("Base ARC",1,99,st.session_state.baseARC,key="baseARC_",on_change=updateState,args=("baseARC_",))
     cols=st.columns(2)
-    with cols[0]: infusion=st.selectbox("Infusion",baseInfusions,key="infusion__",on_change=updateState,args=("infusion__",))
+    with cols[0]: infusion=st.selectbox("Infusion",weaponInfusions(weapon),key="infusion__",on_change=updateState,args=("infusion__",))
     with cols[1]: pts=st.number_input("Stat points to allocate",0,813,st.session_state.pts,key="pts_",on_change=updateState,args=("pts_",))
     st.info("A base Vagabond with 60 VIG and 27 END has 55 points left to allocate to reach RL 125.")
     bestStats=[st.session_state.baseSTR,st.session_state.baseDEX,st.session_state.baseINT,st.session_state.baseFTH,st.session_state.baseARC]
