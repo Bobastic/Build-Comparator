@@ -128,7 +128,7 @@ with bestStats:
         for i in range(5):
             tmpStats=bestStats[:]
             tmpStats[i]+=1
-            tmpDmg=ARtoDMG(ARcalculator(weapon,infusion,tmpStats),defenses,negations)
+            tmpDmg=ARtoDMG(ARcalculator(weapon,st.session_state.infusion,tmpStats),defenses,negations)
             if sum(tmpDmg)>dmg:
                 dmg=sum(tmpDmg)
                 lvlUp=i
