@@ -109,5 +109,16 @@ with bestStats:
     with cols[4]: st.number_input("Base ARC",1,99,st.session_state.baseARC,key="baseARC_",on_change=updateState,args=("baseARC_",))
     cols=st.columns(3)
     with cols[0]: st.selectbox("Infusion",baseInfusions,key="infusion__",on_change=updateState,args=("infusion__",))
-    with cols[1]: st.number_input("Stat points to allocate",0,813,st.session_state.pts,key="pts_",on_change=updateState,args=("pts_",))
+    with cols[1]: pts=st.number_input("Stat points to allocate",0,813,st.session_state.pts,key="pts_",on_change=updateState,args=("pts_",))
     with cols[2]: st.info("A base Vagabond with 60 VIG and 27 END has 55 points left for RL 125.")
+    stats_=[st.session_state.baseSTR,st.session_state.baseDEX,st.session_state.baseINT,st.session_state.baseFTH,st.session_state.baseARC]
+    dmg=0
+    while pts>0:
+        for i,stat in enumerate(stats):
+            tmpDmg=ARtoDMG(ARcalculator(weapon,st.session_state.infusion,stats_),defenses,negations)
+            if tmpDmg>dmg:
+                dmg=tmpDmg
+                lvlUp=i
+        stats[i]+=1
+        pts-=1
+    st.markdown(stats)
