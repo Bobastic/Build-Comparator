@@ -83,7 +83,8 @@ with bestInf:
         data=np.array([ARtoDMG(ARcalculator(weapon,i,stats),defenses,negations) for i in baseInfusions])
         data=data[~np.all(data==0,axis=1)]
         st.markdown(data)
-        labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(data[x,:]))][-nBest:]
+        labels=baseInfusions if len(data)>1 else ["Standard"]
+        labels=[baseInfusions[i] for i in sorted(range(len(labels)),key=lambda x:sum(data[x,:]))][-nBest:]
         data=data[np.argsort(data.sum(axis=1))[-nBest:]] # we sort by total and keep the best
         colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgba(14, 90, 157, 0.3)","rgba(214, 39, 40, 0.3)","rgba(255, 225, 53, 0.3)","rgba(255, 127, 14, 0.3)"]
         fig=go.Figure()
