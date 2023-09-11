@@ -65,6 +65,8 @@ with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,f
 
 st.divider()
 
+infusions=weaponInfusions(weapon)
+
 bestInf,_,_,bestStats=st.columns([20,1,1,20])
 
 with bestInf:
@@ -88,10 +90,9 @@ with bestInf:
                   st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
         nBest=10
         weapon=f"{'2H ' if twoH else ''}{weapon}"
-        data=np.array([ARtoDMG(ARcalculator(weapon,i,stats),defenses,negations) for i in baseInfusions])
-        data=data[~np.all(data==0,axis=1)]
-        labels=baseInfusions if len(data)>1 else ["Standard"]
-        labels=[labels[i] for i in sorted(range(len(labels)),key=lambda x:sum(data[x,:]))][-nBest:]
+        
+        data=np.array([ARtoDMG(ARcalculator(weapon,i,stats),defenses,negations) for i in infusions])
+        labels=[infusions[i] for i in sorted(range(len(infusions)),key=lambda x:sum(data[x,:]))][-nBest:]
         data=data[np.argsort(data.sum(axis=1))[-nBest:]] # we sort by total and keep the best
         colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgba(14, 90, 157, 0.3)","rgba(214, 39, 40, 0.3)","rgba(255, 225, 53, 0.3)","rgba(255, 127, 14, 0.3)"]
         width=[0.8]*len(labels) if len(labels)>1 else [0.15]
@@ -112,7 +113,7 @@ with bestStats:
     with cols[3]: st.number_input("Base FTH",1,99,st.session_state.baseFTH,key="baseFTH_",on_change=updateState,args=("baseFTH_",))
     with cols[4]: st.number_input("Base ARC",1,99,st.session_state.baseARC,key="baseARC_",on_change=updateState,args=("baseARC_",))
     cols=st.columns(2)
-    with cols[0]: infusion=st.selectbox("Infusion",weaponInfusions(weapon),key="infusion__",on_change=updateState,args=("infusion__",))
+    with cols[0]: infusion=st.selectbox("Infusion",infusions,key="infusion__",on_change=updateState,args=("infusion__",))
     with cols[1]: pts=st.number_input("Stat points to allocate",0,813,st.session_state.pts,key="pts_",on_change=updateState,args=("pts_",))
     st.info("A base Vagabond with 60 VIG and 27 END has 55 points left to allocate to reach RL 125.")
     bestStats=[st.session_state.baseSTR,st.session_state.baseDEX,st.session_state.baseINT,st.session_state.baseFTH,st.session_state.baseARC]
@@ -133,4 +134,4 @@ with bestStats:
     with cols[2]: st.metric("Optimal INT",bestStats[2])
     with cols[3]: st.metric("Optimal FTH",bestStats[3])
     with cols[4]: st.metric("Optimal ARC",bestStats[4])
-    st.metric(f"Optimal Damage - {infusion}",int(dmg),f"{+100*dmg/sum(data[-1,:])-100:.1f}%")
+    st.metric(f"Optimal Damage",int(dmg),f"{+100*dmg/sum(data[-1,:])-100:.1f}%")
