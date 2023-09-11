@@ -129,4 +129,4 @@ with bestStats:
     with cols[2]: st.number_input("Optimal INT",1,99,bestStats[2],disabled=True)
     with cols[3]: st.number_input("Optimal FTH",1,99,bestStats[3],disabled=True)
     with cols[4]: st.number_input("Optimal ARC",1,99,bestStats[4],disabled=True)
-    st.metric(label="Best Damage",value=dmg,delta="+4.5%")
+    st.metric("Best Damage",dmg,"+4.5%")
