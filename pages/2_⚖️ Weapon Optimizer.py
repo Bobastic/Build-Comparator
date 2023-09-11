@@ -32,6 +32,10 @@ st.markdown("""
         .appview-container .main .block-container {
             padding-top: 3rem;
         }
+        div[data-testid="stMetricValue"] {
+            display: flex;
+            align-items: center;
+        }
     </style>
 """,unsafe_allow_html=True)
 
