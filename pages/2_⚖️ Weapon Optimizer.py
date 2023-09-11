@@ -133,7 +133,7 @@ with bestStats:
                 dmg=sum(tmpDmg)
                 lvlUp=i
         bestStats[lvlUp]+=1
-        pts-=1
+        ptsLeft-=1
     cols=st.columns(5)
     with cols[0]: st.metric("Optimal STR",bestStats[0])
     with cols[1]: st.metric("Optimal DEX",bestStats[1])
