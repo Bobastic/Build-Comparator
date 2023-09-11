@@ -6,12 +6,14 @@ from utils.defaults import setDefaultBuilds,setDefaultWeapons,setDefaultDefStats
 
 st.set_page_config(layout='wide',page_title="Build Comparator",page_icon="🔬")
 
-if "nBuilds" not in st.session_state:
+if "defstandard" not in st.session_state:
     st.session_state.reinforcementlvl=25
+    setDefaultDefStats()
+    
+if "nBuilds" not in st.session_state:
     st.session_state.nBuilds=0
     setDefaultBuilds()
     setDefaultWeapons()
-    setDefaultDefStats()
 
 st.markdown("""
     <style>
