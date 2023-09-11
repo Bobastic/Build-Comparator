@@ -7,7 +7,7 @@ from utils.defaults import setDefaultDefStats,setDefaultCalcParams
 
 st.set_page_config(layout='wide',page_title="Weapon Optimizer",page_icon="⚖️")
 
-if "wClass" in st.session_state:
+if "wClass" in st.session_state: # needed because streamlit spaghetti
     st.session_state.wClass=st.session_state.wClass
 
 if "defstandard" not in st.session_state:
@@ -47,10 +47,9 @@ st.sidebar.info("Attacks have a motion value of 100 (usually R1).")
 st.sidebar.info("The physical damage type is the most common one for the weapon (Standard for Longsword, Slash for Wakizashi etc...)")
 
 cols=st.columns([8,8,1])
-with cols[0]: wClass=st.selectbox("Weapon class",weaponClasses,key="wClass")
-with cols[1]: weapon=st.selectbox("Weapon",weaponsOfClass(wClass),key="weapon")
-with cols[2]: twoH=st.toggle("2H")
-st.markdown(f"{wClass} {weapon} {st.session_state.wClass} {st.session_state.weapon}")
+with cols[0]: st.selectbox("Weapon class",weaponClasses,key="wClass")
+with cols[1]: st.selectbox("Weapon",weaponsOfClass(wClass),key="weapon")
+with cols[2]: st.toggle("2H",key="twoH")
 cols=st.columns(8)
 with cols[0]: st.number_input("Standard defense",0,400,st.session_state.defstandard,key="defstandard_",on_change=updateState,args=("defstandard_",))
 with cols[1]: st.number_input("Strike defense",0,400,st.session_state.defstrike,key="defstrike_",on_change=updateState,args=("defstrike_",))
@@ -72,7 +71,7 @@ with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,f
 
 st.divider()
 
-infusions=baseInfusions if isInfusable(weapon) else ["Standard"]
+infusions=baseInfusions if isInfusable(st.session_state.weapon) else ["Standard"]
 
 bestInf,_,_,bestStats=st.columns([20,1,1,20])
 
@@ -86,7 +85,7 @@ with bestInf:
     with cols[4]: st.number_input("ARC",1,99,st.session_state.ARC,key="ARC_",on_change=updateState,args=("ARC_",))
     plot=st.empty()
     cols=st.columns(3)
-    with cols[0]: hardtear=st.toggle("Opaline Hardtear",value=True)
+    with cols[0]: st.toggle("Opaline Hardtear",key="hardtear",value=True)
     with cols[1]: st.toggle("Counter Hits",key="counter_")
     with cols[2]: st.toggle("Weapon Buffs",key="buffs_")
     with plot:
@@ -96,8 +95,7 @@ with bestInf:
         negations=[st.session_state.negstandard,st.session_state.negstrike,st.session_state.negslash,st.session_state.negpierce,
                   st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
         nBest=10
-        weapon=f"{'2H ' if twoH else ''}{weapon}"
-        
+        weapon=f"{'2H ' if st.session_state.twoH else ''}{st.session_state.weapon}"
         data=np.array([ARtoDMG(ARcalculator(weapon,i,stats),defenses,negations) for i in infusions])
         labels=[infusions[i] for i in sorted(range(len(infusions)),key=lambda x:sum(data[x,:]))][-nBest:]
         data=data[np.argsort(data.sum(axis=1))[-nBest:]] # we sort by total and keep the best
@@ -120,12 +118,13 @@ with bestStats:
     with cols[3]: st.number_input("Base FTH",1,99,st.session_state.baseFTH,key="baseFTH_",on_change=updateState,args=("baseFTH_",))
     with cols[4]: st.number_input("Base ARC",1,99,st.session_state.baseARC,key="baseARC_",on_change=updateState,args=("baseARC_",))
     cols=st.columns(2)
-    with cols[0]: infusion=st.selectbox("Infusion",infusions,key="infusion__",on_change=updateState,args=("infusion__",))
-    with cols[1]: pts=st.number_input("Stat points to allocate",0,813,st.session_state.pts,key="pts_",on_change=updateState,args=("pts_",))
+    with cols[0]: st.selectbox("Infusion",infusions,key="infusion_",on_change=updateState,args=("infusion_",))
+    with cols[1]: st.number_input("Stat points to allocate",0,813,st.session_state.pts,key="pts_",on_change=updateState,args=("pts_",))
     st.info("A base Vagabond with 60 VIG and 27 END has 55 points left to allocate to reach RL 125.")
     bestStats=[st.session_state.baseSTR,st.session_state.baseDEX,st.session_state.baseINT,st.session_state.baseFTH,st.session_state.baseARC]
+    ptsLeft=st.session_state.pts
     dmg=0
-    while pts>0:
+    while ptsLeft>0:
         for i in range(5):
             tmpStats=bestStats[:]
             tmpStats[i]+=1
