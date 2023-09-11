@@ -81,6 +81,7 @@ with bestInf:
         nBest=10
         weapon=f"{'2H ' if twoH else ''}{weapon}"
         data=np.array([ARtoDMG(ARcalculator(weapon,i,stats),defenses,negations) for i in baseInfusions])
+        data=data[np.all(data!=0,axis=1)]
         labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(data[x,:]))][-nBest:]
         data=data[np.argsort(data.sum(axis=1))[-nBest:]] # we sort by total and keep the best
         colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgba(14, 90, 157, 0.3)","rgba(214, 39, 40, 0.3)","rgba(255, 225, 53, 0.3)","rgba(255, 127, 14, 0.3)"]
