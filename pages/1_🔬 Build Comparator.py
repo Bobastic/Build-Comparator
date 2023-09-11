@@ -7,6 +7,7 @@ from utils.defaults import setDefaultBuilds,setDefaultWeapons,setDefaultDefStats
 st.set_page_config(layout='wide',page_title="Build Comparator",page_icon="🔬")
 
 if "nBuilds" not in st.session_state:
+    st.session_state.reinforcementLvl=25
     st.session_state.nBuilds=0
     setDefaultBuilds()
     setDefaultWeapons()
@@ -51,7 +52,8 @@ comparator,parameters=st.tabs(["**🔬 Build Comparator**","**🛠️ Parameters
 with comparator:
     cols=st.columns(6)
     with cols[0]:
-        weaponLvl=st.number_input("Weapon Level",0,25,25,help="NORMAL weapon level from 0 to 25. Somber level is automatically calculated from this.")
+        st.number_input("Weapon Level",0,25,st.session_state.reinforcementlvl,key=f"REINFORCEMENTLVL",on_change=updateState,args=(f"REINFORCEMENTLVL",),
+                        help="NORMAL weapon level from 0 to 25. Somber level is automatically calculated from this.")
     with cols[1]:
         hardtear=st.toggle("Opaline Hardtear",value=True,help="Opponent has +10% negations.")
         showStats=st.toggle("Build Stats",value=True,help="Show stats in column header.")
