@@ -7,7 +7,8 @@ from utils.defaults import setDefaultDefStats,setDefaultCalcParams
 
 st.set_page_config(layout='wide',page_title="Weapon Optimizer",page_icon="⚖️")
 
-if "wClass" in st.session_state: st.session_state.wClass=st.session_state.wClass
+if "wClass" in st.session_state:
+    st.session_state.wClass=st.session_state.wClass
 
 if "defstandard" not in st.session_state:
     setDefaultDefStats()
