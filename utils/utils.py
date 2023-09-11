@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
-import streamlit as st
 from matplotlib.colors import LinearSegmentedColormap
+
+from utils.constants import dmgTypes,baseInfusions,infusionOrder,idWeaponClass,weaponClasses,infusionOffset,forbiddenAshBuff,rareBuff,ashBuff,greaseBuff,claymanBuff
 
 EPW=pd.read_csv("data/EquipParamWeapon.csv").dropna(subset="Name").replace("Great epee","Great Épée",regex=True)
 RPW=pd.read_csv("data/ReinforceParamWeapon.csv")
@@ -11,76 +12,32 @@ RD=pd.read_csv("data/Raw_Data.csv").replace("Great Epee","Great Épée")
 PAA=pd.read_csv("data/Physical AtkAttribute.csv").dropna(subset="Weapon").replace("Miséricorde","Misericorde").replace("Varré's Bouquet","Varre's Bouquet").iloc[:,:60].drop(
     columns=["1h Charged R2 1","1h Charged R2 2","2h Charged R2 1","2h Charged R2 2","1h Guard Counter","2h Guard Counter"])
 
-dmgTypes=["Standard","Strike","Slash","Pierce","Magic","Fire","Lightning","Holy"]
-baseInfusions=["Heavy","Fire","Keen","Lightning","Magic","Cold","Sacred","Flame Art","Blood","Occult"]
-infusionOrder=["Heavy","Hvy+Gse","Fire","Fire+FS","Keen","Keen+Gse","Lightning","Ltng+LS","Magic","Cold","Sacred","Scrd+SB","Flame Art","F.Art+FS","Blood","Poison","Occult","Standard","Std+Gse"]
-
-idWeaponClass={
-    29: "Halberds",
-    25: "Spears",
-    3: "Straight Swords",
-    1: "Daggers",
-    9: "Curved Swords",
-    5: "Greatswords",
-    7: "Colossal Swords",
-    15: "Thrusting Swords",
-    16: "Heavy Thrusting Swords",
-    11: "Curved Greatswords",
-    13: "Katanas",
-    14: "Twinblades",
-    21: "Hammers",
-    23: "Greathammers",
-    24: "Flails",
-    17: "Axes",
-    19: "Greataxes",
-    28: "Great Spears",
-    31: "Scythes",
-    39: "Whips",
-    35: "Fists",
-    37: "Claws",
-    41: "Colossal Weapons",
-}
-weaponClasses=idWeaponClass.values()
 def weaponsOfClass(wClass:str)->list[str]:
     # returns a list of all weappons of the specified class
     classes={v:k for k,v in idWeaponClass.items()}
     tmp=EPW[EPW["wepType"]==classes[wClass.replace("2H ","")]]
     return [f"2H {w}" if "2H" in wClass else w for w in tmp[tmp["reinforceTypeId"].isin([0,2200])]["Name"]]
 
+def isInfusable(weapon:str)->bool:
+    return RD[RD["Name"]==weapon.replace("2H ","")]["Infusable"].values[0]=="Yes"
+
 # Calculations
 
-def ARcalculator(weapon:str,infusion:str,build:list[int],reinforcementLvl:int=25,twoH:bool=False)->np.ndarray:
+def ARcalculator(weapon:str,infusion:str,build:list[int],reinforcementLvl:int=25)->np.ndarray:
     """
     Calculates weapon AR
     Parameters:
         weapon: string
             Weapon name.
         infusion: string
-            Infusion name. For standard use "".
+            Infusion name.
         build: list of length 5
             STR, DEX, INT, FTH, ARC.
-        twoH: boolean
-            Is the weapon two handed?
         reinforcementLvl: int
             Weapon reinforcement level (normal, not somber).
     Output:
         numpy array of length 8
     """
-    infusionOffset={
-        "":0,
-        "Heavy":100,
-        "Keen":200,
-        "Quality":300, # lmao
-        "Fire":400,
-        "Flame Art":500,
-        "Lightning":600,
-        "Sacred":700,
-        "Magic":800,
-        "Cold":900,
-        "Poison":1000,
-        "Blood":1100,
-        "Occult":1200,
-    }
     def CalcCorrectFormula(stat,ccgData):
         # used for stat scaling calculations
         for i in range(5):
@@ -94,11 +51,13 @@ def ARcalculator(weapon:str,infusion:str,build:list[int],reinforcementLvl:int=25
         growthMin=ccgData.iloc[0,7+i-1]
         growthMax=ccgData.iloc[0,7+i]
         return (growthMin+(growthMax-growthMin)*growth)/100
-    if "2H" in weapon:
-        weapon=weapon.replace("2H ","")
-        twoH=True
-    if RD[RD["Name"]==weapon]["Max Upgrade"].values[0]==10: reinforcementLvl=(reinforcementLvl+1)//2.5
-    ID=EPW[EPW["Name"]==weapon]["ID"].values[0]+infusionOffset[infusion]
+    weaponName=weapon.replace("2H ","")
+    bonus2H="2H" in weapon and RD[RD["Name"]==weaponName]["2H Str Bonus"].values[0]=="Yes"
+    if not isInfusable(weapon) and infusion!="Standard": # only infuse infusable weapons
+        return np.zeros(8)
+    if RD[RD["Name"]==weaponName]["Max Upgrade"].values[0]==10: # convert normal upgrade level to somber if needed
+        reinforcementLvl=(reinforcementLvl+1)//2.5
+    ID=EPW[EPW["Name"]==weaponName]["ID"].values[0]+infusionOffset[infusion]
     rtID=EPW[EPW["ID"]==ID]["reinforceTypeId"].values[0]
     ccgID=EPW[EPW["ID"]==ID][["correctType_Physics","correctType_Magic","correctType_Fire","correctType_Thunder","correctType_Dark"]].values[0]
     aecID=EPW[EPW["ID"]==ID]["attackElementCorrectId"].values[0]
@@ -113,11 +72,11 @@ def ARcalculator(weapon:str,infusion:str,build:list[int],reinforcementLvl:int=25
         if dmg[i]:
             for j in range(5): #stat
                 if AECP[AECP["Row ID"]==aecID].iloc[0,1+5*i+j]:
-                    stat=build[j] if (j!=0 or not twoH) else int(build[j]*1.5)
+                    stat=int(build[j]*1.5) if (j==0 and bonus2H) else build[j]
                     tmp[i]+=dmg[i]*scaling[j]*CalcCorrectFormula(stat,CCG[CCG["ID"]==ccgID[i]])
     # convert 5-array into 8-array
     physType={}
-    for attack in PAA[PAA["Weapon"]==weapon].iloc[:,2:].values[0]:
+    for attack in PAA[PAA["Weapon"]==weaponName].iloc[:,2:].values[0]:
         if pd.isna(attack) or "(" in attack: continue
         attack=attack.split(" + ")[0]
         if attack not in physType: physType[attack]=1
@@ -175,25 +134,6 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
         counterHits: boolean
             Display counter hit damage and spear tali counter hit damage
     """
-    noAshBuff={
-        "Fire":["Whips","Colossal Swords","Colossal Weapons"],
-        "Flame Art":["Whips","Colossal Swords","Colossal Weapons"],
-        "Lightning":["Halberds","Spears","Great Spears","Scythes","Whips","Fists","Claws"],
-        "Sacred":["Whips","Fists","Claws"]
-    }
-    buffs={
-        "Heavy":["Hvy+Gse",np.array([0,0,0,0,0,0,110,0])],
-        "Fire":["Fire+FS",np.array([0,0,0,0,0,90,0,0])],
-        "Keen":["Keen+Gse",np.array([0,0,0,0,0,0,110,0])],
-        "Lightning":["Ltng+LS",np.array([0,0,0,0,0,0,90,0])],
-        "Sacred":["Scrd+SB",np.array([0,0,0,0,0,0,0,90])],
-        "Flame Art":["F.Art+FS",np.array([0,0,0,0,0,90,0,0])],
-        # buffable split dmg weapons
-        "Treespear":np.array([0,0,0,0,0,0,0,110]),
-        "Great Club":np.array([0,0,0,0,0,110,0,0]),
-        "Troll's Hammer":np.array([0,0,0,0,0,110,0,0]),
-        "Clayman's Harpoon":np.array([0,0,0,0,110,0,0,0]),
-    }
     res=[]
     if hardtear: negations=[n*1.1 for n in negations]
     for weapon in weapons:
@@ -201,47 +141,35 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
         if EPW[EPW["Name"]==weaponName].empty:
             print(f"Weapon does not exist: {weapon}")
             continue
+        buffable=EPW[EPW["Name"]==weaponName]["isEnhance"].values[0]==1
         weaponClass=idWeaponClass[EPW[EPW["Name"]==weaponName]["wepType"].values[0]]
         columns=[]
         normal,prc,spr=[],[],[]
         for build in builds:
-            # somber weapons
-            if RD[RD["Name"]==weaponName]["Infusable"].values[0]=="No":
-                dmg=ARtoDMG(ARcalculator(weapon,"",builds[build],reinforcementLvl),defenses,negations)
+            weaponInfusions=infusions[build] if isInfusable(weapon) else ["Standard"]
+            for infusion in weaponInfusions:
+                dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build],reinforcementLvl),defenses,negations)
                 normal.append(dmg.sum())
                 if counterHits and dmg[3]:
                     prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
                     spr.append((dmg*np.array([1,1,1,1.15*1.15,1,1,1,1])).sum())
-                columns.append((f"{build} • {' '.join(map(str,builds[build]))}","Standard"))
-                # if buffable (bhf, bouquet, ripple*2, treespear, great club, troll's hammer)
-                if weaponBuffs and EPW[EPW["Name"]==weaponName]["isEnhance"].values[0]==1:
-                    grease=buffs[weapon] if weapon in buffs else np.array([0,0,0,0,0,0,110,0])
-                    dmg=ARtoDMG(ARcalculator(weapon,"",builds[build],reinforcementLvl)+grease,defenses,negations)
-                    normal.append(dmg.sum())
-                    if counterHits and dmg[3]:
-                        prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
-                        spr.append((dmg*np.array([1,1,1,1.15*1.15,1,1,1,1])).sum())
-                    columns.append((f"{build} • {' '.join(map(str,builds[build]))}","Std+Gse"))
-            # infusable weapons
-            else:
-                for infusion in infusions[build]:
-                    dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build],reinforcementLvl),defenses,negations)
-                    normal.append(dmg.sum())
-                    if counterHits and dmg[3]:
-                        prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
-                        spr.append((dmg*np.array([1,1,1,1.15*1.15,1,1,1,1])).sum())
-                    columns.append((f"{build} • {' '.join(map(str,builds[build]))}",infusion))
-                    # compute buffs (grease, flaming strike etc)
-                    if weaponBuffs and (infusion in buffs):
-                        if (infusion in noAshBuff) and (weaponClass in noAshBuff[infusion]):
-                            continue
-                        grease=buffs[weapon] if weapon in buffs else buffs[infusion][1]
-                        dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build],reinforcementLvl)+grease,defenses,negations)
+                columns.append((f"{build} • {' '.join(map(str,builds[build]))}",infusion))
+                # compute buffs (grease, flaming strike etc)
+                # buffable     split     infusable: clayman
+                # buffable     split not infusable: treespear, great club, troll's hammer
+                # buffable not split not infusable: bhf, bouquet, ripple*2
+                if weaponBuffs and buffable:
+                    if not (infusion in forbiddenAshBuff and weaponClass in forbiddenAshBuff[infusion]):
+                        if weaponName in rareBuff: buff=rareBuff[weaponName]
+                        elif infusion in ashBuff: buff=ashBuff[infusion]
+                        elif infusion in greaseBuff: buff=greaseBuff[infusion] if weaponName!="Clayman's Harpoon" else claymanBuff[infusion]
+                        else: continue
+                        dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build],reinforcementLvl)+buff[1],defenses,negations)
                         normal.append(dmg.sum())
                         if counterHits and dmg[3]:
                             prc.append((dmg*np.array([1,1,1,1.15,1,1,1,1])).sum())
                             spr.append((dmg*np.array([1,1,1,1.15*1.15,1,1,1,1])).sum())
-                        columns.append((f"{build} • {' '.join(map(str,builds[build]))}",buffs[infusion][0]))
+                        columns.append((f"{build} • {' '.join(map(str,builds[build]))}",buff[0]))
         if columns:
             res.append(pd.DataFrame([normal,prc,spr],index=pd.MultiIndex.from_tuples([(weapon,"No Prc"),(weapon,"Prc+15%"),(weapon,"Prc+32%")]),columns=pd.MultiIndex.from_tuples(columns)))
     res=pd.concat(res).dropna(how="all")
@@ -250,8 +178,6 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
     res=res.sort_index(axis=1,level=0,sort_remaining=False,key=lambda x:x.map({a:i for i,a in enumerate(res.columns.get_level_values(0).unique())}))
     # add weapon class to index
     res.index=pd.MultiIndex.from_tuples([(f"{'2H ' if '2H' in w else ''}{idWeaponClass[EPW[EPW['Name']==w.replace('2H ','')]['wepType'].values[0]]}",w,d) for w,d in res.index])
-    # put weapons of the same class next to each other (doesnt work)
-    #res=res.sort_index(level=[0,1],key=lambda x:x.map({w:EPW[EPW["Name"]==w.replace("2H ","")]["wepType"].values[0] for w in res.index.get_level_values(0).unique()}))
     return res
 
 def fancyTable(DMGtable:pd.DataFrame,classComparison:bool=True,displayPercentage:bool=True,showStats:bool=True,multicolor:bool=True,showWeaponClass:bool=True,wideDisplay:bool=False,saveOutput:bool=False)->None:
@@ -293,16 +219,16 @@ def fancyTable(DMGtable:pd.DataFrame,classComparison:bool=True,displayPercentage
         else:
             res[c]=res[c].map(lambda x:str(x).replace("<NA>","-"))
     # display max of each row in bold
-    res=res.style.format(precision=1).apply(lambda x:tmp.apply(lambda x:x.apply(lambda xx:'font-weight: bold' if not pd.isna(xx) and xx==x.max() else ''),axis=1),axis=None) # miracle
+    res=res.style.format(precision=1).apply(lambda x:tmp.apply(lambda x:x.apply(lambda xx:"font-weight: bold" if not pd.isna(xx) and xx==x.max() else ""),axis=1),axis=None) # miracle
     # background color
+    vmin=-15
     for i in tmp.index:
-        vmin=-20
         if not multicolor:
             res.background_gradient(cmap="Greens",axis=None,gmap=DMGratio.fillna(vmin),vmin=vmin,vmax=0)
         else:
             cmaps=[["white","red"],["white","gold"],["white","blue"],["white","orange"],["white","violet"]]
             for j,jj in enumerate(tmp.columns.get_level_values(0).unique()):
-                res.background_gradient(cmap=LinearSegmentedColormap.from_list("",cmaps[j%5]),axis=None,gmap=DMGratio.fillna(vmin),subset=(i,tmp[[jj]].columns),vmin=vmin,vmax=2)
+                res.background_gradient(cmap=LinearSegmentedColormap.from_list("",cmaps[j%5]),axis=None,gmap=DMGratio.fillna(vmin),subset=(i,tmp[[jj]].columns),vmin=vmin,vmax=0)
     # weapon class display and hide pierce bonus if useless
     hide=[]
     if not showWeaponClass:
