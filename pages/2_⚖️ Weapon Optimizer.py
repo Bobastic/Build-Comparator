@@ -143,4 +143,4 @@ with bestStats:
     with cols[2]: st.metric("Optimal INT",bestStats[2])
     with cols[3]: st.metric("Optimal FTH",bestStats[3])
     with cols[4]: st.metric("Optimal ARC",bestStats[4])
-    st.metric(f"Optimal Damage",int(dmg),f"{+100*dmg/sum(data[-1,:])-100:.1f}%",help="Difference with current best infusion damage.)
+    st.metric(f"Optimal Damage",int(dmg),f"{+100*dmg/sum(data[-1,:])-100:.1f}%",help="Difference with current best infusion damage.")
