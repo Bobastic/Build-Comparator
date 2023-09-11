@@ -122,9 +122,8 @@ with bestStats:
     with cols[1]: st.number_input("Stat points to allocate",0,813,st.session_state.pts,key="pts_",on_change=updateState,args=("pts_",))
     st.info("A base Vagabond with 60 VIG and 27 END has 55 points left to allocate to reach RL 125.")
     bestStats=[st.session_state.baseSTR,st.session_state.baseDEX,st.session_state.baseINT,st.session_state.baseFTH,st.session_state.baseARC]
-    ptsLeft=st.session_state.pts
     dmg=0
-    while ptsLeft>0:
+    for _ in range(st.session_state.pts):
         for i in range(5):
             tmpStats=bestStats[:]
             tmpStats[i]+=1
@@ -133,7 +132,6 @@ with bestStats:
                 dmg=sum(tmpDmg)
                 lvlUp=i
         bestStats[lvlUp]+=1
-        ptsLeft-=1
     cols=st.columns(5)
     with cols[0]: st.metric("Optimal STR",bestStats[0])
     with cols[1]: st.metric("Optimal DEX",bestStats[1])
