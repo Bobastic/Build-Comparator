@@ -90,7 +90,6 @@ with bestInf:
         weapon=f"{'2H ' if twoH else ''}{weapon}"
         data=np.array([ARtoDMG(ARcalculator(weapon,i,stats),defenses,negations) for i in baseInfusions])
         data=data[~np.all(data==0,axis=1)]
-        st.markdown(data)
         labels=baseInfusions if len(data)>1 else ["Standard"]
         labels=[labels[i] for i in sorted(range(len(labels)),key=lambda x:sum(data[x,:]))][-nBest:]
         data=data[np.argsort(data.sum(axis=1))[-nBest:]] # we sort by total and keep the best
@@ -134,4 +133,4 @@ with bestStats:
     with cols[2]: st.metric("Optimal INT",bestStats[2])
     with cols[3]: st.metric("Optimal FTH",bestStats[3])
     with cols[4]: st.metric("Optimal ARC",bestStats[4])
-    st.metric(f"Optimal Damage - {infusion}",int(dmg),f"{100*dmg/sum(data[-1]):.1f}")
+    st.metric(f"Optimal Damage - {infusion}",int(dmg),f"+{100*dmg/sum(data[-1,:]):.1f}%")
