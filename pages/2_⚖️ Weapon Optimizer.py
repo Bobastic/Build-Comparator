@@ -72,8 +72,6 @@ with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,f
 st.divider()
 
 infusions=baseInfusions if isInfusable(st.session_state.weapon) else ["Standard"]
-if st.session_state.infusion not in infusions:
-    st.session_state.infusion="Standard"
 
 bestInf,_,_,bestStats=st.columns([20,1,1,20])
 
@@ -120,7 +118,7 @@ with bestStats:
     with cols[3]: st.number_input("Base FTH",1,99,st.session_state.baseFTH,key="baseFTH_",on_change=updateState,args=("baseFTH_",))
     with cols[4]: st.number_input("Base ARC",1,99,st.session_state.baseARC,key="baseARC_",on_change=updateState,args=("baseARC_",))
     cols=st.columns(2)
-    with cols[0]: st.selectbox("Infusion",infusions,key="infusion_",on_change=updateState,args=("infusion_",))
+    with cols[0]: st.selectbox("Infusion",infusions,key="infusion")
     with cols[1]: st.number_input("Stat points to allocate",0,813,st.session_state.pts,key="pts_",on_change=updateState,args=("pts_",))
     st.info("A base Vagabond with 60 VIG and 27 END has 55 points left to allocate to reach RL 125.")
     bestStats=[st.session_state.baseSTR,st.session_state.baseDEX,st.session_state.baseINT,st.session_state.baseFTH,st.session_state.baseARC]
