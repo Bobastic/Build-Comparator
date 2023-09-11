@@ -34,7 +34,10 @@ st.markdown("""
         
         div[class="row-widget stDownloadButton"] {
             text-align: end;
-        } 
+        }
+        .appview-container .main .block-container {
+            padding-top: 3rem;
+        }
     </style>
 """,unsafe_allow_html=True)
 
