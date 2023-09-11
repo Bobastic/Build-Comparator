@@ -22,7 +22,7 @@ st.markdown("""
         .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
             font-size: 1.5rem;
         }
-        div[data-testid="column"]:nth-of-type(3) {
+        div[data-testid="column"]:nth-of-type(4) {
             display: flex;
             align-items: end;
         }
@@ -46,10 +46,11 @@ st.sidebar.info("The damage you see is post enemy defenses and negations.")
 st.sidebar.info("Attacks have a motion value of 100 (usually R1).")
 st.sidebar.info("The physical damage type is the most common one for the weapon (Standard for Longsword, Slash for Wakizashi etc...)")
 
-cols=st.columns([8,8,1])
+cols=st.columns([6,6,4,1])
 with cols[0]: st.selectbox("Weapon class",weaponClasses,key="wClass")
 with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state.wClass),key="weapon")
-with cols[2]: st.toggle("2H",key="twoH")
+with cols[2]: st.number_input("Weapon level",0,25,25)
+with cols[3]: st.toggle("2H",key="twoH")
 cols=st.columns(8)
 with cols[0]: st.number_input("Standard defense",0,400,st.session_state.defstandard,key="defstandard_",on_change=updateState,args=("defstandard_",))
 with cols[1]: st.number_input("Strike defense",0,400,st.session_state.defstrike,key="defstrike_",on_change=updateState,args=("defstrike_",))
