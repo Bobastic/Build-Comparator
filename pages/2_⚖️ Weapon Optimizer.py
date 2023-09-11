@@ -84,10 +84,10 @@ with bestInf:
     with cols[3]: st.number_input("FTH",1,99,st.session_state.FTH,key="FTH_",on_change=updateState,args=("FTH_",))
     with cols[4]: st.number_input("ARC",1,99,st.session_state.ARC,key="ARC_",on_change=updateState,args=("ARC_",))
     plot=st.empty()
-    cols=st.columns(3)
-    with cols[0]: st.toggle("Opaline Hardtear",key="hardtear",value=True)
-    with cols[1]: st.toggle("Counter Hits",key="counter_")
-    with cols[2]: st.toggle("Weapon Buffs",key="buffs_")
+    #cols=st.columns(3)
+    #with cols[0]: st.toggle("Opaline Hardtear",key="hardtear",value=True)
+    #with cols[1]: st.toggle("Counter Hits",key="counter_")
+    #with cols[2]: st.toggle("Weapon Buffs",key="buffs_")
     with plot:
         stats=[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]
         defenses=[st.session_state.defstandard,st.session_state.defstrike,st.session_state.defslash,st.session_state.defpierce,
