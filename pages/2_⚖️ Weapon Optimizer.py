@@ -74,7 +74,7 @@ st.divider()
 
 infusions=baseInfusions if isInfusable(st.session_state.weapon) else ["Standard"]
 
-bestInf,_,_,bestStats=st.columns([20,1,1,20])
+bestInf,_,bestStats=st.columns([20,1,20])
 
 with bestInf:
     st.subheader("🧪 Best Infusion 🧪")
