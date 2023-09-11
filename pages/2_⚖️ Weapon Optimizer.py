@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import plotly.graph_objects as go
 
-from utils.utils import baseInfusions,weaponClasses,weaponsOfClass,ARcalculator,ARtoDMG,dmgTypes,weaponInfusions
+from utils.utils import baseInfusions,weaponClasses,weaponsOfClass,ARcalculator,ARtoDMG,dmgTypes,isInfusable
 from utils.defaults import setDefaultDefStats,setDefaultCalcParams
 
 st.set_page_config(layout='wide',page_title="Weapon Optimizer",page_icon="⚖️")
@@ -65,7 +65,7 @@ with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,f
 
 st.divider()
 
-infusions=weaponInfusions(weapon)
+infusions=baseInfusions if isInfusable(weapon) else ["Standard"]
 
 bestInf,_,_,bestStats=st.columns([20,1,1,20])
 
