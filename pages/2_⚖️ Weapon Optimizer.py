@@ -9,7 +9,6 @@ st.set_page_config(layout='wide',page_title="Weapon Optimizer",page_icon="⚖️
 
 if "wClass" in st.session_state:
     st.session_state.wClass=st.session_state.wClass
-    st.session_state.weapon=st.session_state.weapon
 
 if "defstandard" not in st.session_state:
     setDefaultDefStats()
