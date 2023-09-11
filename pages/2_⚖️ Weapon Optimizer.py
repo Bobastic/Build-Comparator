@@ -11,7 +11,7 @@ if "wClass" in st.session_state: # needed because streamlit spaghetti
     st.session_state.wClass=st.session_state.wClass
 
 if "defstandard" not in st.session_state:
-    st.session_state.reinforcementLvl=25
+    st.session_state.reinforcementlvl=25
     setDefaultDefStats()
     setDefaultCalcParams()
 
@@ -50,7 +50,7 @@ st.sidebar.info("The physical damage type is the most common one for the weapon 
 cols=st.columns([7,7,2,1])
 with cols[0]: st.selectbox("Weapon class",weaponClasses,key="wClass")
 with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state.wClass),key="weapon")
-with cols[2]: st.number_input("Weapon level",0,25,st.session_state.reinforcementLvl,key="reinforcementLvl_",on_change=updateState,args=("reinforcementLvl_",),
+with cols[2]: st.number_input("Weapon level",0,25,st.session_state.reinforcementlvl,key="reinforcementlvl_",on_change=updateState,args=("reinforcementlvl_",),
                               help="NORMAL weapon level from 0 to 25. Somber level is automatically calculated from this.")
 with cols[3]: st.toggle("2H",key="twoH")
 cols=st.columns(8)
@@ -99,7 +99,7 @@ with bestInf:
                   st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
         nBest=10
         weapon=f"{'2H ' if st.session_state.twoH else ''}{st.session_state.weapon}"
-        data=np.array([ARtoDMG(ARcalculator(weapon,i,stats,st.session_state.reinforcementLvl),defenses,negations) for i in infusions])
+        data=np.array([ARtoDMG(ARcalculator(weapon,i,stats,st.session_state.reinforcementlvl),defenses,negations) for i in infusions])
         labels=[infusions[i] for i in sorted(range(len(infusions)),key=lambda x:sum(data[x,:]))][-nBest:]
         data=data[np.argsort(data.sum(axis=1))[-nBest:]] # we sort by total and keep the best
         colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgba(14, 90, 157, 0.3)","rgba(214, 39, 40, 0.3)","rgba(255, 225, 53, 0.3)","rgba(255, 127, 14, 0.3)"]
@@ -130,7 +130,7 @@ with bestStats:
         for i in range(5):
             tmpStats=bestStats[:]
             tmpStats[i]+=1
-            tmpDmg=ARtoDMG(ARcalculator(weapon,st.session_state.infusion,tmpStats,st.session_state.reinforcementLvl),defenses,negations)
+            tmpDmg=ARtoDMG(ARcalculator(weapon,st.session_state.infusion,tmpStats,st.session_state.reinforcementlvl),defenses,negations)
             if sum(tmpDmg)>dmg:
                 dmg=sum(tmpDmg)
                 lvlUp=i
