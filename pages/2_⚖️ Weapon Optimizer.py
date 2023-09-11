@@ -123,10 +123,10 @@ with bestStats:
                 lvlUp=i
         bestStats[lvlUp]+=1
         pts-=1
-    cols=st.columns(6)
-    with cols[5]: st.metric("Best Damage",int(dmg),"+4.5%")
+    cols=st.columns(5)
     with cols[0]: st.metric("Optimal STR",bestStats[0])
     with cols[1]: st.metric("Optimal DEX",bestStats[1])
     with cols[2]: st.metric("Optimal INT",bestStats[2])
     with cols[3]: st.metric("Optimal FTH",bestStats[3])
     with cols[4]: st.metric("Optimal ARC",bestStats[4])
+    st.metric("Best Damage",int(dmg),"+4.5%")
