@@ -30,7 +30,7 @@ st.markdown("""
             text-align: center;
         }
         .appview-container .main .block-container {
-            padding-top: 0.8rem;
+            padding-top: 1rem;
         }
     </style>
 """,unsafe_allow_html=True)
