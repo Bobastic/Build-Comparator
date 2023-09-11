@@ -46,6 +46,7 @@ def setDefaultCalcParams():
     st.session_state.baseINT=9
     st.session_state.baseFTH=9
     st.session_state.baseARC=7
+    st.session_state.infusion="Heavy"
     st.session_state.pts=55
 
 def setDefaultDefStats():
