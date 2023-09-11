@@ -67,11 +67,11 @@ with bestInf:
     with cols[2]: st.number_input("INT",1,99,st.session_state.INT,key="INT_",on_change=updateState,args=("INT_",))
     with cols[3]: st.number_input("FTH",1,99,st.session_state.FTH,key="FTH_",on_change=updateState,args=("FTH_",))
     with cols[4]: st.number_input("ARC",1,99,st.session_state.ARC,key="ARC_",on_change=updateState,args=("ARC_",))
+    plot=st.empty()
     cols=st.columns(3)
     with cols[0]: hardtear=st.toggle("Opaline Hardtear",value=True)
     with cols[1]: st.toggle("Counter Hits",key="counter_")
     with cols[2]: st.toggle("Weapon Buffs",key="buffs_")
-    plot=st.empty()
     with plot:
         stats=[st.session_state.STR,st.session_state.DEX,st.session_state.INT,st.session_state.FTH,st.session_state.ARC]
         defenses=[st.session_state.defstandard,st.session_state.defstrike,st.session_state.defslash,st.session_state.defpierce,
@@ -87,7 +87,7 @@ with bestInf:
         labels=[labels[i] for i in sorted(range(len(labels)),key=lambda x:sum(data[x,:]))][-nBest:]
         data=data[np.argsort(data.sum(axis=1))[-nBest:]] # we sort by total and keep the best
         colors=["rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgb(240, 242, 246)","rgba(14, 90, 157, 0.3)","rgba(214, 39, 40, 0.3)","rgba(255, 225, 53, 0.3)","rgba(255, 127, 14, 0.3)"]
-        width=[0.8]*len(labels) if len(labels)>1 else [0.2]
+        width=[0.8]*len(labels) if len(labels)>1 else [0.15]
         fig=go.Figure()
         for i in range(8):
             fig.add_trace(go.Bar(x=data[:,i],y=labels,name=dmgTypes[i],orientation="h",width=width,
