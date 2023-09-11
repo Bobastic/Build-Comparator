@@ -46,7 +46,7 @@ st.sidebar.info("Attacks have a motion value of 100 (usually R1).")
 st.sidebar.info("The physical damage type is the most common one for the weapon (Standard for Longsword, Slash for Wakizashi etc...)")
 st.sidebar.info("If you have lots of columns and the table starts to get compressed you can fold this sidebar.")
 
-comparator,parameters=st.tabs(["**📊 Build Comparator**","**🛠️ Parameters**"])
+comparator,parameters=st.tabs(["**🗠 Build Comparator 🗠**","**🛠️ Parameters 🛠️**"])
 
 with comparator:
     cols=st.columns(6)
