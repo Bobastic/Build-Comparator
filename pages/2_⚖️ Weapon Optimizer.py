@@ -48,7 +48,7 @@ st.sidebar.info("The physical damage type is the most common one for the weapon 
 
 cols=st.columns([8,8,1])
 with cols[0]: st.selectbox("Weapon class",weaponClasses,key="wClass")
-with cols[1]: st.selectbox("Weapon",weaponsOfClass(wClass),key="weapon")
+with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state.wClass),key="weapon")
 with cols[2]: st.toggle("2H",key="twoH")
 cols=st.columns(8)
 with cols[0]: st.number_input("Standard defense",0,400,st.session_state.defstandard,key="defstandard_",on_change=updateState,args=("defstandard_",))
