@@ -47,12 +47,55 @@ st.sidebar.info("Attacks have a motion value of 100 (usually R1).")
 st.sidebar.info("The physical damage type is the most common one for the weapon (Standard for Longsword, Slash for Wakizashi etc...)")
 st.sidebar.info("If you have lots of columns and the table starts to get compressed you can fold this sidebar.")
 
+def updateState(key):
+        st.session_state[key.lower()]=st.session_state[key]
+
+def addWeapons():
+    for w in st.session_state.selected:
+        w=f"{'2H ' if st.session_state.twoH else ''}{w}"
+        if w not in st.session_state.weapons:
+            st.session_state.weapons.append(w)
+        else:
+            st.toast("Weapon already selected")
+
+def showBuild(i):
+    cols=st.columns([4,3,3,3,3,3,7])
+    with cols[0]: st.text_input("Build name",st.session_state[f"name{i}"],key=f"NAME{i}",label_visibility="collapsed",on_change=updateState,args=(f"NAME{i}",))
+    with cols[1]: st.number_input("STR",1,99,st.session_state[f"str{i}"],key=f"STR{i}",label_visibility="collapsed",on_change=updateState,args=(f"STR{i}",))
+    with cols[2]: st.number_input("DEX",1,99,st.session_state[f"dex{i}"],key=f"DEX{i}",label_visibility="collapsed",on_change=updateState,args=(f"DEX{i}",))
+    with cols[3]: st.number_input("INT",1,99,st.session_state[f"int{i}"],key=f"INT{i}",label_visibility="collapsed",on_change=updateState,args=(f"INT{i}",))
+    with cols[4]: st.number_input("FTH",1,99,st.session_state[f"fth{i}"],key=f"FTH{i}",label_visibility="collapsed",on_change=updateState,args=(f"FTH{i}",))
+    with cols[5]: st.number_input("ARC",1,99,st.session_state[f"arc{i}"],key=f"ARC{i}",label_visibility="collapsed",on_change=updateState,args=(f"ARC{i}",))
+    with cols[6]: st.multiselect("Infusions",baseInfusions,st.session_state[f"infusions{i}"],key=f"INFUSIONS{i}",label_visibility="collapsed",on_change=updateState,args=(f"INFUSIONS{i}",))
+
+def addBuild():
+    i=st.session_state.nBuilds
+    st.session_state[f"name{i}"]=f"Build {i}"
+    st.session_state[f"str{i}"]=14
+    st.session_state[f"dex{i}"]=13
+    st.session_state[f"int{i}"]=9
+    st.session_state[f"fth{i}"]=9
+    st.session_state[f"arc{i}"]=7
+    st.session_state[f"infusions{i}"]=[]
+    st.session_state.nBuilds+=1
+
+def removeBuild():
+    i=st.session_state.nBuilds-1
+    del st.session_state[f"name{i}"]
+    del st.session_state[f"str{i}"]
+    del st.session_state[f"dex{i}"]
+    del st.session_state[f"int{i}"]
+    del st.session_state[f"fth{i}"]
+    del st.session_state[f"arc{i}"]
+    del st.session_state[f"infusions{i}"]
+    st.session_state.nBuilds-=1
+
 comparator,parameters=st.tabs(["**🔬 Build Comparator**","**🛠️ Parameters**"])
 
 with comparator:
     cols=st.columns(6)
     with cols[0]:
-        st.number_input("Weapon Level",0,25,st.session_state.reinforcementlvl,key=f"REINFORCEMENTLVL",on_change=updateState,args=(f"REINFORCEMENTLVL",),
+        st.number_input("Weapon Level",0,25,st.session_state.reinforcementlvl,key="REINFORCEMENTLVL",on_change=updateState,args=("REINFORCEMENTLVL",),
                         help="NORMAL weapon level from 0 to 25. Somber level is automatically calculated from this.")
     with cols[1]:
         hardtear=st.toggle("Opaline Hardtear",value=True,help="Opponent has +10% negations.")
@@ -87,50 +130,6 @@ with comparator:
         st.error('Input at least one build, one infusion and one weapon in the "🛠️ Parameters" tab.',icon="🚨")
 
 with parameters:
-    def updateState(key):
-        st.session_state[key.lower()]=st.session_state[key]
-
-    def addWeapons():
-        for w in st.session_state.selected:
-            w=f"{'2H ' if st.session_state.twoH else ''}{w}"
-            if w not in st.session_state.weapons:
-                st.session_state.weapons.append(w)
-            else:
-                st.toast("Weapon already selected")
-
-    def showBuild(i):
-        cols=st.columns([4,3,3,3,3,3,7])
-        with cols[0]: st.text_input("Build name",st.session_state[f"name{i}"],key=f"NAME{i}",label_visibility="collapsed",on_change=updateState,args=(f"NAME{i}",))
-        with cols[1]: st.number_input("STR",1,99,st.session_state[f"str{i}"],key=f"STR{i}",label_visibility="collapsed",on_change=updateState,args=(f"STR{i}",))
-        with cols[2]: st.number_input("DEX",1,99,st.session_state[f"dex{i}"],key=f"DEX{i}",label_visibility="collapsed",on_change=updateState,args=(f"DEX{i}",))
-        with cols[3]: st.number_input("INT",1,99,st.session_state[f"int{i}"],key=f"INT{i}",label_visibility="collapsed",on_change=updateState,args=(f"INT{i}",))
-        with cols[4]: st.number_input("FTH",1,99,st.session_state[f"fth{i}"],key=f"FTH{i}",label_visibility="collapsed",on_change=updateState,args=(f"FTH{i}",))
-        with cols[5]: st.number_input("ARC",1,99,st.session_state[f"arc{i}"],key=f"ARC{i}",label_visibility="collapsed",on_change=updateState,args=(f"ARC{i}",))
-        with cols[6]: st.multiselect("Infusions",baseInfusions,st.session_state[f"infusions{i}"],key=f"INFUSIONS{i}",label_visibility="collapsed",on_change=updateState,args=(f"INFUSIONS{i}",))
-
-    def addBuild():
-        i=st.session_state.nBuilds
-        st.session_state[f"name{i}"]=f"Build {i}"
-        st.session_state[f"str{i}"]=14
-        st.session_state[f"dex{i}"]=13
-        st.session_state[f"int{i}"]=9
-        st.session_state[f"fth{i}"]=9
-        st.session_state[f"arc{i}"]=7
-        st.session_state[f"infusions{i}"]=[]
-        st.session_state.nBuilds+=1
-
-    def removeBuild():
-        i=st.session_state.nBuilds-1
-        del st.session_state[f"name{i}"]
-        del st.session_state[f"str{i}"]
-        del st.session_state[f"dex{i}"]
-        del st.session_state[f"int{i}"]
-        del st.session_state[f"fth{i}"]
-        del st.session_state[f"arc{i}"]
-        del st.session_state[f"infusions{i}"]
-        st.session_state.nBuilds-=1
-
-
     st.header("⚔️ Weapons")
 
     cols=st.columns([2,7])
