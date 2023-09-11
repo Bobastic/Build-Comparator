@@ -11,7 +11,7 @@ if "wClass" in st.session_state: # needed because streamlit spaghetti
     st.session_state.wClass=st.session_state.wClass
 
 if "defstandard" not in st.session_state:
-    st.session_state.weaponLvl=25
+    st.session_state.reinforcementLvl=25
     setDefaultDefStats()
     setDefaultCalcParams()
 
@@ -50,7 +50,7 @@ st.sidebar.info("The physical damage type is the most common one for the weapon 
 cols=st.columns([7,7,2,1])
 with cols[0]: st.selectbox("Weapon class",weaponClasses,key="wClass")
 with cols[1]: st.selectbox("Weapon",weaponsOfClass(st.session_state.wClass),key="weapon")
-with cols[2]: st.number_input("Weapon level",0,25,st.session_state.weaponLvl,key="weaponLvl_",on_change=updateState,args=("weaponLvl_",),
+with cols[2]: st.number_input("Weapon level",0,25,st.session_state.reinforcementLvl,key="reinforcementLvl_",on_change=updateState,args=("reinforcementLvl_",),
                               help="NORMAL weapon level from 0 to 25. Somber level is automatically calculated from this.")
 with cols[3]: st.toggle("2H",key="twoH")
 cols=st.columns(8)
