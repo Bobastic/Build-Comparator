@@ -22,7 +22,7 @@ st.markdown("""
         .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
             font-size: 1.5rem;
         }
-        div[data-testid="column"]:nth-of-type(3) {
+        div[data-testid="column"]:nth-of-type(9) {
             display: flex;
             align-items: end;
         }
@@ -35,10 +35,10 @@ st.markdown("""
     </style>
 """,unsafe_allow_html=True)
 
-cols=st.columns([8,8,1])
+cols=st.columns([8,8,0,0,0,0,0,0,1])
 with cols[0]: wClass=st.selectbox("Weapon class",weaponClasses)
 with cols[1]: weapon=st.selectbox("Weapon",weaponsOfClass(wClass))
-with cols[2]: twoH=st.toggle("2H")
+with cols[8]: twoH=st.toggle("2H")
 cols=st.columns(8)
 with cols[0]: st.number_input("Standard defense",0,400,st.session_state.defstandard,key="defstandard_",on_change=updateState,args=("defstandard_",))
 with cols[1]: st.number_input("Strike defense",0,400,st.session_state.defstrike,key="defstrike_",on_change=updateState,args=("defstrike_",))
