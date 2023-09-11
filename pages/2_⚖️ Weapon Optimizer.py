@@ -123,4 +123,4 @@ with bestStats:
                 lvlUp=i
         bestStats[lvlUp]+=1
         pts-=1
-    st.markdown(stats)
+    st.markdown(bestStats)
