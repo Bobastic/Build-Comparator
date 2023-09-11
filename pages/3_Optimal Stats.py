@@ -81,7 +81,7 @@ with bestInf:
         nBest=10
         weapon=f"{'2H ' if twoH else ''}{weapon}"
         data=np.array([ARtoDMG(ARcalculator(weapon,i,stats),defenses,negations) for i in baseInfusions])
-        data=data[np.all(data!=0,axis=1)]
+        data=data[~np.all(data==0,axis=1)]
         st.markdown(data)
         labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(data[x,:]))][-nBest:]
         data=data[np.argsort(data.sum(axis=1))[-nBest:]] # we sort by total and keep the best
