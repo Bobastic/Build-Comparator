@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(layout='centered',page_title="Build Comparator",page_icon="⚖️")
 
-st.sidebar.info("Hi. Check this page for some information about this tool or head straight to **🔬 Build Comparator** or **Weapon Optimize** to figure it out by yourself.")
+st.sidebar.info("Hi. Check this page for some information about this tool or head straight to **🔬 Build Comparator** or **⚖️ Weapon Optimizer** to figure it out by yourself.")
 
 st.subheader("What is the purpose of this tool?")
 
@@ -29,22 +29,22 @@ st.markdown("""
 
 st.text("")
 
-st.subheader("So what does it actually do?")
+st.subheader("**🔬 Build Comparator**")
 
 st.markdown(f"""<div style='text-align: justify;'>
-You input a list of <strong>weapons</strong> of your choice and as many <strong>builds</strong> and <strong>infusions</strong> as you like and you get a table with estimated damage that is widely customizable.
+Input a list of <strong>weapons</strong> of your choice and as many <strong>builds</strong> and <strong>infusions</strong> as you like and you get a table with estimated damage that is widely customizable.
 You can display counter damage, comparisons with the best infusion etc...
 You can also export raw data as a CSV file or download the table as a HTML file.
+There are already some default weapons and builds so you can go straight to any page to see what this tool can do.
 </div>""",unsafe_allow_html=True)
 
 st.text("")
 
-st.subheader("Ok, how do I use it?")
+st.subheader("**⚖️ Weapon Optimizer**")
 
 st.markdown(f"""<div style='text-align: justify;'>
-Then go to <strong>🔬 Build Comparator</strong> to show the table and change what information you want to display.
-Input your weapons, builds, infusions and enemy stats in <strong>🛠️ Parameters</strong>.
-There are already some default weapons and builds so you can go straight to any page to see what this tool can do.
+Pick a weapon and you'll have estimated damage for each infusion with the specified stat spread.
+On the right you will find the optimal stat spread for the infusion of your choice as well as the damage difference with your current stat spread.
 </div>""",unsafe_allow_html=True)
 
 st.text("")
