@@ -9,7 +9,6 @@ st.set_page_config(layout='wide',page_title="Weapon Optimizer",page_icon="⚖️
 
 if "wClass" in st.session_state: # needed because streamlit spaghetti
     st.session_state.wClass=st.session_state.wClass
-    st.session_state.infusion=st.session_state.infusion
 
 if "defstandard" not in st.session_state:
     setDefaultDefStats()
@@ -73,6 +72,8 @@ with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,f
 st.divider()
 
 infusions=baseInfusions if isInfusable(st.session_state.weapon) else ["Standard"]
+if st.session_state.infusion not in infusions:
+    st.session_state.infusion="Standard"
 
 bestInf,_,_,bestStats=st.columns([20,1,1,20])
 
