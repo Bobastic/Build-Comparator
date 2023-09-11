@@ -34,7 +34,7 @@ st.subheader("**🔬 Build Comparator**")
 st.markdown(f"""<div style='text-align: justify;'>
 Input a list of <strong>weapons</strong> of your choice and as many <strong>builds</strong> and <strong>infusions</strong> as you like and you get a table with estimated damage that is widely customizable.
 You can display counter damage, comparisons with the best infusion etc...
-You can also export raw data as a CSV file or download the table as a HTML file.
+You can also export raw data as a CSV file.
 There are already some default weapons and builds so you can go straight to any page to see what this tool can do.
 </div>""",unsafe_allow_html=True)
 
