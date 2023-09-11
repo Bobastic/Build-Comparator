@@ -9,6 +9,7 @@ st.set_page_config(layout='wide',page_title="Weapon Optimizer",page_icon="⚖️
 
 if "wClass" in st.session_state: # needed because streamlit spaghetti
     st.session_state.wClass=st.session_state.wClass
+    st.session_state.infusion=st.session_state.infusion
 
 if "defstandard" not in st.session_state:
     setDefaultDefStats()
