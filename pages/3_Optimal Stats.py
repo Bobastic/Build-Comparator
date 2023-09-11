@@ -79,7 +79,7 @@ with bestInf:
         negations=[st.session_state.negstandard,st.session_state.negstrike,st.session_state.negslash,st.session_state.negpierce,
                   st.session_state.negmagic,st.session_state.negfire,st.session_state.neglightning,st.session_state.negholy]
         nBest=10
-        weapon=f"{'2H ' if st.session_state.twoH_ else ''}{st.session_state.weapon}"
+        weapon=f"{'2H ' if twoH else ''}{st.session_state.weapon}"
         data=np.array([ARtoDMG(ARcalculator(weapon,i,stats),defenses,negations) for i in baseInfusions])
         st.table(data)
         labels=[baseInfusions[i] for i in sorted(range(len(baseInfusions)),key=lambda x:sum(data[x,:]))][-nBest:]
