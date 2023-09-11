@@ -145,7 +145,7 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
         columns=[]
         normal,prc,spr=[],[],[]
         for build in builds:
-            weaponInfusions=infusions if isInfusable(weapon) else ["Standard"]
+            weaponInfusions=infusions[build] if isInfusable(weapon) else ["Standard"]
             for infusion in weaponInfusions:
                 dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build],reinforcementLvl),defenses,negations)
                 normal.append(dmg.sum())
