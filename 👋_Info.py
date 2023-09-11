@@ -24,6 +24,7 @@ st.markdown("""
 - Fire + Flaming Strike buff or Heavy + Lightning Grease?
 - How broken is Sacred Blade?
 - What is the best build for BKH and Dismounter between these three?
+- How much more damage do I get with 69 STR compared to 54 STR on all these weapons?
 - Best infusion and stat spread for Shamshir?
 """)
 
