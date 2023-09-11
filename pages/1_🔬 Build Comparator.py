@@ -80,7 +80,7 @@ with comparator:
             st.write(fancy.to_html(),unsafe_allow_html=True)
         with cols[5]:
             st.download_button("Download CSV",table.to_csv(),file_name="buildComparatorData.csv")
-            st.download_button("Download HTML",fancy.to_html(),file_name="buildComparator.html")
+            #st.download_button("Download HTML",fancy.to_html(),file_name="buildComparator.html")
     else:
         st.error('Input at least one build, one infusion and one weapon in the "🛠️ Parameters" tab.',icon="🚨")
 
