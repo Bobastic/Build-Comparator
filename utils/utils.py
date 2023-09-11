@@ -18,10 +18,8 @@ def weaponsOfClass(wClass:str)->list[str]:
     tmp=EPW[EPW["wepType"]==classes[wClass.replace("2H ","")]]
     return [f"2H {w}" if "2H" in wClass else w for w in tmp[tmp["reinforceTypeId"].isin([0,2200])]["Name"]]
 
-def weaponInfusions(weapon:str)->list[str]:
-    # returns a list of the weapon's available infusions
-    infusable=RD[RD["Name"]==weapon.replace("2H ","")]["Infusable"].values[0]=="Yes"
-    return baseInfusions if infusable else ["Standard"]
+def isInfusable(weapon:str)->bool:
+    return RD[RD["Name"]==weapon.replace("2H ","")]["Infusable"].values[0]=="Yes"
 
 # Calculations
 
@@ -54,7 +52,7 @@ def ARcalculator(weapon:str,infusion:str,build:list[int],reinforcementLvl:int=25
         growthMax=ccgData.iloc[0,7+i]
         return (growthMin+(growthMax-growthMin)*growth)/100
     weaponName=weapon.replace("2H ","")
-    if RD[RD["Name"]==weaponName]["Infusable"].values[0]=="No" and infusion!="Standard": # only infuse infusable weapons
+    if not isInfusable(weapon) and infusion!="Standard": # only infuse infusable weapons
         return np.zeros(8)
     if RD[RD["Name"]==weaponName]["Max Upgrade"].values[0]==10: # convert normal upgrade level to somber if needed
         reinforcementLvl=(reinforcementLvl+1)//2.5
@@ -147,7 +145,8 @@ def DMGtable(weapons:list[str],builds:dict[str,list[int]],infusions:dict[str,lis
         columns=[]
         normal,prc,spr=[],[],[]
         for build in builds:
-            for infusion in weaponInfusions(weapon):
+            weaponInfusions=infusions if isInfusable(weapon) else ["Standard"]
+            for infusion in weaponInfusions:
                 dmg=ARtoDMG(ARcalculator(weapon,infusion,builds[build],reinforcementLvl),defenses,negations)
                 normal.append(dmg.sum())
                 if counterHits and dmg[3]:
