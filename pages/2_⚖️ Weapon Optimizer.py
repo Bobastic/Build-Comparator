@@ -125,7 +125,7 @@ with bestStats:
         pts-=1
     cols=st.columns(5)
     with cols[0]: st.number_input("Optimal STR",1,99,bestStats[0],disabled=True)
-    with cols[1]: st.number_input("Optimal STR",1,99,bestStats[1],disabled=True)
-    with cols[2]: st.number_input("Optimal STR",1,99,bestStats[2],disabled=True)
-    with cols[3]: st.number_input("Optimal STR",1,99,bestStats[3],disabled=True)
-    with cols[4]: st.number_input("Optimal STR",1,99,bestStats[4],disabled=True)
+    with cols[1]: st.number_input("Optimal DEX",1,99,bestStats[1],disabled=True)
+    with cols[2]: st.number_input("Optimal INT",1,99,bestStats[2],disabled=True)
+    with cols[3]: st.number_input("Optimal FTH",1,99,bestStats[3],disabled=True)
+    with cols[4]: st.number_input("Optimal ARC",1,99,bestStats[4],disabled=True)
