@@ -63,7 +63,7 @@ st.divider()
 bestInf,_,_,bestStats=st.columns([20,1,1,20])
 
 with bestInf:
-    st.subheader("Best infusion for stats")
+    st.subheader("Damage Calculator")
     cols=st.columns(5)
     with cols[0]: st.number_input("STR",1,99,st.session_state.STR,key="STR_",on_change=updateState,args=("STR_",))
     with cols[1]: st.number_input("DEX",1,99,st.session_state.DEX,key="DEX_",on_change=updateState,args=("DEX_",))
@@ -100,7 +100,7 @@ with bestInf:
         st.plotly_chart(fig,use_container_width=True,config={"displayModeBar":False})
 
 with bestStats:
-    st.subheader("Best stats for infusion")
+    st.subheader("Optimal Stats")
     cols=st.columns(5)
     with cols[0]: st.number_input("Base STR",1,99,st.session_state.baseSTR,key="baseSTR_",on_change=updateState,args=("baseSTR_",))
     with cols[1]: st.number_input("Base DEX",1,99,st.session_state.baseDEX,key="baseDEX_",on_change=updateState,args=("baseDEX_",))
@@ -111,16 +111,18 @@ with bestStats:
     with cols[0]: infusion=st.selectbox("Infusion",baseInfusions,key="infusion__",on_change=updateState,args=("infusion__",))
     with cols[1]: pts=st.number_input("Stat points to allocate",0,813,st.session_state.pts,key="pts_",on_change=updateState,args=("pts_",))
     with cols[2]: st.info("A base Vagabond with 60 VIG and 27 END has 55 points left for RL 125.")
-    bestStats=[st.session_state.baseSTR,st.session_state.baseDEX,st.session_state.baseINT,st.session_state.baseFTH,st.session_state.baseARC]
-    dmg=0
-    while pts>0:
-        for i in range(5):
-            tmpStats=bestStats[:]
-            tmpStats[i]+=1
-            tmpDmg=ARtoDMG(ARcalculator(weapon,infusion,tmpStats),defenses,negations)
-            if sum(tmpDmg)>dmg:
-                dmg=sum(tmpDmg)
-                lvlUp=i
-        bestStats[lvlUp]+=1
-        pts-=1
-    st.markdown(bestStats)
+    for infusion in baseInfusions:
+        pts=55
+        bestStats=[st.session_state.baseSTR,st.session_state.baseDEX,st.session_state.baseINT,st.session_state.baseFTH,st.session_state.baseARC]
+        dmg=0
+        while pts>0:
+            for i in range(5):
+                tmpStats=bestStats[:]
+                tmpStats[i]+=1
+                tmpDmg=ARtoDMG(ARcalculator(weapon,infusion,tmpStats),defenses,negations)
+                if sum(tmpDmg)>dmg:
+                    dmg=sum(tmpDmg)
+                    lvlUp=i
+            bestStats[lvlUp]+=1
+            pts-=1
+        st.markdown(f"{infusion} {bestStats} {dmg}")
