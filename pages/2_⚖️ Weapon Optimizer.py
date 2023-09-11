@@ -111,18 +111,21 @@ with bestStats:
     with cols[0]: infusion=st.selectbox("Infusion",baseInfusions,key="infusion__",on_change=updateState,args=("infusion__",))
     with cols[1]: pts=st.number_input("Stat points to allocate",0,813,st.session_state.pts,key="pts_",on_change=updateState,args=("pts_",))
     with cols[2]: st.info("A base Vagabond with 60 VIG and 27 END has 55 points left for RL 125.")
-    for infusion in baseInfusions:
-        pts=55
-        bestStats=[st.session_state.baseSTR,st.session_state.baseDEX,st.session_state.baseINT,st.session_state.baseFTH,st.session_state.baseARC]
-        dmg=0
-        while pts>0:
-            for i in range(5):
-                tmpStats=bestStats[:]
-                tmpStats[i]+=1
-                tmpDmg=ARtoDMG(ARcalculator(weapon,infusion,tmpStats),defenses,negations)
-                if sum(tmpDmg)>dmg:
-                    dmg=sum(tmpDmg)
-                    lvlUp=i
-            bestStats[lvlUp]+=1
-            pts-=1
-        st.markdown(f"{infusion} {bestStats} {dmg}")
+    bestStats=[st.session_state.baseSTR,st.session_state.baseDEX,st.session_state.baseINT,st.session_state.baseFTH,st.session_state.baseARC]
+    dmg=0
+    while pts>0:
+        for i in range(5):
+            tmpStats=bestStats[:]
+            tmpStats[i]+=1
+            tmpDmg=ARtoDMG(ARcalculator(weapon,infusion,tmpStats),defenses,negations)
+            if sum(tmpDmg)>dmg:
+                dmg=sum(tmpDmg)
+                lvlUp=i
+        bestStats[lvlUp]+=1
+        pts-=1
+    cols=st.columns(5)
+    with cols[0]: st.number_input("Optimal STR",1,99,bestStats[0],disabled=True)
+    with cols[1]: st.number_input("Optimal STR",1,99,bestStats[1],disabled=True)
+    with cols[2]: st.number_input("Optimal STR",1,99,bestStats[2],disabled=True)
+    with cols[3]: st.number_input("Optimal STR",1,99,bestStats[3],disabled=True)
+    with cols[4]: st.number_input("Optimal STR",1,99,bestStats[4],disabled=True)
