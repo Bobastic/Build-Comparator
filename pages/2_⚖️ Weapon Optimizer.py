@@ -114,11 +114,13 @@ with bestStats:
     stats_=[st.session_state.baseSTR,st.session_state.baseDEX,st.session_state.baseINT,st.session_state.baseFTH,st.session_state.baseARC]
     dmg=0
     while pts>0:
-        for i,stat in enumerate(stats):
-            tmpDmg=ARtoDMG(ARcalculator(weapon,st.session_state.infusion,stats_),defenses,negations)
+        for i in range(5):
+            tmpStats=stats_[:]
+            tmpStats[i]+=1
+            tmpDmg=ARtoDMG(ARcalculator(weapon,st.session_state.infusion,tmpStats),defenses,negations)
             if tmpDmg>dmg:
                 dmg=tmpDmg
                 lvlUp=i
-        stats[i]+=1
+        stats[lvlUp]+=1
         pts-=1
     st.markdown(stats)
