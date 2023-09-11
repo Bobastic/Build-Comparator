@@ -33,9 +33,9 @@ st.markdown("""
 """,unsafe_allow_html=True)
 
 cols=st.columns([8,8,1])
-with cols[0]: wClass=st.selectbox("Weapon class",weaponClasses,key="wClass")
-with cols[1]: st.selectbox("Weapon",weaponsOfClass(wClass),key="weapon")
-with cols[2]: st.toggle("2H",key="twoH_")
+with cols[0]: wClass=st.selectbox("Weapon class",weaponClasses)
+with cols[1]: weapon=st.selectbox("Weapon",weaponsOfClass(wClass))
+with cols[2]: twoH=st.toggle("2H")
 cols=st.columns(8)
 with cols[0]: st.number_input("Standard defense",0,400,st.session_state.defstandard,key="defstandard_",on_change=updateState,args=("defstandard_",))
 with cols[1]: st.number_input("Strike defense",0,400,st.session_state.defstrike,key="defstrike_",on_change=updateState,args=("defstrike_",))
