@@ -44,7 +44,7 @@ st.markdown("""
 """,unsafe_allow_html=True)
 
 st.sidebar.info("Default enemy defenses are the average of classic STR, DEX, INT, FTH and ARC builds.")
-st.sidebar.info("Default enemy negations are Imp Head/Beast Champion Armor (Altered)/Fire Prelate Gauntlets/Lionel's Greaves.")
+st.sidebar.info("Default enemy negations are Imp/Beast Champion (Altered)/Beast Champion/Beast Champion.")
 st.sidebar.info("The damage you see is post enemy defenses and negations.")
 st.sidebar.info("Attacks have a motion value of 100 (usually R1).")
 st.sidebar.info("The physical damage type is the most common one for the weapon (Standard for Longsword, Slash for Wakizashi etc...)")
