@@ -3,15 +3,15 @@ import streamlit as st
 def setDefaultBuilds():
     st.session_state.nBuilds=4
     st.session_state["name0"]="FS abuser"
-    st.session_state["str0"]=66
-    st.session_state["dex0"]=16
+    st.session_state["str0"]=69
+    st.session_state["dex0"]=13
     st.session_state["int0"]=9
     st.session_state["fth0"]=9
     st.session_state["arc0"]=7
     st.session_state["infusions0"]=["Heavy"]
     st.session_state["name1"]="Lightning abuser"
-    st.session_state["str1"]=16
-    st.session_state["dex1"]=66
+    st.session_state["str1"]=15
+    st.session_state["dex1"]=67
     st.session_state["int1"]=9
     st.session_state["fth1"]=9
     st.session_state["arc1"]=7
@@ -32,12 +32,12 @@ def setDefaultBuilds():
     st.session_state["infusions3"]=["Sacred"]
 
 def setDefaultWeapons():
-    st.session_state.weapons=["2H Shamshir","Dismounter","Banished Knight's Halberd","2H Rogier's Rapier","Rogier's Rapier","Wakizashi",
-                              "Lance","Longsword","Noble's Slender Sword","Short Spear","2H Godskin Stitcher","Star Fist","Katar"]
+    st.session_state.weapons=["2H Shamshir","Dismounter","Banished Knight's Halberd","2H Estoc","Rogier's Rapier","Wakizashi",
+                              "Lance","Longsword","Noble's Slender Sword","Short Spear","Star Fist","Katar","2H Godskin Stitcher"]
 
 def setDefaultCalcParams():
-    st.session_state.STR=66
-    st.session_state.DEX=16
+    st.session_state.STR=69
+    st.session_state.DEX=13
     st.session_state.INT=9
     st.session_state.FTH=9
     st.session_state.ARC=7
@@ -57,11 +57,11 @@ def setDefaultDefStats():
     st.session_state.deffire=187
     st.session_state.deflightning=127
     st.session_state.defholy=155
-    st.session_state.negstandard=33.3
-    st.session_state.negstrike=30.9
-    st.session_state.negslash=34.9
-    st.session_state.negpierce=35.1
-    st.session_state.negmagic=26.2
-    st.session_state.negfire=29.3
-    st.session_state.neglightning=25.5
+    st.session_state.negstandard=33.0
+    st.session_state.negstrike=30.7
+    st.session_state.negslash=34.7
+    st.session_state.negpierce=34.5
+    st.session_state.negmagic=25.8
+    st.session_state.negfire=27.7
+    st.session_state.neglightning=25.4
     st.session_state.negholy=26.6
