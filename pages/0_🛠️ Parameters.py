@@ -1,7 +1,6 @@
 import streamlit as st
-import dataframe_image as dfi
 
-from utils.utils import baseInfusions,weaponClasses,weaponsOfClass,fancyTable,DMGtable
+from utils.utils import baseInfusions,weaponClasses,weaponsOfClass
 from utils.defaults import setDefaultBuilds,setDefaultWeapons,setDefaultDefStats
 
 st.set_page_config(layout='wide',page_title="Parameters",page_icon="🛠️")
