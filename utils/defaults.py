@@ -32,8 +32,8 @@ def setDefaultBuilds():
     st.session_state["infusions3"]=["Sacred"]
 
 def setDefaultWeapons():
-    st.session_state.weapons=["2H Shamshir","Dismounter","Banished Knight's Halberd","2H Estoc","Rogier's Rapier","Wakizashi",
-                              "Lance","Longsword","Noble's Slender Sword","Short Spear","Star Fist","Katar","2H Godskin Stitcher"]
+    st.session_state.weapons=["2H Shamshir","Banished Knight's Halberd","2H Estoc","Rogier's Rapier","Wakizashi",
+                              "Lance","Longsword","Noble's Slender Sword","Short Spear","Star Fist","Katar"]
 
 def setDefaultCalcParams():
     st.session_state.STR=69
@@ -65,3 +65,17 @@ def setDefaultDefStats():
     st.session_state.negfire=27.7
     st.session_state.neglightning=25.4
     st.session_state.negholy=26.6
+
+def setDefaultTableOptions():
+    st.session_state.compareBuilds=True
+    st.session_state.compareClass=True
+    st.session_state.hardtear=True
+    st.session_state.eleTear=False
+    st.session_state.greaseBuffs=True
+    st.session_state.aowBuffs=True
+    st.session_state.counterHits=True
+    st.session_state.multicolor=True
+    st.session_state.displayDmg=True
+    st.session_state.displayPct=True
+    st.session_state.showWeaponClass=False
+    st.session_state.showStats=True
