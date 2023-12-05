@@ -240,12 +240,10 @@ def fancyTable(DMGtable:pd.DataFrame,compareBuilds:bool=True,compareClass:bool=T
             cmaps=[["white","red"],["white","gold"],["white","blue"],["white","orange"],["white","violet"]]
             for j,jj in enumerate(tmp.columns.get_level_values(0).unique()):
                 tmp.background_gradient(cmap=LinearSegmentedColormap.from_list("",cmaps[j%5]),axis=None,gmap=DMGratio.fillna(vmin),subset=(i,DMGratio[[jj]].columns),vmin=vmin,vmax=0)
-    # weapon class display and hide pierce bonus if useless
+    # weapon class display
     hide=[]
     if not showWeaponClass:
         hide.append(0)
-    if tmp.index.get_level_values(2).drop_duplicates().size==1:
-        hide.append(2)
     tmp=tmp.hide(level=hide)
     # center values
     tmp.set_table_styles([{'selector': 'td, th.col_heading', 'props': 'text-align: center;'}],overwrite=False)
