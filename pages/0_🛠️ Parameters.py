@@ -1,32 +1,39 @@
 import streamlit as st
 
-from utils.utils import baseInfusions,weaponClasses,weaponsOfClass
+from utils.utils import weaponsOfClass
 from utils.defaults import setDefaultBuilds,setDefaultWeapons,setDefaultDefStats
+from utils.constants import baseInfusions,weaponClasses
+
+for k in st.session_state:
+    st.session_state[k]=st.session_state[k]
 
 st.set_page_config(layout='wide',page_title="Parameters",page_icon="🛠️")
 
 if "defstandard" not in st.session_state:
-    st.session_state.reinforcementlvl=25
     setDefaultDefStats()
+
+if "reinforcementLvl" not in st.session_state:
+    st.session_state.reinforcementLvl=25
     
 if "nBuilds" not in st.session_state:
-    st.session_state.nBuilds=0
     setDefaultBuilds()
+
+if "weapons" not in st.session_state:
     setDefaultWeapons()
 
 st.markdown("""
     <style>
-        div[data-testid="column"] {
-            display: flex;
-            align-items: center;
-        }
-        div[data-testid="column"]:nth-of-type(1) label[data-baseweb="checkbox"] {
-            justify-content: flex-end;
-        }
-        div[data-testid="column"]:nth-of-type(1) div[class="row-widget stButton"] {
+        /* "Center" 2H */
+        label[data-baseweb="checkbox"] {
             display: flex;
             justify-content: flex-end;
         }
+        /* "Center" +Build */
+        div[data-testid="column"]:nth-of-type(1) div[data-testid="stButton"] {
+            display: flex;
+            justify-content: flex-end;
+        }
+        /* Removes useless space on top */
         .appview-container .main .block-container {
             padding-top: 3rem;
         }
@@ -36,26 +43,23 @@ st.markdown("""
 st.sidebar.info("Default enemy defenses are the average of classic STR, DEX, INT, FTH and ARC builds.")
 st.sidebar.info("Default enemy negations are Imp/Beast Champion (Altered)/Beast Champion/Beast Champion.")
 
-def updateState(key):
-        st.session_state[key.lower()]=st.session_state[key]
-
-def addWeapons():
-    for w in st.session_state.selected:
-        w=f"{'2H ' if st.session_state.twoH else ''}{w}"
+def addWeapons(selected):
+    for w in selected:
+        w=f"{'2H ' if twoH else ''}{w}"
         if w not in st.session_state.weapons:
             st.session_state.weapons.append(w)
         else:
-            st.toast("Weapon already selected")
+            st.toast(f"{w} already selected",icon="⚠️")
 
 def showBuild(i):
     cols=st.columns([4,3,3,3,3,3,7])
-    with cols[0]: st.text_input("Build name",st.session_state[f"name{i}"],key=f"NAME{i}",label_visibility="collapsed",on_change=updateState,args=(f"NAME{i}",))
-    with cols[1]: st.number_input("STR",1,99,st.session_state[f"str{i}"],key=f"STR{i}",label_visibility="collapsed",on_change=updateState,args=(f"STR{i}",))
-    with cols[2]: st.number_input("DEX",1,99,st.session_state[f"dex{i}"],key=f"DEX{i}",label_visibility="collapsed",on_change=updateState,args=(f"DEX{i}",))
-    with cols[3]: st.number_input("INT",1,99,st.session_state[f"int{i}"],key=f"INT{i}",label_visibility="collapsed",on_change=updateState,args=(f"INT{i}",))
-    with cols[4]: st.number_input("FTH",1,99,st.session_state[f"fth{i}"],key=f"FTH{i}",label_visibility="collapsed",on_change=updateState,args=(f"FTH{i}",))
-    with cols[5]: st.number_input("ARC",1,99,st.session_state[f"arc{i}"],key=f"ARC{i}",label_visibility="collapsed",on_change=updateState,args=(f"ARC{i}",))
-    with cols[6]: st.multiselect("Infusions",baseInfusions,st.session_state[f"infusions{i}"],key=f"INFUSIONS{i}",label_visibility="collapsed",on_change=updateState,args=(f"INFUSIONS{i}",))
+    with cols[0]: st.text_input("Build name",key=f"name{i}",label_visibility="collapsed")
+    with cols[1]: st.number_input("STR",1,99,key=f"str{i}",label_visibility="collapsed")
+    with cols[2]: st.number_input("DEX",1,99,key=f"dex{i}",label_visibility="collapsed")
+    with cols[3]: st.number_input("INT",1,99,key=f"int{i}",label_visibility="collapsed")
+    with cols[4]: st.number_input("FTH",1,99,key=f"fth{i}",label_visibility="collapsed")
+    with cols[5]: st.number_input("ARC",1,99,key=f"arc{i}",label_visibility="collapsed")
+    with cols[6]: st.multiselect("Infusions",baseInfusions,key=f"infusions{i}",label_visibility="collapsed")
 
 def addBuild():
     i=st.session_state.nBuilds
@@ -82,14 +86,16 @@ def removeBuild():
 
 st.header("⚔️ Weapons")
 
-cols=st.columns([2,7])
-with cols[0]: st.selectbox("Weapon class",weaponClasses,key="class")
-with cols[1]: st.multiselect("Weapons",weaponsOfClass(st.session_state["class"]),key="selected")
+cols=st.columns([2,6,1])
+with cols[0]: wClass=st.selectbox("Weapon class",weaponClasses)
+with cols[1]: selected=st.multiselect("Weapons",weaponsOfClass(wClass))
+with cols[2]: st.number_input("Weapon Level",0,25,key="reinforcementLvl",
+                              help="NORMAL weapon level from 0 to 25. Somber level is automatically calculated from this. Applies to all weapons.")
 cols=st.columns(2)
-with cols[0]: st.toggle("2H",key="twoH")
-with cols[1]: st.button("Add to selected weapons",on_click=addWeapons,type="primary")
+with cols[0]: twoH=st.toggle("2H")
+with cols[1]: st.button("Add to selected weapons",on_click=addWeapons,args=(selected,),type="primary")
 
-st.multiselect("Selected weapons",st.session_state.weapons,st.session_state.weapons,key="WEAPONS",on_change=updateState,args=("WEAPONS",))
+st.multiselect("Selected weapons",st.session_state.weapons,key="weapons")
 
 st.divider()
 
@@ -116,20 +122,20 @@ st.divider()
 st.header("🛡️ Enemy stats")
 
 cols=st.columns(8)
-with cols[0]: st.number_input("Standard defense",0,400,st.session_state.defstandard,key="DEFSTANDARD",on_change=updateState,args=("DEFSTANDARD",))
-with cols[1]: st.number_input("Strike defense",0,400,st.session_state.defstrike,key="DEFSTRIKE",on_change=updateState,args=("DEFSTRIKE",))
-with cols[2]: st.number_input("Slash defense",0,400,st.session_state.defslash,key="DEFSLASH",on_change=updateState,args=("DEFSLASH",))
-with cols[3]: st.number_input("Pierce defense",0,400,st.session_state.defpierce,key="DEFPIERCE",on_change=updateState,args=("DEFPIERCE",))
-with cols[4]: st.number_input("Magic defense",0,400,st.session_state.defmagic,key="DEFMAGIC",on_change=updateState,args=("DEFMAGIC",))
-with cols[5]: st.number_input("Fire defense",0,400,st.session_state.deffire,key="DEFFIRE",on_change=updateState,args=("DEFFIRE",))
-with cols[6]: st.number_input("Lightning defense",0,400,st.session_state.deflightning,key="DEFLIGHTNING",on_change=updateState,args=("DEFLIGHTNING",))
-with cols[7]: st.number_input("Holy defense",0,400,st.session_state.defholy,key="DEFHOLY",on_change=updateState,args=("DEFHOLY",))
+with cols[0]: st.number_input("Standard defense",0,400,key="defstandard")
+with cols[1]: st.number_input("Strike defense",0,400,key="defstrike")
+with cols[2]: st.number_input("Slash defense",0,400,key="defslash")
+with cols[3]: st.number_input("Pierce defense",0,400,key="defpierce")
+with cols[4]: st.number_input("Magic defense",0,400,key="defmagic")
+with cols[5]: st.number_input("Fire defense",0,400,key="deffire")
+with cols[6]: st.number_input("Lightning defense",0,400,key="deflightning")
+with cols[7]: st.number_input("Holy defense",0,400,key="defholy")
 cols=st.columns(8)
-with cols[0]: st.number_input("Standard negation",0.,100.,st.session_state.negstandard,key="NEGSTANDARD",on_change=updateState,args=("NEGSTANDARD",),format="%.1f",step=0.1)
-with cols[1]: st.number_input("Strike negation",0.,100.,st.session_state.negstrike,key="NEGSTRIKE",on_change=updateState,args=("NEGSTRIKE",),format="%.1f",step=0.1)
-with cols[2]: st.number_input("Slash negation",0.,100.,st.session_state.negslash,key="NEGSLASH",on_change=updateState,args=("NEGSLASH",),format="%.1f",step=0.1)
-with cols[3]: st.number_input("Pierce negation",0.,100.,st.session_state.negpierce,key="NEGPIERCE",on_change=updateState,args=("NEGPIERCE",),format="%.1f",step=0.1)
-with cols[4]: st.number_input("Magic negation",0.,100.,st.session_state.negmagic,key="NEGMAGIC",on_change=updateState,args=("NEGMAGIC",),format="%.1f",step=0.1)
-with cols[5]: st.number_input("Fire negation",0.,100.,st.session_state.negfire,key="NEGFIRE",on_change=updateState,args=("NEGFIRE",),format="%.1f",step=0.1)
-with cols[6]: st.number_input("Lightning negation",0.,100.,st.session_state.neglightning,key="NEGLIGHTNING",on_change=updateState,args=("NEGLIGHTNING",),format="%.1f",step=0.1)
-with cols[7]: st.number_input("Holy negation",0.,100.,st.session_state.negholy,key="NEGHOLY",on_change=updateState,args=("NEGHOLY",),format="%.1f",step=0.1)
+with cols[0]: st.number_input("Standard negation",0.,100.,key="negstandard",format="%.1f",step=0.1)
+with cols[1]: st.number_input("Strike negation",0.,100.,key="negstrike",format="%.1f",step=0.1)
+with cols[2]: st.number_input("Slash negation",0.,100.,key="negslash",format="%.1f",step=0.1)
+with cols[3]: st.number_input("Pierce negation",0.,100.,key="negpierce",format="%.1f",step=0.1)
+with cols[4]: st.number_input("Magic negation",0.,100.,key="negmagic",format="%.1f",step=0.1)
+with cols[5]: st.number_input("Fire negation",0.,100.,key="negfire",format="%.1f",step=0.1)
+with cols[6]: st.number_input("Lightning negation",0.,100.,key="neglightning",format="%.1f",step=0.1)
+with cols[7]: st.number_input("Holy negation",0.,100.,key="negholy",format="%.1f",step=0.1)
