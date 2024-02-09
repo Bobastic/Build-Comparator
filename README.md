@@ -1,6 +1,6 @@
 # Build-Comparator
 
-https://build-comparator.streamlit.app/
+https://er-build-comparator.streamlit.app/
 
 ![Example Table](data/exampleTable.png)
 
