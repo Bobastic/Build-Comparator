@@ -30,4 +30,4 @@ On the right you will find the optimal stat spread for the infusion of your choi
 ## I would like to give some feedback.
 
 Whether it is for functionnality request, default values suggestions or anything else really, feel free to message  **.smaxy.** on Discord.
-If you have general questions on the technical apsects of this game head to the ERPvP Discord where you will find lots of knowledgeable people.
+If you have general questions on the technical apsects of this game head to the [ERPvP Discord](https://discord.gg/erpvp) where you will find lots of knowledgeable people.
