@@ -56,5 +56,5 @@ st.subheader("I would like to give some feedback.")
 
 st.markdown(f"""<div style='text-align: justify;'>
 Whether it is for functionnality request, default values suggestions or anything else really, feel free to message  <strong>.smaxy.</strong> on Discord.
-If you have general questions on the technical apsects of this game head to the [ERPvP Discord](https://discord.gg/erpvp) where you will find lots of knowledgeable people.
+If you have general questions on the technical apsects of this game head to the ERPvP Discord where you will find lots of knowledgeable people.
 </div>""",unsafe_allow_html=True)
