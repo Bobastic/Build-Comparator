@@ -30,7 +30,7 @@ idWeaponClass={ # refers to "wepType" in EquipParamWeapon
     41: "Colossal Weapons",
 }
 
-weaponClasses=idWeaponClass.values() # Halberds, Spears etc...
+weaponClasses=list(idWeaponClass.values()) # Halberds, Spears etc...
 
 infusionOffset={ # offset to get "ID" from EquipParamWeapon with standard weapon ID
     "Standard":0,

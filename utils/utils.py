@@ -222,13 +222,13 @@ def fancyTable(DMGtable:pd.DataFrame,compareBuilds:bool=True,compareClass:bool=T
             DMGratio.loc[:,idx[build,:]]=tmp.loc[:,idx[build,:]].apply(lambda x:x/x.max()*100-100,axis=1).astype(float)
     for c in tmp.columns:
         if displayDmg and displayPct:
-            tmp[c]=tmp[c].map(lambda x:str(x).replace("<NA>","-"))+DMGratio[c].map(lambda x:"" if pd.isna(x) else "(👑)" if x==0 else "("+f"{x:.2f}"[:5]+"%)")
+            tmp[c]=tmp[c].astype(str).replace("<NA>","-")+DMGratio[c].map(lambda x:"" if pd.isna(x) else "(👑)" if x==0 else "("+f"{x:.2f}"[:5]+"%)")
         elif displayDmg:
-            tmp[c]=tmp[c].map(lambda x:str(x).replace("<NA>","-"))
+            tmp[c]=tmp[c].astype(str).replace("<NA>","-")
         elif displayPct:
             tmp[c]=DMGratio[c].map(lambda x:"" if pd.isna(x) else "👑" if x==0 else f"{x:.2f}"[:5]+"%")
         else:
-            tmp=tmp.applymap(lambda _:"") # :)
+            tmp=tmp.map(lambda _:"") # :)
     # display max of each row in bold
     tmp=tmp.style.format(precision=1).apply(lambda _:DMGratio.apply(lambda x:x.apply(lambda xx:"font-weight: bold" if not pd.isna(xx) and xx==x.max() else ""),axis=1),axis=None) # miracle
     # background color

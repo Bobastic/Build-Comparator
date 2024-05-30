@@ -15,7 +15,7 @@ There are already lots of tools for build optimization, mainly in the form of sp
 - Is Cold -> Lightning better than Cold -> Magic for this inventory?
 - Fire + Flaming Strike buff or Heavy + Lightning Grease?
 - How broken is Sacred Blade?
-- What is the best build for BKH between these three?
+- What is the best build for Star Fists between these three?
 - Best infusion and stat spread for Shamshir?
   
 ## **🔬 Build Comparator**
