@@ -1,4 +1,4 @@
-import streamlit as 
+import streamlit as st
 
 from utils.utils import fancyTable, DMGtable, weaponsOfClass
 from utils.defaults import setDefaultBuilds, setDefaultWeapons, setDefaultDefStats, setDefaultTableOptions, setNegations
